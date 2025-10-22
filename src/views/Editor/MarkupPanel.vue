@@ -3,14 +3,14 @@
     class="notes-panel" 
     :width="300" 
     :height="130" 
-    title="幻灯片类型标注" 
+    :title="t('markup.title')" 
     :left="-270" 
     :top="90"
     @close="close()"
   >
     <div class="container">
       <div class="row">
-        <div style="width: 40%;">当前页面类型：</div>
+        <div style="width: 40%;">{{ t('markup.slideTypeLabel') }}</div>
         <Select
           style="width: 60%;"
           :value="slideType"
@@ -19,7 +19,7 @@
         />
       </div>
       <div class="row" v-if="handleElement && (handleElement.type === 'text' || (handleElement.type === 'shape' && handleElement.text))">
-        <div style="width: 40%;">当前文本类型：</div>
+        <div style="width: 40%;">{{ t('markup.textTypeLabel') }}</div>
         <Select
           style="width: 60%;"
           :value="textType"
@@ -28,7 +28,7 @@
         />
       </div>
       <div class="row" v-else-if="handleElement && handleElement.type === 'image'">
-        <div style="width: 40%;">当前图片类型：</div>
+        <div style="width: 40%;">{{ t('markup.imageTypeLabel') }}</div>
         <Select
           style="width: 60%;"
           :value="imageType"
@@ -36,7 +36,7 @@
           :options="imageTypeOptions"
         />
       </div>
-      <div class="placeholder" v-else>选中图片、文字、带文字的形状，标记类型</div>
+      <div class="placeholder" v-else>{{ t('markup.placeholder') }}</div>
     </div>
   </MoveablePanel>
 </template>
@@ -49,40 +49,42 @@ import type { ImageType, SlideType, TextType } from '@/types/slides'
 
 import MoveablePanel from '@/components/MoveablePanel.vue'
 import Select from '@/components/Select.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const mainStore = useMainStore()
 const { currentSlide } = storeToRefs(slidesStore)
 const { handleElement, handleElementId } = storeToRefs(mainStore)
+const { t } = useI18n()
 
 const slideTypeOptions = ref<{ label: string; value: SlideType | '' }[]>([
-  { label: '未标记类型', value: '' },
-  { label: '封面页', value: 'cover' },
-  { label: '目录页', value: 'contents' },
-  { label: '过渡页', value: 'transition' },
-  { label: '内容页', value: 'content' },
-  { label: '结束页', value: 'end' },
+  { label: t('markup.none'), value: '' },
+  { label: t('markup.slideType.cover'), value: 'cover' },
+  { label: t('markup.slideType.contents'), value: 'contents' },
+  { label: t('markup.slideType.transition'), value: 'transition' },
+  { label: t('markup.slideType.content'), value: 'content' },
+  { label: t('markup.slideType.end'), value: 'end' },
 ])
 
 const textTypeOptions = ref<{ label: string; value: TextType | '' }[]>([
-  { label: '未标记类型', value: '' },
-  { label: '标题', value: 'title' },
-  { label: '副标题', value: 'subtitle' },
-  { label: '正文', value: 'content' },
-  { label: '列表项目', value: 'item' },
-  { label: '列表项标题', value: 'itemTitle' },
-  { label: '注释', value: 'notes' },
-  { label: '页眉', value: 'header' },
-  { label: '页脚', value: 'footer' },
-  { label: '节编号', value: 'partNumber' },
-  { label: '项目编号', value: 'itemNumber' },
+  { label: t('markup.none'), value: '' },
+  { label: t('markup.textType.title'), value: 'title' },
+  { label: t('markup.textType.subtitle'), value: 'subtitle' },
+  { label: t('markup.textType.content'), value: 'content' },
+  { label: t('markup.textType.item'), value: 'item' },
+  { label: t('markup.textType.itemTitle'), value: 'itemTitle' },
+  { label: t('markup.textType.notes'), value: 'notes' },
+  { label: t('markup.textType.header'), value: 'header' },
+  { label: t('markup.textType.footer'), value: 'footer' },
+  { label: t('markup.textType.partNumber'), value: 'partNumber' },
+  { label: t('markup.textType.itemNumber'), value: 'itemNumber' },
 ])
 
 const imageTypeOptions = ref<{ label: string; value: ImageType | '' }[]>([
-  { label: '未标记类型', value: '' },
-  { label: '页面插图', value: 'pageFigure' },
-  { label: '项目插图', value: 'itemFigure' },
-  { label: '背景图', value: 'background' },
+  { label: t('markup.none'), value: '' },
+  { label: t('markup.imageType.pageFigure'), value: 'pageFigure' },
+  { label: t('markup.imageType.itemFigure'), value: 'itemFigure' },
+  { label: t('markup.imageType.background'), value: 'background' },
 ])
 
 const slideType = computed(() => currentSlide.value?.type || '')

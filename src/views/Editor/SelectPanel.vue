@@ -3,15 +3,15 @@
     class="select-panel" 
     :width="200" 
     :height="360" 
-    :title="`选择（${activeElementIdList.length}/${currentSlide.elements.length}）`" 
+    :title="t('select.title', { selected: activeElementIdList.length, total: currentSlide.elements.length })" 
     :left="-270" 
     :top="90"
     @close="close()"
   >
     <div class="handler" v-if="elements.length">
       <div class="btns">
-        <Button size="small" style="margin-right: 5px;" @click="showAllElements()">全部显示</Button>
-        <Button size="small" @click="hideAllElements()">全部隐藏</Button>
+        <Button size="small" style="margin-right: 5px;" @click="showAllElements()">{{ t('select.showAll') }}</Button>
+        <Button size="small" @click="hideAllElements()">{{ t('select.hideAll') }}</Button>
       </div>
       <div class="icon-btns" v-if="handleElement">
         <IconDown class="icon-btn" @click="orderElement(handleElement!, ElementOrderCommands.UP)" />
@@ -21,7 +21,7 @@
     <div class="element-list">
       <template v-for="item in elements" :key="item.id">
         <div class="group-els" v-if="item.type === 'group'">
-          <div class="group-title">组合</div>
+          <div class="group-title">{{ t('select.group') }}</div>
           <div 
             class="item" 
             :class="{
@@ -35,14 +35,14 @@
           >
             <input 
               :id="`select-panel-input-${groupItem.id}`" 
-              :value="groupItem.name || ELEMENT_TYPE_ZH[groupItem.type]" 
+              :value="groupItem.name || t(`elements.type.${groupItem.type}`)" 
               class="input" 
               type="text" 
               v-if="editingElId === groupItem.id" 
               @blur="$event => saveElementName($event, groupItem.id)"
               @keydown.enter="$event => saveElementName($event, groupItem.id)"
             >
-            <div v-else class="name">{{groupItem.name || ELEMENT_TYPE_ZH[groupItem.type]}}</div>
+            <div v-else class="name">{{ groupItem.name || t(`elements.type.${groupItem.type}`) }}</div>
             <div class="icons">
               <IconPreviewClose style="font-size: 17px;" @click.stop="toggleHideElement(groupItem.id)" v-if="hiddenElementIdList.includes(groupItem.id)" />
               <IconPreviewOpen style="font-size: 17px;" @click.stop="toggleHideElement(groupItem.id)" v-else />
@@ -58,14 +58,14 @@
         >
           <input 
             :id="`select-panel-input-${item.id}`" 
-            :value="item.name || ELEMENT_TYPE_ZH[item.type]" 
+            :value="item.name || t(`elements.type.${item.type}`)" 
             class="input" 
             type="text" 
             v-if="editingElId === item.id" 
             @blur="$event => saveElementName($event, item.id)"
             @keydown.enter="$event => saveElementName($event, item.id)"
           >
-          <div v-else class="name">{{item.name || ELEMENT_TYPE_ZH[item.type]}}</div>
+          <div v-else class="name">{{ item.name || t(`elements.type.${item.type}`) }}</div>
           <div class="icons">
             <IconPreviewClose style="font-size: 17px;" @click.stop="toggleHideElement(item.id)" v-if="hiddenElementIdList.includes(item.id)" />
             <IconPreviewOpen style="font-size: 17px;" @click.stop="toggleHideElement(item.id)" v-else />
@@ -81,7 +81,7 @@ import { computed, nextTick, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore, useMainStore } from '@/store'
 import type { PPTElement } from '@/types/slides'
-import { ELEMENT_TYPE_ZH } from '@/configs/element'
+import { useI18n } from 'vue-i18n'
 import useOrderElement from '@/hooks/useOrderElement'
 import useHideElement from '@/hooks/useHideElement'
 import useSelectElement from '@/hooks/useSelectElement'
@@ -98,6 +98,7 @@ const { handleElement, handleElementId, activeElementIdList, activeGroupElementI
 const { orderElement } = useOrderElement()
 const { selectElement } = useSelectElement()
 const { toggleHideElement, showAllElements, hideAllElements } = useHideElement()
+const { t } = useI18n()
 
 interface GroupElements {
   type: 'group'

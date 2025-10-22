@@ -1,7 +1,7 @@
 <template>
   <div class="element-opacity">
     <div class="row">
-      <div style="width: 40%;">不透明度：</div>
+      <div style="width: 40%;">{{ t('toolbar.opacity.label') }}：</div>
       <Slider
         :min="0"
         :max="1"
@@ -20,11 +20,13 @@ import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import Slider from '@/components/Slider.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const { handleElement } = storeToRefs(useMainStore())
 
 const opacity = ref<number>(1)
+const { t } = useI18n()
 
 watch(handleElement, () => {
   if (!handleElement.value) return

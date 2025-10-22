@@ -11,9 +11,11 @@ import '@/assets/styles/font.scss'
 
 import Icon from '@/plugins/icon'
 import Directive from '@/plugins/directive'
+import i18n from '@/i18n'
 
 const app = createApp(App)
 app.use(Icon)
 app.use(Directive)
+app.use(i18n)
 app.use(createPinia())
 app.mount('#app')

@@ -1,0 +1,607 @@
+{
+  "app": {
+    "initializing": "数据初始化中，请稍等 ..."
+  },
+  "header": {
+    "menu": {
+      "export": "导出文件",
+      "reset": "重置幻灯片",
+      "markup": "幻灯片类型标注",
+      "hotkeys": "快捷操作",
+      "feedback": "意见反馈",
+      "faq": "常见问题",
+      "statement": "注：本站仅作测试/演示，不提供任何形式的服务",
+      "fromStart": "从头开始",
+      "fromCurrent": "从当前页开始"
+    },
+    "tooltip": {
+      "screening": "幻灯片放映（F5）",
+      "ai": "AI生成PPT",
+      "export": "导出"
+    },
+    "aipptSubtitle": "输入一句话，智能生成演示文稿",
+    "import": {
+      "label": "导入文件",
+      "testOnly": "（仅供测试）",
+      "proprietary": "（专属格式）"
+    },
+    "githubTooltip": "Copyright © 2020-PRESENT pipipi-pikachu"
+  },
+  "service": {
+    "error": {
+      "unknown": "未知的请求错误！",
+      "server": "服务器遇到未知错误！",
+      "timeout": "连接到服务器失败 或 服务器响应超时！"
+    }
+  },
+  "aippt": {
+    "generating": "AI生成中，请耐心等待 ...",
+    "inputTopicFirst": "请先输入PPT主题",
+    "serviceError": "AI服务异常，请更换其他模型重试",
+    "inputPlaceholder": "请输入PPT主题，如：大学生职业生涯规划",
+    "aiGenerate": "AI 生成",
+    "uploadTemplateError": "上传的模板文件数据异常，请重新上传或使用预置模板",
+    "buttons": {
+      "selectTemplate": "选择模板",
+      "backToSetup": "返回重新生成",
+      "generate": "生成",
+      "backToOutline": "返回大纲"
+    }
+  },
+  "import": {
+    "loading": "正在导入..."
+  },
+  "search": {
+    "noMatch": "未查找到匹配项",
+    "tabs": {
+      "search": "查找",
+      "replace": "替换"
+    },
+    "placeholder": {
+      "search": "输入查找内容",
+      "replace": "输入替换内容"
+    },
+    "ignoreCase": "忽略大小写",
+    "prev": "上一个",
+    "next": "下一个",
+    "replace": "替换",
+    "replaceAll": "全部替换",
+    "inputFirst": "请先输入查找内容"
+  },
+  "common": {
+    "applyAll": "应用到全部",
+    "appliedAll": "已应用到全部",
+    "undo": "撤销",
+    "redo": "重做",
+    "loading": "加载中 ...",
+    "select": "选择",
+    "delete": "删除",
+    "confirm": "确认",
+    "cancel": "取消",
+    "change": "点击更换"
+  },
+  "toolbar": {
+    "designPanel": {
+      "backgroundFill": "背景填充",
+      "fillTypes": { "solid": "纯色填充", "image": "图片填充", "gradient": "渐变填充" },
+      "imageSize": { "contain": "缩放", "repeat": "拼贴", "cover": "缩放铺满" },
+      "gradientType": { "linear": "线性渐变", "radial": "径向渐变" },
+      "currentColor": "当前色块",
+      "gradientAngle": "渐变角度",
+      "applyBackgroundAll": "应用背景到全部",
+      "ratio": {
+        "widescreen_16_9": "宽屏 16 : 9",
+        "widescreen_16_10": "宽屏 16 : 10",
+        "standard_4_3": "标准 4 : 3",
+        "paper_a3_a4": "纸张 A3 / A4",
+        "portrait_a3_a4": "竖向 A3 / A4"
+      },
+      "canvasSize": "画布尺寸：",
+      "globalTheme": "全局主题",
+      "more": "更多",
+      "font": "字体",
+      "searchFont": "搜索字体",
+      "fontColor": "字体颜色",
+      "backgroundColor": "背景颜色",
+      "themeColors": "主题色",
+      "outlineStyle": "边框样式",
+      "outlineColor": "边框颜色",
+      "outlineWidth": "边框粗细",
+      "shadowH": "水平阴影",
+      "shadowV": "垂直阴影",
+      "shadowBlur": "模糊距离",
+      "shadowColor": "阴影颜色",
+      "applyThemeAll": "应用主题到全部",
+      "extractFromSlides": "从幻灯片提取主题",
+      "presetTheme": "预置主题",
+      "sampleText": "文字 Aa",
+      "set": "设置",
+      "setAndApply": "设置并应用",
+      "themeColorsSetting": "编辑主题色",
+      "slideThemeColorN": "幻灯片主题色{n}"
+    },
+    "themeExtract": {
+      "font": "字体",
+      "fontColor": "文字颜色",
+      "backgroundColor": "背景颜色",
+      "themeColors": "主题色",
+      "themeColorsTip": "（点击色块排除不要的颜色）",
+      "fromCurrent": "从当前页中提取",
+      "fromAll": "从全部幻灯片提取",
+      "applyToTheme": "应用到主题",
+      "saveSelectionToTheme": "将选中配置保存为主题",
+      "themeColorOverflow": "主题色超出数量限制，已自动选取前6个"
+    },
+    "filter": {
+      "enable": "启用滤镜",
+      "labels": {
+        "blur": "模糊",
+        "brightness": "亮度",
+        "contrast": "对比度",
+        "grayscale": "灰度",
+        "saturate": "饱和度",
+        "hue-rotate": "色相",
+        "sepia": "褐色",
+        "invert": "反转",
+        "opacity": "不透明度"
+      },
+      "presets": {
+        "blackwhite": "黑白",
+        "retro": "复古",
+        "sharpen": "锐化",
+        "soft": "柔和",
+        "warm": "暖色",
+        "bright": "明亮",
+        "vivid": "鲜艳",
+        "blur": "模糊",
+        "invert": "反转"
+      }
+    },
+    "outline": { "enable": "启用边框", "style": "边框样式", "color": "边框颜色", "width": "边框粗细" },
+    "colorMask": { "enable": "着色（蒙版）", "color": "蒙版颜色" },
+    "line": { "style": "线条样式", "color": "线条颜色", "width": "线条宽度", "startMarker": "起点样式", "endMarker": "终点样式", "swapDirection": "交换方向" },
+    "shadow": { "enable": "启用阴影", "h": "水平阴影", "v": "垂直阴影", "blur": "模糊距离", "color": "阴影颜色" },
+    "opacity": { "label": "不透明度" },
+    "flip": { "vertical": "垂直翻转", "horizontal": "水平翻转" },
+    "video": { "posterTitle": "视频预览封面", "resetPoster": "重置封面", "autoplay": "自动播放" },
+    "multi": { "fillColor": "填充颜色", "outlineStyle": "边框样式", "outlineColor": "边框颜色", "outlineWidth": "边框粗细" },
+    "text": {
+      "searchFont": "搜索字体",
+      "searchFontSize": "搜索字号",
+      "fontColor": "文字颜色",
+      "highlight": "文字高亮",
+      "bold": "加粗",
+      "italic": "斜体",
+      "underline": "下划线",
+      "strikethrough": "删除线",
+      "superscript": "上标",
+      "subscript": "下标",
+      "inlineCode": "行内代码",
+      "blockquote": "引用",
+      "aiAssist": "AI辅助",
+      "clearFormatting": "清除格式",
+      "formatPainterTip": "格式刷（双击连续使用）",
+      "link": "超链接",
+      "increaseFontSize": "增大字号",
+      "decreaseFontSize": "减小字号",
+      "alignLeft": "左对齐",
+      "alignCenter": "居中",
+      "alignRight": "右对齐",
+      "alignJustify": "两端对齐",
+      "bulletList": "项目符号",
+      "orderedList": "编号",
+      "decreaseIndent": "减小段落缩进",
+      "increaseIndent": "增大段落缩进",
+      "decreaseFirstLineIndent": "减小首行缩进",
+      "increaseFirstLineIndent": "增大首行缩进"
+    },
+    "textStyle": {
+      "lineHeight": "行间距",
+      "lineHeightTimes": "{n}倍",
+      "paragraphSpacing": "段间距",
+      "letterSpacing": "字间距",
+      "textboxFill": "文本框填充",
+      "presets": {
+        "titleLarge": "大标题",
+        "titleSmall": "小标题",
+        "body": "正文",
+        "bodySmall": "正文[小]",
+        "note1": "注释 1",
+        "note2": "注释 2"
+      }
+    },
+    "image": {
+      "clipImage": "裁剪图片",
+      "byShape": "按形状：",
+      "byRatio": "按{label}：",
+      "ratio": { "square": "纵横比（正方形）", "portrait": "纵横比（纵向）", "landscape": "纵横比（横向）" },
+      "radius": "圆角半径",
+      "replaceImage": "替换图片",
+      "resetStyle": "重置样式",
+      "setAsBackground": "设为背景"
+    },
+    "audio": { "iconColor": "图标颜色", "autoplay": "自动播放", "loop": "循环播放" },
+    "table": {
+      "cellFill": "单元格填充",
+      "rows": "行数",
+      "cols": "列数",
+      "enableTheme": "启用主题表格",
+      "rowHeader": "标题行",
+      "rowFooter": "汇总行",
+      "colHeader": "第一列",
+      "colFooter": "最后一列",
+      "themeColor": "主题颜色"
+    },
+    "canvasTool": {
+      "undo": "撤销（Ctrl + Z）",
+      "redo": "重做（Ctrl + Y）",
+      "notesPanel": "批注面板",
+      "selectPanel": "选择窗格",
+      "searchReplace": "查找/替换（Ctrl + F）",
+      "zoomOut": "画布缩小（Ctrl + -）",
+      "zoomIn": "画布放大（Ctrl + =）",
+      "fitScreen": "适应屏幕（Ctrl + 0）",
+      "insertText": "插入文字",
+      "textboxHorizontal": "横向文本框",
+      "textboxVertical": "竖向文本框",
+      "insertShape": "插入形状",
+      "freeDraw": "自由绘制",
+      "insertImage": "插入图片",
+      "insertLine": "插入线条",
+      "insertChart": "插入图表",
+      "insertTable": "插入表格",
+      "insertFormula": "插入公式",
+      "insertMedia": "插入音视频",
+      "insertSymbol": "插入符号"
+    },
+    "chart": {
+      "editData": "编辑图表",
+      "stack": "堆叠样式",
+      "lineSmooth": "使用平滑曲线",
+      "fill": "背景填充",
+      "axesAndText": "坐标与文字",
+      "gridColor": "网格颜色",
+      "themeColors": "主题配色",
+      "presetThemes": "预置图表主题",
+      "slideTheme": "幻灯片主题",
+      "customizeColors": "自定义配色",
+      "themeColorsSetting": "图表主题配色",
+      "themeColorN": "主题配色{n}",
+      "addThemeColor": "添加主题色"
+    },
+    "chartData": {
+      "type": "图表类型：",
+      "clear": "清空数据",
+      "category": "类别",
+      "series": "系列"
+    },
+    "shape": {
+      "replaceShape": "点击替换形状",
+      "fillTypes": { "fill": "纯色填充", "gradient": "渐变填充", "pattern": "图片填充" },
+      "gradientType": { "linear": "线性渐变", "radial": "径向渐变" },
+      "currentColor": "当前色块",
+      "gradientAngle": "渐变角度",
+      "alignTop": "顶对齐",
+      "alignMiddle": "居中",
+      "alignBottom": "底对齐",
+      "doubleClickToKeep": "双击连续使用",
+      "formatPainter": "形状格式刷"
+    },
+    "transition": {
+      "labels": {
+        "no": "无",
+        "random": "随机",
+        "slideX": "左右推移",
+        "slideY": "上下推移",
+        "slideX3D": "左右推移（3D）",
+        "slideY3D": "上下推移（3D）",
+        "fade": "淡入淡出",
+        "rotate": "旋转",
+        "scaleY": "上下展开",
+        "scaleX": "左右展开",
+        "scale": "放大",
+        "scaleReverse": "缩小"
+      }
+    }
+  },
+  "elements": {
+    "type": {
+      "text": "文本",
+      "image": "图片",
+      "shape": "形状",
+      "line": "线条",
+      "chart": "图表",
+      "table": "表格",
+      "video": "视频",
+      "audio": "音频",
+      "latex": "公式"
+    }
+  },
+  "animation": {
+    "tabs": { "in": "入场", "out": "退场", "attention": "强调" },
+    "add": "添加动画",
+    "selectToAdd": "选中画布中的元素添加动画",
+    "preview": "预览",
+    "previewAll": "预览全部",
+    "stopPreview": "停止预览",
+    "duration": "持续时长：",
+    "trigger": "触发方式：",
+    "triggers": {
+      "click": "主动触发",
+      "meantime": "与上一动画同时",
+      "auto": "上一动画之后"
+    },
+    "change": "更换动画"
+  },
+  "notes": {
+    "title": "幻灯片{index}的批注",
+    "replyPlaceholder": "输入回复内容",
+    "inputForElement": "输入批注（为选中元素）",
+    "inputForSlide": "输入批注（为当前页幻灯片）",
+    "clear": "清空本页批注",
+    "reply": "回复",
+    "cancel": "取消",
+    "add": "添加批注",
+    "empty": "本页暂无批注"
+  },
+  "screen": {
+    "tooltip": {
+      "penTool": "画笔工具",
+      "laser": "激光笔",
+      "timer": "计时器",
+      "presenterView": "演讲者视图",
+      "exitFullscreen": "退出全屏",
+      "enterFullscreen": "进入全屏",
+      "endShow": "结束放映"
+    },
+    "writing": {
+      "pen": "画笔",
+      "shape": "形状",
+      "mark": "荧光笔",
+      "eraser": "橡皮擦",
+      "clear": "清除墨迹",
+      "blackboard": "黑板",
+      "close": "关闭画笔",
+      "inkSize": "墨迹粗细",
+      "eraserSize": "橡皮大小"
+    },
+    "timer": {
+      "start": "开始",
+      "pause": "暂停",
+      "reset": "重置",
+      "countdown": "倒计时"
+    },
+    "presenter": {
+      "normalView": "普通视图",
+      "notes": "演讲者备注",
+      "noNotes": "无备注"
+    },
+    "context": {
+      "prev": "上一页",
+      "next": "下一页",
+      "first": "第一页",
+      "last": "最后一页",
+      "autoplay": "自动放映",
+      "stopAutoplay": "取消自动放映",
+      "s2_5": "2.5秒",
+      "s5": "5秒",
+      "s7_5": "7.5秒",
+      "s10": "10秒",
+      "loop": "循环放映",
+      "showToolbar": "显示工具栏",
+      "viewAllSlides": "查看所有幻灯片",
+      "toggleBottomThumbs": "触底显示缩略图",
+      "penTool": "画笔工具",
+      "presenterView": "演讲者视图",
+      "endShow": "结束放映"
+    }
+  },
+  "toolbar": {
+    "tabs": {
+      "style": "样式",
+      "position": "位置",
+      "animation": "动画",
+      "design": "设计",
+      "transition": "切换",
+      "multiStyle": "样式（多选）",
+      "multiPosition": "位置（多选）"
+    },
+    "layer": {
+      "title": "层级：",
+      "toTop": "置顶",
+      "toBottom": "置底",
+      "up": "上移",
+      "down": "下移"
+    },
+    "position": {
+      "title": "对齐：",
+      "alignLeft": "左对齐",
+      "alignHCenter": "水平居中",
+      "alignRight": "右对齐",
+      "alignTop": "上对齐",
+      "alignVCenter": "垂直居中",
+      "alignBottom": "下对齐"
+    },
+    "numeric": {
+      "horizontal": "水平：",
+      "vertical": "垂直：",
+      "width": "宽度：",
+      "height": "高度：",
+      "rotate": "旋转："
+    },
+    "ratio": {
+      "lock": "宽高比锁定",
+      "unlock": "解除宽高比锁定"
+    },
+    "multi": {
+      "uniformH": "水平均匀分布",
+      "uniformV": "垂直均匀分布",
+      "group": "组合",
+      "ungroup": "取消组合"
+    }
+  },
+  "mobile": {
+    "speakerNotesPlaceholder": "点击输入演讲者备注",
+    "newSlide": "新幻灯片",
+    "text": "文字",
+    "image": "图片",
+    "rect": "矩形",
+    "circle": "圆形",
+    "newTextDefault": "新添加文本",
+    "menu": {
+      "edit": "编辑",
+      "play": "播放",
+      "exitPlay": "退出播放",
+      "exitEdit": "退出编辑"
+    },
+    "tabs": {
+      "style": "样式",
+      "common": "布局"
+    },
+    "fontColor": "文字颜色",
+    "fill": "填充色",
+    "actions": {
+      "copy": "复制",
+      "delete": "删除",
+      "up": "上移",
+      "down": "下移"
+    }
+  },
+  "export": {
+    "tabs": {
+      "pptist": "导出 PPTIST 文件",
+      "pptx": "导出 PPTX",
+      "image": "导出图片",
+      "json": "导出 JSON",
+      "pdf": "打印 / 导出 PDF"
+    },
+    "scope": "导出范围：",
+    "scopeAll": "全部",
+    "scopeCurrent": "当前页",
+    "scopeCustom": "自定义",
+    "customRange": "自定义范围：",
+    "format": "导出格式：",
+    "quality": "图片质量：",
+    "ignoreWebfont": "忽略在线字体：",
+    "ignoreWebfontTip": "导出时默认忽略在线字体，若您在幻灯片中使用了在线字体，且希望导出后保留相关样式，可选择关闭【忽略在线字体】选项，但要注意这将会增加导出用时。",
+    "ignoreMedia": "忽略音频/视频：",
+    "ignoreMediaTip": "提示：1. 支持导出格式：avi、mp4、mov、wmv、mp3、wav；2. 跨域资源无法导出。",
+    "masterOverwrite": "覆盖默认母版：",
+    "exportImage": "导出图片",
+    "exportPPTX": "导出 PPTX",
+    "exportPPTIST": "导出 PPTIST 文件",
+    "exportJSON": "导出 JSON",
+    "close": "关闭",
+    "exporting": "正在导出...",
+    "imageFailed": "导出图片失败",
+    "failed": "导出失败",
+    "countPerPage": "每页数量：",
+    "padding": "边缘留白：",
+    "printTip": "提示：若打印预览与实际样式不一致，请在弹出的打印窗口中勾选【背景图形】选项。"
+  },
+  "markup": {
+    "title": "幻灯片类型标注",
+    "slideTypeLabel": "当前页面类型：",
+    "textTypeLabel": "当前文本类型：",
+    "imageTypeLabel": "当前图片类型：",
+    "placeholder": "选中图片、文字、带文字的形状，标记类型",
+    "none": "未标记类型",
+    "slideType": {
+      "cover": "封面页",
+      "contents": "目录页",
+      "transition": "过渡页",
+      "content": "内容页",
+      "end": "结束页"
+    },
+    "textType": {
+      "title": "标题",
+      "subtitle": "副标题",
+      "content": "正文",
+      "item": "列表项目",
+      "itemTitle": "列表项标题",
+      "notes": "注释",
+      "header": "页眉",
+      "footer": "页脚",
+      "partNumber": "节编号",
+      "itemNumber": "项目编号"
+    },
+    "imageType": {
+      "pageFigure": "页面插图",
+      "itemFigure": "项目插图",
+      "background": "背景图"
+    }
+  },
+  "select": {
+    "title": "选择（{selected}/{total}）",
+    "showAll": "全部显示",
+    "hideAll": "全部隐藏",
+    "group": "组合"
+  },
+  "thumbnails": {
+    "addSlide": "添加幻灯片",
+    "section": {
+      "inputPlaceholder": "输入节名称",
+      "emptyTitle": "无标题节",
+      "default": "默认节"
+    },
+    "pageNumber": "幻灯片 {cur} / {total}",
+    "templates": {
+      "insertAll": "插入",
+      "insertTemplate": "插入模板",
+      "type": { "all": "全部" },
+      "catalogName": {
+        "template_1": "红色通用",
+        "template_2": "蓝色通用",
+        "template_3": "紫色通用",
+        "template_4": "莫兰迪配色"
+      }
+    },
+    "context": {
+      "paste": "粘贴",
+      "selectAll": "全选",
+      "newSlide": "新建页面",
+      "slideShow": "幻灯片放映",
+      "cut": "剪切",
+      "copy": "复制",
+      "duplicate": "复制页面",
+      "delete": "删除页面",
+      "addSection": "增加节",
+      "fromCurrent": "从当前放映",
+      "deleteSection": "删除节",
+      "deleteSectionWithSlides": "删除节和幻灯片",
+      "deleteAllSections": "删除所有节",
+      "renameSection": "重命名节"
+    }
+  },
+  "canvas": {
+    "context": {
+      "paste": "粘贴",
+      "selectAll": "全选",
+      "ruler": "标尺",
+      "grid": "网格线",
+      "gridNone": "无",
+      "gridSmall": "小",
+      "gridMedium": "中",
+      "gridLarge": "大",
+      "resetSlide": "重置当前页"
+    }
+  },
+  "element": {
+    "doubleClickToEdit": "双击编辑",
+    "context": {
+      "unlock": "解锁",
+      "cut": "剪切",
+      "copy": "复制",
+      "paste": "粘贴",
+      "alignCenterBoth": "水平垂直居中",
+      "alignTop": "顶部对齐",
+      "alignBottom": "底部对齐",
+      "toTop": "置于顶层",
+      "up": "上移一层",
+      "toBottom": "置于底层",
+      "down": "下移一层",
+      "setLink": "设置链接",
+      "lock": "锁定"
+    }
+  }
+}

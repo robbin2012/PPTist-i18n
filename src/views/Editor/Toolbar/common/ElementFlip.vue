@@ -5,12 +5,12 @@
         style="flex: 1;"
         :checked="flipV"
         @click="updateFlip({ flipV: !flipV })"
-      ><IconFlipVertically /> 垂直翻转</CheckboxButton>
+      ><IconFlipVertically /> {{ t('toolbar.flip.vertical') }}</CheckboxButton>
       <CheckboxButton 
         style="flex: 1;"
         :checked="flipH"
         @click="updateFlip({ flipH: !flipH })"
-      ><IconFlipHorizontally /> 水平翻转</CheckboxButton>
+      ><IconFlipHorizontally /> {{ t('toolbar.flip.horizontal') }}</CheckboxButton>
     </ButtonGroup>
   </div>
 </template>
@@ -24,12 +24,14 @@ import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 
 import CheckboxButton from '@/components/CheckboxButton.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const { handleElement } = storeToRefs(useMainStore())
 
 const flipH = ref(false)
 const flipV = ref(false)
+const { t } = useI18n()
 
 watch(handleElement, () => {
   if (handleElement.value && (handleElement.value.type === 'image' || handleElement.value.type === 'shape')) {

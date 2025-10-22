@@ -1,0 +1,551 @@
+{
+  "app": {
+    "initializing": "データを初期化しています。しばらくお待ちください..."
+  },
+  "header": {
+    "menu": {
+      "export": "エクスポート",
+      "reset": "スライドをリセット",
+      "markup": "スライドタイプのマークアップ",
+      "hotkeys": "ショートカット",
+      "feedback": "フィードバック",
+      "faq": "よくある質問",
+      "statement": "注意: このサイトはデモ用であり、サービスは提供していません",
+      "fromStart": "最初から",
+      "fromCurrent": "現在のスライドから"
+    },
+    "tooltip": {
+      "screening": "スライドショー (F5)",
+      "ai": "AI で PPT を生成",
+      "export": "エクスポート"
+    },
+    "aipptSubtitle": "一文を入力してプレゼンを生成",
+    "import": {
+      "label": "ファイルをインポート",
+      "testOnly": "（テスト用）",
+      "proprietary": "（専用形式）"
+    },
+    "githubTooltip": "Copyright © 2020-PRESENT pipipi-pikachu"
+  },
+  "service": {
+    "error": {
+      "unknown": "不明なリクエストエラーです。",
+      "server": "サーバーで不明なエラーが発生しました。",
+      "timeout": "接続に失敗したか、タイムアウトしました。"
+    }
+  },
+  "aippt": {
+    "generating": "AIで生成中です。しばらくお待ちください...",
+    "inputTopicFirst": "まずPPTのテーマを入力してください",
+    "serviceError": "AIサービスエラー。別のモデルをお試しください",
+    "inputPlaceholder": "PPT のテーマを入力してください（例：大学生のキャリアプラン）",
+    "aiGenerate": "AI 生成",
+    "uploadTemplateError": "テンプレートファイルが無効です。再アップロードするかプリセットテンプレートを使用してください。",
+    "buttons": {
+      "selectTemplate": "テンプレートを選択",
+      "backToSetup": "設定に戻る",
+      "generate": "生成",
+      "backToOutline": "アウトラインに戻る"
+    }
+  },
+  "import": {
+    "loading": "インポート中..."
+  },
+  "search": {
+    "noMatch": "一致が見つかりませんでした",
+    "tabs": {
+      "search": "検索",
+      "replace": "置換"
+    },
+    "placeholder": {
+      "search": "検索する文字列を入力",
+      "replace": "置換後の文字列を入力"
+    },
+    "ignoreCase": "大文字小文字を無視",
+    "prev": "前へ",
+    "next": "次へ",
+    "replace": "置換",
+    "replaceAll": "すべて置換",
+    "inputFirst": "まず検索文字列を入力してください"
+  },
+  "common": {
+    "applyAll": "すべてに適用",
+    "appliedAll": "すべてに適用しました",
+    "undo": "元に戻す",
+    "redo": "やり直し",
+    "loading": "読み込み中 ...",
+    "select": "選択",
+    "delete": "削除",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "change": "変更"
+  },
+  "elements": {
+    "type": {
+      "text": "テキスト",
+      "image": "画像",
+      "shape": "図形",
+      "line": "線",
+      "chart": "チャート",
+      "table": "表",
+      "video": "動画",
+      "audio": "音声",
+      "latex": "数式"
+    }
+  },
+  "animation": {
+    "tabs": { "in": "入場", "out": "退場", "attention": "強調" },
+    "add": "アニメーションを追加",
+    "selectToAdd": "アニメーションを追加する要素を選択してください",
+    "preview": "プレビュー",
+    "previewAll": "すべてプレビュー",
+    "stopPreview": "プレビューを停止",
+    "duration": "継続時間：",
+    "trigger": "トリガー：",
+    "triggers": {
+      "click": "クリック時",
+      "meantime": "前のアニメーションと同時",
+      "auto": "前のアニメーションの後"
+    },
+    "change": "アニメーションを変更"
+  },
+  "notes": {
+    "title": "スライド {index} のメモ",
+    "replyPlaceholder": "返信を入力",
+    "inputForElement": "メモを入力（選択した要素）",
+    "inputForSlide": "メモを入力（現在のスライド）",
+    "clear": "このスライドのメモをクリア",
+    "reply": "返信",
+    "cancel": "キャンセル",
+    "add": "メモを追加",
+    "empty": "このスライドにメモはありません"
+  },
+  "screen": {
+    "tooltip": {
+      "penTool": "描画ツール",
+      "laser": "レーザーポインター",
+      "timer": "タイマー",
+      "presenterView": "発表者ビュー",
+      "exitFullscreen": "全画面表示を終了",
+      "enterFullscreen": "全画面表示",
+      "endShow": "スライドショーを終了"
+    },
+    "writing": {
+      "pen": "ペン",
+      "shape": "図形",
+      "mark": "マーカー",
+      "eraser": "消しゴム",
+      "clear": "インクをクリア",
+      "blackboard": "黒板",
+      "close": "描画を閉じる",
+      "inkSize": "ストローク幅",
+      "eraserSize": "消しゴムのサイズ"
+    },
+    "timer": {
+      "start": "開始",
+      "pause": "一時停止",
+      "reset": "リセット",
+      "countdown": "カウントダウン"
+    },
+    "presenter": {
+      "normalView": "通常ビュー",
+      "notes": "発表者メモ",
+      "noNotes": "メモはありません"
+    },
+    "context": {
+      "prev": "前のページ",
+      "next": "次のページ",
+      "first": "最初のページ",
+      "last": "最後のページ",
+      "autoplay": "自動再生を開始",
+      "stopAutoplay": "自動再生を停止",
+      "s2_5": "2.5秒",
+      "s5": "5秒",
+      "s7_5": "7.5秒",
+      "s10": "10秒",
+      "loop": "ループ再生",
+      "showToolbar": "ツールバーを表示",
+      "viewAllSlides": "すべてのスライドを見る",
+      "toggleBottomThumbs": "下部サムネイル",
+      "penTool": "描画ツール",
+      "presenterView": "発表者ビュー",
+      "endShow": "スライドショーを終了"
+    }
+  },
+  "toolbar": {
+    "tabs": {
+      "style": "スタイル",
+      "position": "位置",
+      "animation": "アニメーション",
+      "design": "デザイン",
+      "transition": "切り替え",
+      "multiStyle": "スタイル（複数選択）",
+      "multiPosition": "位置（複数選択）"
+    },
+    "layer": {
+      "title": "レイヤー：",
+      "toTop": "前面",
+      "toBottom": "背面",
+      "up": "上へ",
+      "down": "下へ"
+    },
+    "position": {
+      "title": "整列：",
+      "alignLeft": "左揃え",
+      "alignHCenter": "水平方向中央",
+      "alignRight": "右揃え",
+      "alignTop": "上揃え",
+      "alignVCenter": "垂直方向中央",
+      "alignBottom": "下揃え"
+    },
+    "numeric": {
+      "horizontal": "水平方向：",
+      "vertical": "垂直方向：",
+      "width": "幅：",
+      "height": "高さ：",
+      "rotate": "回転："
+    },
+    "ratio": {
+      "lock": "縦横比をロック",
+      "unlock": "縦横比のロック解除"
+    },
+    "multi": {
+      "uniformH": "水平方向に均等配置",
+      "uniformV": "垂直方向に均等配置",
+      "group": "グループ化",
+      "ungroup": "グループ解除"
+    },
+    "designPanel": {
+      "backgroundFill": "背景の塗りつぶし",
+      "fillTypes": { "solid": "単色塗り", "image": "画像塗り", "gradient": "グラデーション塗り" },
+      "imageSize": { "contain": "収まる", "repeat": "繰り返し", "cover": "いっぱいに表示" },
+      "gradientType": { "linear": "線形グラデーション", "radial": "放射状グラデーション" },
+      "currentColor": "現在の色",
+      "gradientAngle": "グラデーション角度",
+      "applyBackgroundAll": "背景をすべてに適用",
+      "ratio": {
+        "widescreen_16_9": "ワイド 16 : 9",
+        "widescreen_16_10": "ワイド 16 : 10",
+        "standard_4_3": "標準 4 : 3",
+        "paper_a3_a4": "用紙 A3 / A4",
+        "portrait_a3_a4": "縦向き A3 / A4"
+      },
+      "canvasSize": "キャンバスサイズ：",
+      "globalTheme": "グローバルテーマ",
+      "more": "その他",
+      "font": "フォント",
+      "searchFont": "フォントを検索",
+      "fontColor": "フォント色",
+      "backgroundColor": "背景色",
+      "themeColors": "テーマカラー",
+      "outlineStyle": "枠線スタイル",
+      "outlineColor": "枠線の色",
+      "outlineWidth": "枠線の太さ",
+      "shadowH": "水平の影",
+      "shadowV": "垂直の影",
+      "shadowBlur": "ぼかし距離",
+      "shadowColor": "影の色",
+      "applyThemeAll": "テーマをすべてに適用",
+      "extractFromSlides": "スライドからテーマを抽出",
+      "presetTheme": "プリセットテーマ",
+      "sampleText": "テキスト Aa",
+      "set": "設定",
+      "setAndApply": "設定して適用",
+      "themeColorsSetting": "テーマ色を編集",
+      "slideThemeColorN": "スライドのテーマ色 {n}"
+    },
+    "themeExtract": {
+      "font": "フォント",
+      "fontColor": "フォント色",
+      "backgroundColor": "背景色",
+      "themeColors": "テーマカラー",
+      "themeColorsTip": "（色をクリックして除外）",
+      "fromCurrent": "現在のスライドから抽出",
+      "fromAll": "すべてのスライドから抽出",
+      "applyToTheme": "テーマに適用",
+      "saveSelectionToTheme": "選択をテーマとして保存",
+      "themeColorOverflow": "テーマ色が上限を超えました。先頭6色を使用します。"
+    },
+    "filter": {
+      "enable": "フィルターを有効化",
+      "labels": {
+        "blur": "ぼかし",
+        "brightness": "輝度",
+        "contrast": "コントラスト",
+        "grayscale": "グレースケール",
+        "saturate": "彩度",
+        "hue-rotate": "色相",
+        "sepia": "セピア",
+        "invert": "反転",
+        "opacity": "不透明度"
+      },
+      "presets": {
+        "blackwhite": "白黒",
+        "retro": "レトロ",
+        "sharpen": "シャープ",
+        "soft": "ソフト",
+        "warm": "暖色",
+        "bright": "明るい",
+        "vivid": "鮮やか",
+        "blur": "ぼかし",
+        "invert": "反転"
+      }
+    },
+    "outline": { "enable": "枠線を有効化", "style": "枠線スタイル", "color": "枠線の色", "width": "枠線の太さ" },
+    "colorMask": { "enable": "カラーオーバーレイ", "color": "オーバーレイの色" },
+    "line": { "style": "線のスタイル", "color": "線の色", "width": "線の太さ", "startMarker": "始点スタイル", "endMarker": "終点スタイル", "swapDirection": "方向を入れ替え" },
+    "shadow": { "enable": "影を有効化", "h": "水平の影", "v": "垂直の影", "blur": "ぼかし距離", "color": "影の色" },
+    "opacity": { "label": "不透明度" },
+    "flip": { "vertical": "垂直反転", "horizontal": "水平反転" },
+    "video": { "posterTitle": "動画ポスター", "resetPoster": "ポスターをリセット", "autoplay": "自動再生" },
+    "chart": {
+      "editData": "グラフを編集",
+      "stack": "積み上げスタイル",
+      "lineSmooth": "スムーズ線を使用",
+      "fill": "背景の塗りつぶし",
+      "axesAndText": "軸とテキスト",
+      "gridColor": "グリッドの色",
+      "themeColors": "テーマカラー",
+      "presetThemes": "プリセットグラフテーマ",
+      "slideTheme": "スライドテーマ",
+      "customizeColors": "色をカスタマイズ",
+      "themeColorsSetting": "グラフのテーマカラー",
+      "themeColorN": "テーマカラー {n}",
+      "addThemeColor": "テーマカラーを追加"
+    },
+    "chartData": {
+      "type": "種類：",
+      "clear": "データをクリア",
+      "category": "カテゴリ",
+      "series": "シリーズ"
+    },
+    "shape": {
+      "replaceShape": "クリックして図形を置き換え",
+      "fillTypes": { "fill": "単色塗り", "gradient": "グラデーション塗り", "pattern": "画像塗り" },
+      "gradientType": { "linear": "線形グラデーション", "radial": "放射状グラデーション" },
+      "currentColor": "現在の色",
+      "gradientAngle": "グラデーション角度",
+      "alignTop": "上揃え",
+      "alignMiddle": "中央",
+      "alignBottom": "下揃え",
+      "doubleClickToKeep": "ダブルクリックで連続使用",
+      "formatPainter": "図形の書式コピー"
+    },
+    "multi": { "fillColor": "塗りつぶしの色", "outlineStyle": "枠線スタイル", "outlineColor": "枠線の色", "outlineWidth": "枠線の太さ" },
+    "text": {
+      "searchFont": "フォントを検索",
+      "searchFontSize": "サイズを検索",
+      "fontColor": "フォント色",
+      "highlight": "ハイライト",
+      "increaseFontSize": "フォントサイズを大きく",
+      "decreaseFontSize": "フォントサイズを小さく",
+      "alignLeft": "左揃え",
+      "alignCenter": "中央揃え",
+      "alignRight": "右揃え",
+      "alignJustify": "両端揃え"
+    },
+    "canvasTool": {
+      "undo": "元に戻す (Ctrl + Z)",
+      "redo": "やり直し (Ctrl + Y)",
+      "notesPanel": "メモパネル",
+      "selectPanel": "選択ウィンドウ",
+      "searchReplace": "検索/置換 (Ctrl + F)",
+      "zoomOut": "縮小 (Ctrl + -)",
+      "zoomIn": "拡大 (Ctrl + =)",
+      "fitScreen": "画面に合わせる (Ctrl + 0)",
+      "insertText": "テキストを挿入",
+      "textboxHorizontal": "横書きテキストボックス",
+      "textboxVertical": "縦書きテキストボックス",
+      "insertShape": "図形を挿入",
+      "freeDraw": "自由描画",
+      "insertImage": "画像を挿入",
+      "insertLine": "線を挿入",
+      "insertChart": "グラフを挿入",
+      "insertTable": "表を挿入",
+      "insertFormula": "数式を挿入",
+      "insertMedia": "メディアを挿入",
+      "insertSymbol": "記号を挿入"
+    },
+    "transition": {
+      "labels": {
+        "no": "なし",
+        "random": "ランダム",
+        "slideX": "スライド（左右）",
+        "slideY": "スライド（上下）",
+        "slideX3D": "スライド 3D（左右）",
+        "slideY3D": "スライド 3D（上下）",
+        "fade": "フェード",
+        "rotate": "回転",
+        "scaleY": "縦に展開",
+        "scaleX": "横に展開",
+        "scale": "ズームイン",
+        "scaleReverse": "ズームアウト"
+      }
+    }
+  },
+  "mobile": {
+    "speakerNotesPlaceholder": "タップして発表者メモを入力",
+    "newSlide": "新しいスライド",
+    "text": "テキスト",
+    "image": "画像",
+    "rect": "四角形",
+    "circle": "円",
+    "newTextDefault": "新しいテキスト",
+    "menu": {
+      "edit": "編集",
+      "play": "再生",
+      "exitPlay": "再生を終了",
+      "exitEdit": "エディタを終了"
+    },
+    "tabs": {
+      "style": "スタイル",
+      "common": "レイアウト"
+    },
+    "fontColor": "フォント色",
+    "fill": "塗りつぶし",
+    "actions": {
+      "copy": "コピー",
+      "delete": "削除",
+      "up": "上へ",
+      "down": "下へ"
+    }
+  },
+  "select": {
+    "title": "選択（{selected}/{total}）",
+    "showAll": "すべて表示",
+    "hideAll": "すべて非表示",
+    "group": "グループ"
+  },
+  "export": {
+    "tabs": {
+      "pptist": "PPTIST をエクスポート",
+      "pptx": "PPTX をエクスポート",
+      "image": "画像をエクスポート",
+      "json": "JSON をエクスポート",
+      "pdf": "印刷 / PDF をエクスポート"
+    },
+    "scope": "エクスポート範囲：",
+    "scopeAll": "すべて",
+    "scopeCurrent": "現在",
+    "scopeCustom": "カスタム",
+    "customRange": "カスタム範囲：",
+    "format": "形式：",
+    "quality": "画像品質：",
+    "ignoreWebfont": "Web フォントを無視：",
+    "ignoreWebfontTip": "既定では Web フォントは無視されます。スタイルを保持する場合は無効にしてください（エクスポート時間が増加します）。",
+    "ignoreMedia": "音声/動画を無視：",
+    "ignoreMediaTip": "ヒント：対応形式：avi, mp4, mov, wmv, mp3, wav；クロスオリジンのリソースはエクスポートできません。",
+    "masterOverwrite": "既定のマスターを上書き：",
+    "exportImage": "画像をエクスポート",
+    "exportPPTX": "PPTX をエクスポート",
+    "exportPPTIST": "PPTIST をエクスポート",
+    "exportJSON": "JSON をエクスポート",
+    "close": "閉じる",
+    "exporting": "エクスポート中...",
+    "imageFailed": "画像のエクスポートに失敗しました",
+    "failed": "エクスポートに失敗しました",
+    "countPerPage": "1 ページあたり：",
+    "padding": "余白：",
+    "printTip": "ヒント：印刷プレビューと実際が異なる場合は、印刷ダイアログで『背景のグラフィック』にチェックを入れてください。"
+  },
+  "markup": {
+    "title": "スライドタイプのマーク",
+    "slideTypeLabel": "現在のスライドタイプ：",
+    "textTypeLabel": "現在のテキスタイプ：",
+    "imageTypeLabel": "現在の画像タイプ：",
+    "placeholder": "タイプをマークするには、画像、テキスト、またはテキスト付き図形を選択してください",
+    "none": "未設定",
+    "slideType": {
+      "cover": "表紙",
+      "contents": "目次",
+      "transition": "トランジション",
+      "content": "コンテンツ",
+      "end": "終了"
+    },
+    "textType": {
+      "title": "タイトル",
+      "subtitle": "サブタイトル",
+      "content": "本文",
+      "item": "リスト項目",
+      "itemTitle": "項目タイトル",
+      "notes": "注釈",
+      "header": "ヘッダー",
+      "footer": "フッター",
+      "partNumber": "セクション番号",
+      "itemNumber": "項目番号"
+    },
+    "imageType": {
+      "pageFigure": "ページ図",
+      "itemFigure": "項目図",
+      "background": "背景"
+    }
+  },
+  "thumbnails": {
+    "addSlide": "スライドを追加",
+    "section": {
+      "inputPlaceholder": "セクション名を入力",
+      "emptyTitle": "無題のセクション",
+      "default": "デフォルトのセクション"
+    },
+    "pageNumber": "スライド {cur} / {total}",
+    "templates": {
+      "insertAll": "挿入",
+      "insertTemplate": "テンプレートを挿入",
+      "type": { "all": "すべて" },
+      "catalogName": {
+        "template_1": "赤",
+        "template_2": "青",
+        "template_3": "紫",
+        "template_4": "モランディ"
+      }
+    },
+    "context": {
+      "paste": "貼り付け",
+      "selectAll": "すべて選択",
+      "newSlide": "新しいスライド",
+      "slideShow": "スライドショー",
+      "cut": "切り取り",
+      "copy": "コピー",
+      "duplicate": "スライドを複製",
+      "delete": "スライドを削除",
+      "addSection": "セクションを追加",
+      "fromCurrent": "現在から開始",
+      "deleteSection": "セクションを削除",
+      "deleteSectionWithSlides": "セクションとスライドを削除",
+      "deleteAllSections": "すべてのセクションを削除",
+      "renameSection": "セクション名を変更"
+    }
+  },
+  "canvas": {
+    "context": {
+      "paste": "貼り付け",
+      "selectAll": "すべて選択",
+      "ruler": "ルーラー",
+      "grid": "グリッド",
+      "gridNone": "なし",
+      "gridSmall": "小",
+      "gridMedium": "中",
+      "gridLarge": "大",
+      "resetSlide": "現在のスライドをリセット"
+    }
+  }
+  ,
+  "element": {
+    "doubleClickToEdit": "ダブルクリックで編集",
+    "context": {
+      "unlock": "ロック解除",
+      "cut": "切り取り",
+      "copy": "コピー",
+      "paste": "貼り付け",
+      "alignCenterBoth": "中央揃え（両方）",
+      "alignTop": "上揃え",
+      "alignBottom": "下揃え",
+      "toTop": "最前面へ",
+      "up": "一段上へ",
+      "toBottom": "最背面へ",
+      "down": "一段下へ",
+      "setLink": "リンクを設定",
+      "lock": "ロック"
+    }
+  }
+}

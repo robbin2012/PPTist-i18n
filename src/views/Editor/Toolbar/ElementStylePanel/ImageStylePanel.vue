@@ -8,11 +8,11 @@
     <ElementFlip />
 
     <ButtonGroup class="row" passive>
-      <Button first style="width: calc(100% / 6 * 5);" @click="clipImage()"><IconTailoring /> 裁剪图片</Button>
+      <Button first style="width: calc(100% / 6 * 5);" @click="clipImage()"><IconTailoring /> {{ t('toolbar.image.clipImage') }}</Button>
       <Popover trigger="click" v-model:value="clipPanelVisible" style="width: calc(100% / 6);">
         <template #content>
           <div class="clip">
-            <div class="title">按形状：</div>
+            <div class="title">{{ t('toolbar.image.byShape') }}</div>
             <div class="shape-clip">
               <div 
                 class="shape-clip-item" 
@@ -25,7 +25,7 @@
             </div>
 
             <template v-for="typeItem in ratioClipOptions" :key="typeItem.label">
-              <div class="title" v-if="typeItem.label">按{{typeItem.label}}：</div>
+              <div class="title" v-if="typeItem.label">{{ t('toolbar.image.byRatio', { label: typeItem.label }) }}</div>
               <ButtonGroup class="row">
                 <Button 
                   style="flex: 1;"
@@ -42,7 +42,7 @@
     </ButtonGroup>
     
     <div class="row">
-      <div style="width: 40%;">圆角半径：</div>
+      <div style="width: 40%;">{{ t('toolbar.image.radius') }}：</div>
       <NumberInput 
         :value="handleImageElement.radius || 0" 
         @update:value="value => updateImage({ radius: value })" 
@@ -61,10 +61,10 @@
     <Divider />
     
     <FileInput @change="files => replaceImage(files)">
-      <Button class="full-width-btn"><IconTransform /> 替换图片</Button>
+      <Button class="full-width-btn"><IconTransform /> {{ t('toolbar.image.replaceImage') }}</Button>
     </FileInput>
-    <Button class="full-width-btn" @click="resetImage()"><IconUndo /> 重置样式</Button>
-    <Button class="full-width-btn" @click="setBackgroundImage()"><IconTheme /> 设为背景</Button>
+    <Button class="full-width-btn" @click="resetImage()"><IconUndo /> {{ t('toolbar.image.resetStyle') }}</Button>
+    <Button class="full-width-btn" @click="setBackgroundImage()"><IconTheme /> {{ t('toolbar.image.setAsBackground') }}</Button>
   </div>
 </template>
 
@@ -88,17 +88,19 @@ import Button from '@/components/Button.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 import Popover from '@/components/Popover.vue'
 import NumberInput from '@/components/NumberInput.vue'
+import { useI18n } from 'vue-i18n'
 
 const shapeClipPathOptions = CLIPPATHS
+const { t } = useI18n()
 const ratioClipOptions = [
   {
-    label: '纵横比（正方形）',
+    label: t('toolbar.image.ratio.square'),
     children: [
       { key: '1:1', ratio: 1 / 1 },
     ],
   },
   {
-    label: '纵横比（纵向）',
+    label: t('toolbar.image.ratio.portrait'),
     children: [
       { key: '2:3', ratio: 3 / 2 },
       { key: '3:4', ratio: 4 / 3 },
@@ -107,7 +109,7 @@ const ratioClipOptions = [
     ],
   },
   {
-    label: '纵横比（横向）',
+    label: t('toolbar.image.ratio.landscape'),
     children: [
       { key: '3:2', ratio: 2 / 3 },
       { key: '4:3', ratio: 3 / 4 },

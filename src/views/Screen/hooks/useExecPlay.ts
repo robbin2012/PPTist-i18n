@@ -5,8 +5,10 @@ import { useSlidesStore } from '@/store'
 import { KEYS } from '@/configs/hotkey'
 import { ANIMATION_CLASS_PREFIX } from '@/configs/animation'
 import message from '@/utils/message'
+import { useI18n } from 'vue-i18n'
 
 export default () => {
+  const { t } = useI18n()
   const slidesStore = useSlidesStore()
   const { slides, slideIndex, formatedAnimations } = storeToRefs(slidesStore)
 
@@ -162,7 +164,7 @@ export default () => {
   const autoPlayInterval = ref(2500)
   const autoPlay = () => {
     closeAutoPlay()
-    message.success('开始自动放映')
+    message.success(t('screen.context.autoplay'))
     autoPlayTimer.value = setInterval(execNext, autoPlayInterval.value)
   }
 

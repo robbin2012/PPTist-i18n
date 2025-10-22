@@ -6,7 +6,7 @@
         v-for="item in templates" 
         :key="item.id"
         @click="changeCatalog(item.id)"
-      >{{ item.name }}</div>
+      >{{ renderCatalogName(item) }}</div>
     </div>
     <div class="content">
       <div class="header">
@@ -18,7 +18,7 @@
             @click="activeType = item.value"
           >{{ item.label }}</div>
         </div>
-        <div class="insert-all" @click="insertTemplates(slides)">插入全部</div>
+        <div class="insert-all" @click="insertTemplates(slides)">{{ t('thumbnails.templates.insertAll') }}</div>
       </div>
       <div class="list" ref="listRef">
         <template v-for="slide in slides" :key="slide.id">
@@ -29,7 +29,7 @@
             <ThumbnailSlide class="thumbnail" :slide="slide" :size="180" />
     
             <div class="btns">
-              <Button class="btn" type="primary" size="small" @click="insertTemplate(slide)">插入模板</Button>
+              <Button class="btn" type="primary" size="small" @click="insertTemplate(slide)">{{ t('thumbnails.templates.insertTemplate') }}</Button>
             </div>
           </div>
         </template>
@@ -47,6 +47,7 @@ import api from '@/services'
 
 import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
 import Button from '@/components/Button.vue'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
   (event: 'select', payload: Slide): void
@@ -58,16 +59,18 @@ const { templates } = storeToRefs(slidesStore)
 
 const slides = ref<Slide[]>([])
 const listRef = useTemplateRef<HTMLElement>('listRef')
-const types = ref<{
-  label: string
-  value: string
-}[]>([
-  { label: '全部', value: 'all' },
-  { label: '封面', value: 'cover' },
-  { label: '目录', value: 'contents' },
-  { label: '过渡', value: 'transition' },
-  { label: '内容', value: 'content' },
-  { label: '结束', value: 'end' },
+const { t, te } = useI18n()
+const renderCatalogName = (item: { id: string; name: string }) => {
+  const key = `thumbnails.templates.catalogName.${item.id}`
+  return te(key) ? t(key) : item.name
+}
+const types = ref<{ label: string; value: string }[]>([
+  { label: t('thumbnails.templates.type.all'), value: 'all' },
+  { label: t('markup.slideType.cover'), value: 'cover' },
+  { label: t('markup.slideType.contents'), value: 'contents' },
+  { label: t('markup.slideType.transition'), value: 'transition' },
+  { label: t('markup.slideType.content'), value: 'content' },
+  { label: t('markup.slideType.end'), value: 'end' },
 ])
 const activeType = ref('all')
 

@@ -3,25 +3,25 @@
     <div class="remark">
       <textarea
         :value="remark"
-        placeholder="点击输入演讲者备注"
+        :placeholder="t('mobile.speakerNotesPlaceholder')"
         @input="$event => handleInputMark($event)"
       ></textarea>
     </div>
     <div class="toolbar">
       <ButtonGroup class="row">
-        <Button style="flex: 1;" @click="createSlide()"><IconPlus class="icon" /> 新幻灯片</Button>
-        <Button style="flex: 1;" @click="copyAndPasteSlide()"><IconCopy class="icon" /> 复制</Button>
-        <Button style="flex: 1;" @click="deleteSlide()"><IconDelete class="icon" /> 删除</Button>
+        <Button style="flex: 1;" @click="createSlide()"><IconPlus class="icon" /> {{ t('mobile.newSlide') }}</Button>
+        <Button style="flex: 1;" @click="copyAndPasteSlide()"><IconCopy class="icon" /> {{ t('mobile.actions.copy') }}</Button>
+        <Button style="flex: 1;" @click="deleteSlide()"><IconDelete class="icon" /> {{ t('mobile.actions.delete') }}</Button>
       </ButtonGroup>
       <ButtonGroup class="row">
-        <Button style="flex: 1;" @click="insertTextElement()"><IconFontSize class="icon" /> 文字</Button>
+        <Button style="flex: 1;" @click="insertTextElement()"><IconFontSize class="icon" /> {{ t('mobile.text') }}</Button>
         <Button style="flex: 1;">
           <FileInput @change="files => insertImageElement(files)">
-            <IconPicture class="icon" />图片
+            <IconPicture class="icon" />{{ t('mobile.image') }}
           </FileInput>
         </Button>
-        <Button style="flex: 1;" @click="insertShapeElement('square')"><IconSquare class="icon" /> 矩形</Button>
-        <Button style="flex: 1;" @click="insertShapeElement('round')"><IconRound class="icon" /> 圆形</Button>
+        <Button style="flex: 1;" @click="insertShapeElement('square')"><IconSquare class="icon" /> {{ t('mobile.rect') }}</Button>
+        <Button style="flex: 1;" @click="insertShapeElement('round')"><IconRound class="icon" /> {{ t('mobile.circle') }}</Button>
       </ButtonGroup>
     </div>
 
@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import useSlideHandler from '@/hooks/useSlideHandler'
@@ -48,6 +49,7 @@ const { viewportRatio, currentSlide, viewportSize } = storeToRefs(slidesStore)
 
 const { createSlide, copyAndPasteSlide, deleteSlide, } = useSlideHandler()
 const { createTextElement, createImageElement, createShapeElement } = useCreateElement()
+const { t } = useI18n()
 
 const insertTextElement = () => {
   const width = 400
@@ -58,7 +60,7 @@ const insertTextElement = () => {
     top: (viewportSize.value * viewportRatio.value - height) / 2,
     width,
     height,
-  }, { content: '<p>新添加文本</p>' })
+  }, { content: `<p>${t('mobile.newTextDefault')}</p>` })
 }
 
 const insertImageElement = (files: FileList) => {

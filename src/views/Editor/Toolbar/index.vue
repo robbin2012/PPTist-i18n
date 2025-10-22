@@ -26,39 +26,42 @@ import SlideAnimationPanel from './SlideAnimationPanel.vue'
 import MultiPositionPanel from './MultiPositionPanel.vue'
 import MultiStylePanel from './MultiStylePanel.vue'
 import Tabs from '@/components/Tabs.vue'
+import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
 const { activeElementIdList, activeElementList, activeGroupElementId, toolbarState } = storeToRefs(mainStore)
 
-const elementTabs = [
-  { label: '样式', key: ToolbarStates.EL_STYLE },
-  { label: '位置', key: ToolbarStates.EL_POSITION },
-  { label: '动画', key: ToolbarStates.EL_ANIMATION },
-]
-const slideTabs = [
-  { label: '设计', key: ToolbarStates.SLIDE_DESIGN },
-  { label: '切换', key: ToolbarStates.SLIDE_ANIMATION },
-  { label: '动画', key: ToolbarStates.EL_ANIMATION },
-]
-const multiSelectTabs = [
-  { label: '样式（多选）', key: ToolbarStates.MULTI_STYLE },
-  { label: '位置（多选）', key: ToolbarStates.MULTI_POSITION },
-]
+const { t } = useI18n()
+
+const elementTabs = computed(() => ([
+  { label: t('toolbar.tabs.style'), key: ToolbarStates.EL_STYLE },
+  { label: t('toolbar.tabs.position'), key: ToolbarStates.EL_POSITION },
+  { label: t('toolbar.tabs.animation'), key: ToolbarStates.EL_ANIMATION },
+]))
+const slideTabs = computed(() => ([
+  { label: t('toolbar.tabs.design'), key: ToolbarStates.SLIDE_DESIGN },
+  { label: t('toolbar.tabs.transition'), key: ToolbarStates.SLIDE_ANIMATION },
+  { label: t('toolbar.tabs.animation'), key: ToolbarStates.EL_ANIMATION },
+]))
+const multiSelectTabs = computed(() => ([
+  { label: t('toolbar.tabs.multiStyle'), key: ToolbarStates.MULTI_STYLE },
+  { label: t('toolbar.tabs.multiPosition'), key: ToolbarStates.MULTI_POSITION },
+]))
 
 const setToolbarState = (value: ToolbarStates) => {
   mainStore.setToolbarState(value)
 }
 
 const currentTabs = computed(() => {
-  if (!activeElementIdList.value.length) return slideTabs
+  if (!activeElementIdList.value.length) return slideTabs.value
   else if (activeElementIdList.value.length > 1) {
     if (!activeGroupElementId.value) return multiSelectTabs
 
     const activeGroupElement = activeElementList.value.find(item => item.id === activeGroupElementId.value)
-    if (activeGroupElement) return elementTabs
-    return multiSelectTabs
+    if (activeGroupElement) return elementTabs.value
+    return multiSelectTabs.value
   }
-  return elementTabs
+  return elementTabs.value
 })
 
 watch(currentTabs, () => {

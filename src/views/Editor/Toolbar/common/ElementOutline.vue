@@ -1,7 +1,7 @@
 <template>
   <div class="element-outline">
     <div class="row" v-if="!fixed">
-      <div style="width: 40%;">启用边框：</div>
+      <div style="width: 40%;">{{ t('toolbar.outline.enable') }}：</div>
       <div class="switch-wrapper" style="width: 60%;">
         <Switch 
           :value="hasOutline" 
@@ -11,7 +11,7 @@
     </div>
     <template v-if="hasOutline && outline">
       <div class="row">
-        <div style="width: 40%;">边框样式：</div>
+        <div style="width: 40%;">{{ t('toolbar.outline.style') }}：</div>
         <SelectCustom style="width: 60%;">
           <template #options>
             <div class="option" v-for="item in lineStyleOptions" :key="item" @click="updateOutline({ style: item })">
@@ -24,7 +24,7 @@
         </SelectCustom>
       </div>
       <div class="row">
-        <div style="width: 40%;">边框颜色：</div>
+        <div style="width: 40%;">{{ t('toolbar.outline.color') }}：</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker
@@ -36,7 +36,7 @@
         </Popover>
       </div>
       <div class="row">
-        <div style="width: 40%;">边框粗细：</div>
+        <div style="width: 40%;">{{ t('toolbar.outline.width') }}：</div>
         <NumberInput 
           :value="outline.width || 0" 
           @update:value="value => updateOutline({ width: value })" 
@@ -61,6 +61,7 @@ import Switch from '@/components/Switch.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import SelectCustom from '@/components/SelectCustom.vue'
 import Popover from '@/components/Popover.vue'
+import { useI18n } from 'vue-i18n'
 
 withDefaults(defineProps<{
   fixed?: boolean
@@ -75,6 +76,7 @@ const { handleElement } = storeToRefs(useMainStore())
 const outline = ref<PPTElementOutline>()
 const hasOutline = ref(false)
 const lineStyleOptions = ref<LineStyleType[]>(['solid', 'dashed', 'dotted'])
+const { t } = useI18n()
 
 watch(handleElement, () => {
   if (!handleElement.value) return

@@ -1,7 +1,7 @@
 <template>
   <div class="element-color-mask">
     <div class="row">
-      <div style="width: 40%;">着色（蒙版）：</div>
+      <div style="width: 40%;">{{ t('toolbar.colorMask.enable') }}：</div>
       <div class="switch-wrapper" style="width: 60%;">
         <Switch 
           :value="hasColorMask" 
@@ -11,7 +11,7 @@
     </div>
     <template v-if="hasColorMask">
       <div class="row" style="margin-top: 15px;">
-        <div style="width: 40%;">蒙版颜色：</div>
+        <div style="width: 40%;">{{ t('toolbar.colorMask.color') }}：</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker
@@ -37,6 +37,7 @@ import ColorButton from '@/components/ColorButton.vue'
 import ColorPicker from '@/components/ColorPicker/index.vue'
 import Switch from '@/components/Switch.vue'
 import Popover from '@/components/Popover.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const { handleElement, handleElementId } = storeToRefs(useMainStore())
@@ -50,6 +51,7 @@ const defaultColorMask = computed(() => {
 })
 const colorMask = ref('')
 const hasColorMask = ref(false)
+const { t } = useI18n()
 
 watch(handleElement, () => {
   if (!handleElement.value || handleElement.value.type !== 'image') return

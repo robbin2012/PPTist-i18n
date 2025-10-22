@@ -2,7 +2,7 @@
   <div class="fullscreen-spin" :class="{ 'mask': mask }" v-if="loading">
     <div class="spin">
       <div class="spinner"></div>
-      <div class="text">{{tip}}</div>
+      <div class="text" v-if="tip">{{ tip }}</div>
     </div>
   </div>
 </template>

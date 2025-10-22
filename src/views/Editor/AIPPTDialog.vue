@@ -12,12 +12,12 @@
         ref="inputRef"
         v-model:value="keyword" 
         :maxlength="50" 
-        placeholder="请输入PPT主题，如：大学生职业生涯规划" 
+        :placeholder="t('aippt.inputPlaceholder')"
         @enter="createOutline()"
       >
         <template #suffix>
           <span class="count">{{ keyword.length }} / 50</span>
-          <div class="submit" type="primary" @click="createOutline()"><IconSend class="icon" /> AI 生成</div>
+          <div class="submit" type="primary" @click="createOutline()"><IconSend class="icon" /> {{ t('aippt.aiGenerate') }}</div>
         </template>
       </Input>
       <div class="recommends">
@@ -93,8 +93,8 @@
          <OutlineEditor v-model:value="outline" />
        </div>
       <div class="btns" v-if="!outlineCreating">
-        <Button class="btn" type="primary" @click="step = 'template'">选择模板</Button>
-        <Button class="btn" @click="outline = ''; step = 'setup'">返回重新生成</Button>
+        <Button class="btn" type="primary" @click="step = 'template'">{{ t('aippt.buttons.selectTemplate') }}</Button>
+        <Button class="btn" @click="outline = ''; step = 'setup'">{{ t('aippt.buttons.backToSetup') }}</Button>
       </div>
     </div>
     <div class="select-template" v-if="step === 'template'">
@@ -109,12 +109,12 @@
         </div>
       </div>
       <div class="btns">
-        <Button class="btn" type="primary" @click="createPPT()">生成</Button>
-        <Button class="btn" @click="step = 'outline'">返回大纲</Button>
+        <Button class="btn" type="primary" @click="createPPT()">{{ t('aippt.buttons.generate') }}</Button>
+        <Button class="btn" @click="step = 'outline'">{{ t('aippt.buttons.backToOutline') }}</Button>
       </div>
     </div>
 
-    <FullscreenSpin :loading="loading" tip="AI生成中，请耐心等待 ..." />
+    <FullscreenSpin :loading="loading" :tip="t('aippt.generating')" />
   </div>
 </template>
 
@@ -137,6 +137,8 @@ import OutlineEditor from '@/components/OutlineEditor.vue'
 import Checkbox from '@/components/Checkbox.vue'
 
 const mainStore = useMainStore()
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const slideStore = useSlidesStore()
 const { templates } = storeToRefs(slideStore)
 
@@ -182,7 +184,7 @@ const setKeyword = (value: string) => {
 }
 
 const createOutline = async () => {
-  if (!keyword.value) return message.error('请先输入PPT主题')
+  if (!keyword.value) return message.error(t('aippt.inputTopicFirst'))
 
   loading.value = true
   outlineCreating.value = true
@@ -193,7 +195,7 @@ const createOutline = async () => {
     model: model.value,
   })
   if (stream.status === 500) {
-    message.error('AI服务异常，请更换其他模型重试')
+    message.error(t('aippt.serviceError'))
     loading.value = false
     return
   }
@@ -294,7 +296,7 @@ const uploadLocalTemplate = () => {
           createPPT({ slides, theme })
         }
         catch {
-          message.error('上传的模板文件数据异常，请重新上传或使用预置模板')
+          message.error(t('aippt.uploadTemplateError'))
         }
       })
       reader.readAsText(file)

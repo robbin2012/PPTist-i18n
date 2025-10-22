@@ -2,18 +2,18 @@
   <div class="export-pptist-dialog">
     <div class="configs">
       <div class="row">
-        <div class="title">导出范围：</div>
+        <div class="title">{{ t('export.scope') }}</div>
         <RadioGroup
           class="config-item"
           v-model:value="rangeType"
         >
-          <RadioButton style="width: 33.33%;" value="all">全部</RadioButton>
-          <RadioButton style="width: 33.33%;" value="current">当前页</RadioButton>
-          <RadioButton style="width: 33.33%;" value="custom">自定义</RadioButton>
+          <RadioButton style="width: 33.33%;" value="all">{{ t('export.scopeAll') }}</RadioButton>
+          <RadioButton style="width: 33.33%;" value="current">{{ t('export.scopeCurrent') }}</RadioButton>
+          <RadioButton style="width: 33.33%;" value="custom">{{ t('export.scopeCustom') }}</RadioButton>
         </RadioGroup>
       </div>
       <div class="row" v-if="rangeType === 'custom'">
-        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">自定义范围：</div>
+        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">{{ t('export.customRange') }}</div>
         <Slider
           class="config-item"
           range
@@ -23,19 +23,18 @@
           v-model:value="range"
         />
       </div>
-      <div class="tip">
-        提示：.pptist 是本应用的特有文件后缀，支持将该类型的文件导入回应用中。
-      </div>
+      <div class="tip">PPTIST</div>
     </div>
     <div class="btns">
-      <Button class="btn export" type="primary" @click="exportSpecificFile(selectedSlides)"><IconDownload /> 导出 PPTIST 文件</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="exportSpecificFile(selectedSlides)"><IconDownload /> {{ t('export.exportPPTIST') }}</Button>
+      <Button class="btn close" @click="emit('close')">{{ t('export.close') }}</Button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import useExport from '@/hooks/useExport'
@@ -52,6 +51,7 @@ const emit = defineEmits<{
 const { slides, currentSlide } = storeToRefs(useSlidesStore())
 
 const { exportSpecificFile } = useExport()
+const { t } = useI18n()
 
 const rangeType = ref<'all' | 'current' | 'custom'>('all')
 const range = ref<[number, number]>([1, slides.value.length])

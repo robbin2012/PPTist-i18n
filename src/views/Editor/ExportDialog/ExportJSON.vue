@@ -5,14 +5,15 @@
     </div>
 
     <div class="btns">
-      <Button class="btn export" type="primary" @click="exportJSON()"><IconDownload /> 导出 JSON</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="exportJSON()"><IconDownload /> {{ t('export.exportJSON') }}</Button>
+      <Button class="btn close" @click="emit('close')">{{ t('export.close') }}</Button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import useExport from '@/hooks/useExport'
@@ -24,6 +25,7 @@ const emit = defineEmits<{
 
 const { slides, viewportRatio, title, viewportSize, theme } = storeToRefs(useSlidesStore())
 const { exportJSON } = useExport()
+const { t } = useI18n()
 
 const json = computed(() => {
   return {

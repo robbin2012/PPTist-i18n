@@ -6,7 +6,7 @@
     v-contextmenu="contextmenusThumbnails"
   >
     <div class="add-slide">
-      <div class="btn" @click="createSlide()"><IconPlus class="icon" />添加幻灯片</div>
+      <div class="btn" @click="createSlide()"><IconPlus class="icon" />{{ t('thumbnails.addSlide') }}</div>
       <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
         <template #content>
           <Templates 
@@ -41,13 +41,13 @@
               :id="`section-title-input-${element?.sectionTag?.id || 'default'}`" 
               type="text"
               :value="element?.sectionTag?.title || ''"
-              placeholder="输入节名称"
+              :placeholder="t('thumbnails.section.inputPlaceholder')"
               @blur="$event => saveSection($event)"
               @keydown.enter.stop="$event => saveSection($event)"
               v-if="editingSectionId === element?.sectionTag?.id || (index === 0 && editingSectionId === 'default')"
             >
             <span class="text" v-else>
-              <div class="text-content">{{ element?.sectionTag ? (element?.sectionTag?.title || '无标题节') : '默认节' }}</div>
+              <div class="text-content">{{ element?.sectionTag ? (element?.sectionTag?.title || t('thumbnails.section.emptyTitle')) : t('thumbnails.section.default') }}</div>
             </span>
           </div>
           <div
@@ -69,7 +69,7 @@
       </template>
     </Draggable>
 
-    <div class="page-number">幻灯片 {{slideIndex + 1}} / {{slides.length}}</div>
+    <div class="page-number">{{ t('thumbnails.pageNumber', { cur: slideIndex + 1, total: slides.length }) }}</div>
   </div>
 </template>
 
@@ -91,6 +91,7 @@ import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
 import Templates from './Templates.vue'
 import Popover from '@/components/Popover.vue'
 import Draggable from 'vuedraggable'
+import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
@@ -104,6 +105,7 @@ const { slidesLoadLimit } = useLoadSlides()
 const selectedSlidesIndex = computed(() => [..._selectedSlidesIndex.value, slideIndex.value])
 
 const presetLayoutPopoverVisible = ref(false)
+const { t } = useI18n()
 
 const hasSection = computed(() => {
   return slides.value.some(item => item.sectionTag)
@@ -262,22 +264,22 @@ const contextmenusSection = (el: HTMLElement): ContextmenuItem[] => {
 
   return [
     {
-      text: '删除节',
+      text: t('thumbnails.context.deleteSection'),
       handler: () => removeSection(sectionId),
     },
     {
-      text: '删除节和幻灯片',
+      text: t('thumbnails.context.deleteSectionWithSlides'),
       handler: () => {
         mainStore.setActiveElementIdList([])
         removeSectionSlides(sectionId)
       },
     },
     {
-      text: '删除所有节',
+      text: t('thumbnails.context.deleteAllSections'),
       handler: removeAllSection,
     },
     {
-      text: '重命名节',
+      text: t('thumbnails.context.renameSection'),
       handler: () => editSection(sectionId),
     },
   ]
@@ -288,22 +290,22 @@ const { enterScreening, enterScreeningFromStart } = useScreening()
 const contextmenusThumbnails = (): ContextmenuItem[] => {
   return [
     {
-      text: '粘贴',
+      text: t('thumbnails.context.paste'),
       subText: 'Ctrl + V',
       handler: pasteSlide,
     },
     {
-      text: '全选',
+      text: t('thumbnails.context.selectAll'),
       subText: 'Ctrl + A',
       handler: selectAllSlide,
     },
     {
-      text: '新建页面',
+      text: t('thumbnails.context.newSlide'),
       subText: 'Enter',
       handler: createSlide,
     },
     {
-      text: '幻灯片放映',
+      text: t('thumbnails.context.slideShow'),
       subText: 'F5',
       handler: enterScreeningFromStart,
     },
@@ -313,49 +315,49 @@ const contextmenusThumbnails = (): ContextmenuItem[] => {
 const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   return [
     {
-      text: '剪切',
+      text: t('thumbnails.context.cut'),
       subText: 'Ctrl + X',
       handler: cutSlide,
     },
     {
-      text: '复制',
+      text: t('thumbnails.context.copy'),
       subText: 'Ctrl + C',
       handler: copySlide,
     },
     {
-      text: '粘贴',
+      text: t('thumbnails.context.paste'),
       subText: 'Ctrl + V',
       handler: pasteSlide,
     },
     {
-      text: '全选',
+      text: t('thumbnails.context.selectAll'),
       subText: 'Ctrl + A',
       handler: selectAllSlide,
     },
     { divider: true },
     {
-      text: '新建页面',
+      text: t('thumbnails.context.newSlide'),
       subText: 'Enter',
       handler: createSlide,
     },
     {
-      text: '复制页面',
+      text: t('thumbnails.context.duplicate'),
       subText: 'Ctrl + D',
       handler: copyAndPasteSlide,
     },
     {
-      text: '删除页面',
+      text: t('thumbnails.context.delete'),
       subText: 'Delete',
       handler: () => deleteSlide(),
     },
     {
-      text: '增加节',
+      text: t('thumbnails.context.addSection'),
       handler: createSection,
       disable: !!currentSlide.value.sectionTag,
     },
     { divider: true },
     {
-      text: '从当前放映',
+      text: t('thumbnails.context.fromCurrent'),
       subText: 'Shift + F5',
       handler: enterScreening,
     },

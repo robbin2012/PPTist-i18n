@@ -38,7 +38,7 @@
           @mousedown="$event => handleSelectElement($event)"
           @touchstart="$event => handleSelectElement($event)"
         >
-          <div class="mask-tip" v-if="handleElementId === elementInfo.id" :style="{ transform: `scale(${ 1 / canvasScale })` }">双击编辑</div>
+          <div class="mask-tip" v-if="handleElementId === elementInfo.id" :style="{ transform: `scale(${ 1 / canvasScale })` }">{{ t('element.doubleClickToEdit') }}</div>
         </div>
       </div>
     </div>
@@ -54,6 +54,7 @@ import type { ContextmenuItem } from '@/components/Contextmenu/types'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 
 import EditableTable from './EditableTable.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   elementInfo: PPTTableElement
@@ -68,6 +69,8 @@ const { canvasScale, handleElementId, isScaling } = storeToRefs(mainStore)
 const elementRef = useTemplateRef<HTMLElement>('elementRef')
 
 const { addHistorySnapshot } = useHistorySnapshot()
+
+const { t } = useI18n()
 
 const handleSelectElement = (e: MouseEvent | TouchEvent) => {
   if (props.elementInfo.lock) return

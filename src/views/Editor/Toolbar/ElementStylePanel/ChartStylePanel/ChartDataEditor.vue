@@ -68,7 +68,7 @@
 
     <div class="btns">
       <div class="left">
-        图表类型：{{ CHART_TYPE_MAP[chartType] }}
+        {{ t('toolbar.chartData.type') }} {{ CHART_TYPE_MAP[chartType] }}
         <Popover trigger="click" placement="top" v-model:value="chartTypeSelectVisible">
           <template #content>
             <PopoverMenuItem
@@ -78,13 +78,13 @@
               @click="chartType = item; chartTypeSelectVisible = false"
             >{{CHART_TYPE_MAP[item]}}</PopoverMenuItem>
           </template>
-          <span class="change">点击更换</span>
+          <span class="change">{{ t('common.change') }}</span>
         </Popover>
       </div>
       <div class="right">
-        <Button class="btn" @click="closeEditor()">取消</Button>
-        <Button class="btn" @click="clear()">清空数据</Button>
-        <Button type="primary" class="btn" @click="getTableData()">确认</Button>
+        <Button class="btn" @click="closeEditor()">{{ t('common.cancel') }}</Button>
+        <Button class="btn" @click="clear()">{{ t('toolbar.chartData.clear') }}</Button>
+        <Button type="primary" class="btn" @click="getTableData()">{{ t('common.confirm') }}</Button>
       </div>
     </div>
   </div>
@@ -99,6 +99,7 @@ import { pasteCustomClipboardString, pasteExcelClipboardString, pasteHTMLTableCl
 import Button from '@/components/Button.vue'
 import Popover from '@/components/Popover.vue'
 import PopoverMenuItem from '@/components/PopoverMenuItem.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   type: ChartType
@@ -206,13 +207,13 @@ const getTableData = () => {
 
   // 第一行为系列名，第一列为项目名，实际数据从第二行第二列开始
   for (let rowIndex = 1; rowIndex < row; rowIndex++) {
-    let labelsItem = `类别${rowIndex}`
+    let labelsItem = `${t('toolbar.chartData.category')}${rowIndex}`
     const labelInputRef = document.querySelector(`#cell-${rowIndex}-0`) as HTMLInputElement
     if (labelInputRef && labelInputRef.value) labelsItem = labelInputRef.value
     labels.push(labelsItem)
   }
   for (let colIndex = 1; colIndex < col; colIndex++) {
-    let legendsItem = `系列${colIndex}`
+    let legendsItem = `${t('toolbar.chartData.series')}${colIndex}`
     const labelInputRef = document.querySelector(`#cell-0-${colIndex}`) as HTMLInputElement
     if (labelInputRef && labelInputRef.value) legendsItem = labelInputRef.value
     legends.push(legendsItem)
@@ -564,3 +565,4 @@ table {
   }
 }
 </style>
+const { t } = useI18n()

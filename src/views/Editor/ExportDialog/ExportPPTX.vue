@@ -2,18 +2,18 @@
   <div class="export-pptx-dialog">
     <div class="configs">
       <div class="row">
-        <div class="title">导出范围：</div>
+        <div class="title">{{ t('export.scope') }}</div>
         <RadioGroup
           class="config-item"
           v-model:value="rangeType"
         >
-          <RadioButton style="width: 33.33%;" value="all">全部</RadioButton>
-          <RadioButton style="width: 33.33%;" value="current">当前页</RadioButton>
-          <RadioButton style="width: 33.33%;" value="custom">自定义</RadioButton>
+          <RadioButton style="width: 33.33%;" value="all">{{ t('export.scopeAll') }}</RadioButton>
+          <RadioButton style="width: 33.33%;" value="current">{{ t('export.scopeCurrent') }}</RadioButton>
+          <RadioButton style="width: 33.33%;" value="custom">{{ t('export.scopeCustom') }}</RadioButton>
         </RadioGroup>
       </div>
       <div class="row" v-if="rangeType === 'custom'">
-        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">自定义范围：</div>
+        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">{{ t('export.customRange') }}</div>
         <Slider
           class="config-item"
           range
@@ -24,33 +24,32 @@
         />
       </div>
       <div class="row">
-        <div class="title">忽略音频/视频：</div>
+        <div class="title">{{ t('export.ignoreMedia') }}</div>
         <div class="config-item">
-          <Switch v-model:value="ignoreMedia" v-tooltip="'导出时默认忽略音视频，若您的幻灯片中存在音视频元素，且希望将其导出到PPTX文件中，可选择关闭【忽略音视频】选项，但要注意这将会大幅增加导出用时。'" />
+          <Switch v-model:value="ignoreMedia" v-tooltip="t('export.ignoreMediaTip')" />
         </div>
       </div>
       <div class="row">
-        <div class="title">覆盖默认母版：</div>
+        <div class="title">{{ t('export.masterOverwrite') }}</div>
         <div class="config-item">
           <Switch v-model:value="masterOverwrite" />
         </div>
       </div>
 
-      <div class="tip" v-if="!ignoreMedia">
-        提示：1. 支持导出格式：avi、mp4、mov、wmv、mp3、wav；2. 跨域资源无法导出。
-      </div>
+      <div class="tip" v-if="!ignoreMedia">{{ t('export.ignoreMediaTip') }}</div>
     </div>
     <div class="btns">
-      <Button class="btn export" type="primary" @click="exportPPTX(selectedSlides, masterOverwrite, ignoreMedia)"><IconDownload /> 导出 PPTX</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="exportPPTX(selectedSlides, masterOverwrite, ignoreMedia)"><IconDownload /> {{ t('export.exportPPTX') }}</Button>
+      <Button class="btn close" @click="emit('close')">{{ t('export.close') }}</Button>
     </div>
 
-    <FullscreenSpin :loading="exporting" tip="正在导出..." />
+    <FullscreenSpin :loading="exporting" :tip="t('export.exporting')" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import useExport from '@/hooks/useExport'
@@ -69,6 +68,7 @@ const emit = defineEmits<{
 const { slides, currentSlide } = storeToRefs(useSlidesStore())
 
 const { exportPPTX, exporting } = useExport()
+const { t } = useI18n()
 
 const rangeType = ref<'all' | 'current' | 'custom'>('all')
 const range = ref<[number, number]>([1, slides.value.length])

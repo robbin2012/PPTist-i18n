@@ -1,10 +1,10 @@
 <template>
   <div class="mobile-editor-header">
     <div class="history">
-      <div class="history-item" :class="{ 'disable': !canUndo }" @click.stop="undo()"><IconBack /> 撤销</div>
-      <div class="history-item" :class="{ 'disable': !canRedo }" @click.stop="redo()"><IconNext /> 重做</div>
+      <div class="history-item" :class="{ 'disable': !canUndo }" @click.stop="undo()"><IconBack /> {{ t('common.undo') }}</div>
+      <div class="history-item" :class="{ 'disable': !canRedo }" @click.stop="redo()"><IconNext /> {{ t('common.redo') }}</div>
     </div>
-    <div class="back" @click="changeMode('preview')"><IconLogout /> 退出编辑</div>
+    <div class="back" @click="changeMode('preview')"><IconLogout /> {{ t('mobile.menu.exitEdit') }}</div>
   </div>
 </template>
 
@@ -13,6 +13,7 @@ import { storeToRefs } from 'pinia'
 import { useSnapshotStore } from '@/store'
 import type { Mode } from '@/types/mobile'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   changeMode: (mode: Mode) => void
@@ -20,6 +21,7 @@ defineProps<{
 
 const { canUndo, canRedo } = storeToRefs(useSnapshotStore())
 const { redo, undo } = useHistorySnapshot()
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>

@@ -15,6 +15,7 @@
   "author": "pipipi_pikachu@163.com",
   "homepage": "https://github.com/pipipi-pikachu/PPTist",
   "dependencies": {
+    "vue-i18n": "^9.13.1",
     "@icon-park/vue-next": "^1.4.2",
     "animate.css": "^4.1.1",
     "axios": "^1.7.9",
@@ -72,5 +73,6 @@
     "typescript": "~5.3.0",
     "vite": "^5.3.5",
     "vue-tsc": "^2.0.29"
-  }
+  },
+  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
 }

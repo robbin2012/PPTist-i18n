@@ -1,7 +1,7 @@
 <template>
   <div class="shape-style-panel">
     <div class="title">
-      <span>点击替换形状</span>
+      <span>{{ t('toolbar.shape.replaceShape') }}</span>
       <IconDown />
     </div>
     <div class="shape-pool">
@@ -24,9 +24,9 @@
         :value="fillType" 
         @update:value="value => updateFillType(value as 'fill' | 'gradient' | 'pattern')"
         :options="[
-          { label: '纯色填充', value: 'fill' },
-          { label: '渐变填充', value: 'gradient' },
-          { label: '图片填充', value: 'pattern' },
+          { label: t('toolbar.shape.fillTypes.fill'), value: 'fill' },
+          { label: t('toolbar.shape.fillTypes.gradient'), value: 'gradient' },
+          { label: t('toolbar.shape.fillTypes.pattern'), value: 'pattern' },
         ]"
       />
       <div style="width: 10px;" v-if="fillType !== 'pattern'"></div>
@@ -45,8 +45,8 @@
         @update:value="value => updateGradient({ type: value as GradientType })"
         v-else-if="fillType === 'gradient'"
         :options="[
-          { label: '线性渐变', value: 'linear' },
-          { label: '径向渐变', value: 'radial' },
+          { label: t('toolbar.shape.gradientType.linear'), value: 'linear' },
+          { label: t('toolbar.shape.gradientType.radial'), value: 'radial' },
         ]"
       />
     </div>
@@ -61,7 +61,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">当前色块：</div>
+        <div style="width: 40%;">{{ t('toolbar.shape.currentColor') }}：</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker
@@ -73,7 +73,7 @@
         </Popover>
       </div>
       <div class="row" v-if="gradient.type === 'linear'">
-        <div style="width: 40%;">渐变角度：</div>
+        <div style="width: 40%;">{{ t('toolbar.shape.gradientAngle') }}：</div>
         <Slider
           style="width: 60%;"
           :min="0"
@@ -111,9 +111,9 @@
         :value="textAlign"
         @update:value="value => updateTextAlign(value as 'top' | 'middle' | 'bottom')"
       >
-        <RadioButton value="top" v-tooltip="'顶对齐'" style="flex: 1;"><IconAlignTextTopOne /></RadioButton>
-        <RadioButton value="middle" v-tooltip="'居中'" style="flex: 1;"><IconAlignTextMiddleOne /></RadioButton>
-        <RadioButton value="bottom" v-tooltip="'底对齐'" style="flex: 1;"><IconAlignTextBottomOne /></RadioButton>
+        <RadioButton value="top" v-tooltip="t('toolbar.shape.alignTop')" style="flex: 1;"><IconAlignTextTopOne /></RadioButton>
+        <RadioButton value="middle" v-tooltip="t('toolbar.shape.alignMiddle')" style="flex: 1;"><IconAlignTextMiddleOne /></RadioButton>
+        <RadioButton value="bottom" v-tooltip="t('toolbar.shape.alignBottom')" style="flex: 1;"><IconAlignTextBottomOne /></RadioButton>
       </RadioGroup>
 
       <Divider />
@@ -128,12 +128,12 @@
 
     <div class="row">
       <CheckboxButton
-        v-tooltip="'双击连续使用'"
+        v-tooltip="t('toolbar.shape.doubleClickToKeep')"
         style="flex: 1;"
         :checked="!!shapeFormatPainter"
         @click="toggleShapeFormatPainter()"
         @dblclick="toggleShapeFormatPainter(true)"
-      ><IconFormatBrush /> 形状格式刷</CheckboxButton>
+      ><IconFormatBrush /> {{ t('toolbar.shape.formatPainter') }}</CheckboxButton>
     </div>
   </div>
 </template>
@@ -166,10 +166,12 @@ import Select from '@/components/Select.vue'
 import Popover from '@/components/Popover.vue'
 import GradientBar from '@/components/GradientBar.vue'
 import FileInput from '@/components/FileInput.vue'
+import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
 const { handleElement, handleElementId, shapeFormatPainter } = storeToRefs(mainStore)
+const { t } = useI18n()
 
 const handleShapeElement = handleElement as Ref<PPTShapeElement>
 

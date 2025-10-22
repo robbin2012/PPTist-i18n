@@ -46,7 +46,7 @@
 
     <template v-if="toolVisible">
       <div class="header">
-        <div class="back" @click="changeMode('preview')"><IconLogout /> 退出播放</div>
+        <div class="back" @click="changeMode('preview')"><IconLogout /> {{ t('mobile.menu.exitPlay') }}</div>
       </div>
       <MobileThumbnails class="thumbnails" />
     </template>
@@ -62,6 +62,7 @@ import useSlidesWithTurningMode from '../Screen/hooks/useSlidesWithTurningMode'
 
 import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
 import MobileThumbnails from './MobileThumbnails.vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   changeMode: (mode: Mode) => void
@@ -73,6 +74,7 @@ const { slides, slideIndex, viewportRatio } = storeToRefs(slidesStore)
 const { slidesWithTurningMode } = useSlidesWithTurningMode()
 
 const toolVisible = ref(false)
+const { t } = useI18n()
 
 const playerSize = ref({ width: 0, height: 0 })
 

@@ -43,12 +43,12 @@
           </template>
         </template>
         <Button class="element-animation-btn" @click="handleAnimationId = ''">
-          <IconEffects /> 添加动画
+          <IconEffects /> {{ t('animation.add') }}
         </Button>
       </Popover>
     </div>
 
-    <div class="tip" v-else><IconClick style="margin-right: 5px;" /> 选中画布中的元素添加动画</div>
+    <div class="tip" v-else><IconClick style="margin-right: 5px;" /> {{ t('animation.selectToAdd') }}</div>
     
     <Divider />
 
@@ -68,8 +68,8 @@
             <div class="index">{{element.index}}</div>
             <div class="text">【{{element.elType}}】{{element.animationEffect}}</div>
             <div class="handler">
-              <IconPlayOne class="handler-btn" v-tooltip="'预览'" @click="runAnimation(element.elId, element.effect, element.duration)" />
-              <IconCloseSmall class="handler-btn" v-tooltip="'删除'" @click="deleteAnimation(element.id)" />
+              <IconPlayOne class="handler-btn" v-tooltip="t('animation.preview')" @click="runAnimation(element.elId, element.effect, element.duration)" />
+              <IconCloseSmall class="handler-btn" v-tooltip="t('thumbnails.context.delete')" @click="deleteAnimation(element.id)" />
             </div>
           </div>
 
@@ -77,7 +77,7 @@
             <Divider :margin="16" />
 
             <div class="config-item">
-              <div style="width: 35%;">持续时长：</div>
+              <div style="width: 35%;">{{ t('animation.duration') }}</div>
               <NumberInput 
                 :min="500"
                 :max="3000"
@@ -88,20 +88,20 @@
               />
             </div>
             <div class="config-item">
-              <div style="width: 35%;">触发方式：</div>
+              <div style="width: 35%;">{{ t('animation.trigger') }}</div>
               <Select
                 :value="element.trigger"
                 @update:value="value => updateElementAnimationTrigger(element.id, value as AnimationTrigger)"
                 style="width: 65%;"
                 :options="[
-                  { label: '主动触发', value: 'click' },
-                  { label: '与上一动画同时', value: 'meantime' },
-                  { label: '上一动画之后', value: 'auto' },
+                  { label: t('animation.triggers.click'), value: 'click' },
+                  { label: t('animation.triggers.meantime'), value: 'meantime' },
+                  { label: t('animation.triggers.auto'), value: 'auto' },
                 ]"
               />
             </div>
             <div class="config-item">
-              <Button style="width: 100%;" @click="openAnimationPool(element.id)"><IconSwitch /> 更换动画</Button>
+              <Button style="width: 100%;" @click="openAnimationPool(element.id)"><IconSwitch /> {{ t('animation.change') }}</Button>
             </div>
           </div>
         </div>
@@ -111,7 +111,7 @@
     <template v-if="animationSequence.length >= 2">
       <Divider />
       <Button @click="runAllAnimation()">
-        {{ animateIn ? '停止预览' : '预览全部'}}
+        {{ animateIn ? t('animation.stopPreview') : t('animation.previewAll') }}
       </Button>
     </template>
   </div>
@@ -131,7 +131,6 @@ import {
   ANIMATION_DEFAULT_TRIGGER,
   ANIMATION_CLASS_PREFIX,
 } from '@/configs/animation'
-import { ELEMENT_TYPE_ZH } from '@/configs/element'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 
 import Tabs from '@/components/Tabs.vue'
@@ -141,6 +140,7 @@ import Draggable from 'vuedraggable'
 import NumberInput from '@/components/NumberInput.vue'
 import Select from '@/components/Select.vue'
 import Popover from '@/components/Popover.vue'
+import { useI18n } from 'vue-i18n'
 
 const animationEffects: { [key: string]: string } = {}
 for (const effect of ENTER_ANIMATIONS) {
@@ -171,10 +171,11 @@ const slidesStore = useSlidesStore()
 const { handleElement, handleElementId } = storeToRefs(useMainStore())
 const { currentSlide, formatedAnimations, currentSlideAnimations } = storeToRefs(slidesStore)
 
+const { t } = useI18n()
 const tabs: TabItem[] = [
-  { key: 'in', label: '入场', color: '#68a490' },
-  { key: 'out', label: '退场', color: '#d86344' },
-  { key: 'attention', label: '强调', color: '#e8b76a' },
+  { key: 'in', label: t('animation.tabs.in'), color: '#68a490' },
+  { key: 'out', label: t('animation.tabs.out'), color: '#d86344' },
+  { key: 'attention', label: t('animation.tabs.attention'), color: '#e8b76a' },
 ]
 const activeTab = ref('in')
 const animateIn = ref(false)
@@ -197,7 +198,7 @@ const animationSequence = computed(() => {
       const el = currentSlide.value.elements.find(el => el.id === animation.elId)
       if (!el) continue
 
-      const elType = ELEMENT_TYPE_ZH[el.type]
+      const elType = t(`elements.type.${el.type}`)
       const animationEffect = animationEffects[animation.effect]
       animationSequence.push({
         ...animation,

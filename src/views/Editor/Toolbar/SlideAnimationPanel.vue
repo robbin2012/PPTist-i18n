@@ -12,7 +12,7 @@
         <div class="animation-text">{{item.label}}</div>
       </div>
     </div>
-    <Button style="width: 100%;" @click="applyAllSlide()"><IconCheck /> 应用到全部</Button>
+    <Button style="width: 100%;" @click="applyAllSlide()"><IconCheck /> {{ t('common.applyAll') }}</Button>
   </div>
 </template>
 
@@ -24,14 +24,19 @@ import type { TurningMode } from '@/types/slides'
 import { SLIDE_ANIMATIONS } from '@/configs/animation'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import message from '@/utils/message'
+import { useI18n } from 'vue-i18n'
 import Button from '@/components/Button.vue'
 
 const slidesStore = useSlidesStore()
 const { slides, currentSlide } = storeToRefs(slidesStore)
+const { t } = useI18n()
 
 const currentTurningMode = computed(() => currentSlide.value.turningMode || 'slideY')
 
-const animations = SLIDE_ANIMATIONS
+const animations = computed(() => SLIDE_ANIMATIONS.map(item => ({
+  ...item,
+  label: t(`toolbar.transition.labels.${item.value}`),
+})))
 
 const { addHistorySnapshot } = useHistorySnapshot()
 
@@ -51,7 +56,7 @@ const applyAllSlide = () => {
     }
   })
   slidesStore.setSlides(newSlides)
-  message.success('已应用到全部')
+  message.success(t('common.appliedAll'))
   addHistorySnapshot()
 }
 </script>

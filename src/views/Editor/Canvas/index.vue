@@ -126,6 +126,7 @@ import useScaleCanvas from '@/hooks/useScaleCanvas'
 import useScreening from '@/hooks/useScreening'
 import useSlideHandler from '@/hooks/useSlideHandler'
 import useCreateElement from '@/hooks/useCreateElement'
+import { useI18n } from 'vue-i18n'
 
 import EditableElement from './EditableElement.vue'
 import MouseSelection from './MouseSelection.vue'
@@ -287,56 +288,57 @@ const insertCustomShape = (data: CreateCustomShapeData) => {
   mainStore.setCreatingCustomShapeState(false)
 }
 
+const { t } = useI18n()
 const contextmenus = (): ContextmenuItem[] => {
   return [
     {
-      text: '粘贴',
+      text: t('canvas.context.paste'),
       subText: 'Ctrl + V',
       handler: pasteElement,
     },
     {
-      text: '全选',
+      text: t('canvas.context.selectAll'),
       subText: 'Ctrl + A',
       handler: selectAllElements,
     },
     {
-      text: '标尺',
+      text: t('canvas.context.ruler'),
       subText: showRuler.value ? '√' : '',
       handler: toggleRuler,
     },
     {
-      text: '网格线',
+      text: t('canvas.context.grid'),
       handler: () => mainStore.setGridLineSize(gridLineSize.value ? 0 : 50),
       children: [
         {
-          text: '无',
+          text: t('canvas.context.gridNone'),
           subText: gridLineSize.value === 0 ? '√' : '',
           handler: () => mainStore.setGridLineSize(0),
         },
         {
-          text: '小',
+          text: t('canvas.context.gridSmall'),
           subText: gridLineSize.value === 25 ? '√' : '',
           handler: () => mainStore.setGridLineSize(25),
         },
         {
-          text: '中',
+          text: t('canvas.context.gridMedium'),
           subText: gridLineSize.value === 50 ? '√' : '',
           handler: () => mainStore.setGridLineSize(50),
         },
         {
-          text: '大',
+          text: t('canvas.context.gridLarge'),
           subText: gridLineSize.value === 100 ? '√' : '',
           handler: () => mainStore.setGridLineSize(100),
         },
       ],
     },
     {
-      text: '重置当前页',
+      text: t('canvas.context.resetSlide'),
       handler: deleteAllElements,
     },
     { divider: true },
     {
-      text: '幻灯片放映',
+      text: t('thumbnails.context.slideShow'),
       subText: 'F5',
       handler: enterScreeningFromStart,
     },

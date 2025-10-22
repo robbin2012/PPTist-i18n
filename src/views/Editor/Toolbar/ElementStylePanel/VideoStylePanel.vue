@@ -1,6 +1,6 @@
 <template>
   <div class="video-style-panel">
-    <div class="title">视频预览封面</div>
+    <div class="title">{{ t('toolbar.video.posterTitle') }}</div>
     <div class="background-image-wrapper">
       <FileInput @change="files => setVideoPoster(files)">
         <div class="background-image">
@@ -11,13 +11,13 @@
       </FileInput>
     </div>
     <div class="row" v-if="handleVideoElement.poster">
-      <Button style="flex: 1;" @click="updateVideo({ poster: '' })"><IconUndo /> 重置封面</Button>
+      <Button style="flex: 1;" @click="updateVideo({ poster: '' })"><IconUndo /> {{ t('toolbar.video.resetPoster') }}</Button>
     </div>
 
     <Divider />
 
     <div class="row switch-row">
-      <div style="width: 40%;">自动播放：</div>
+      <div style="width: 40%;">{{ t('toolbar.video.autoplay') }}：</div>
       <div class="switch-wrapper" style="width: 60%;">
         <Switch 
           :value="handleVideoElement.autoplay" 
@@ -40,6 +40,7 @@ import FileInput from '@/components/FileInput.vue'
 import Button from '@/components/Button.vue'
 import Switch from '@/components/Switch.vue'
 import Divider from '@/components/Divider.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const { handleElement } = storeToRefs(useMainStore())
@@ -47,6 +48,7 @@ const { handleElement } = storeToRefs(useMainStore())
 const handleVideoElement = handleElement as Ref<PPTVideoElement>
 
 const { addHistorySnapshot } = useHistorySnapshot()
+const { t } = useI18n()
 
 const updateVideo = (props: Partial<PPTVideoElement>) => {
   if (!handleElement.value) return

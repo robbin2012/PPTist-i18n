@@ -1,14 +1,14 @@
 <template>
   <div class="element-shadow">
     <div class="row">
-      <div style="width: 40%;">启用阴影：</div>
+      <div style="width: 40%;">{{ t('toolbar.shadow.enable') }}：</div>
       <div class="switch-wrapper" style="width: 60%;">
         <Switch :value="hasShadow" @update:value="value => toggleShadow(value)" />
       </div>
     </div>
     <template v-if="hasShadow && shadow">
       <div class="row">
-        <div style="width: 40%;">水平阴影：</div>
+        <div style="width: 40%;">{{ t('toolbar.shadow.h') }}：</div>
         <Slider 
           style="width: 60%;"
           :min="-10" 
@@ -19,7 +19,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">垂直阴影：</div>
+        <div style="width: 40%;">{{ t('toolbar.shadow.v') }}：</div>
         <Slider
           style="width: 60%;"
           :min="-10"
@@ -30,7 +30,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">模糊距离：</div>
+        <div style="width: 40%;">{{ t('toolbar.shadow.blur') }}：</div>
         <Slider
           style="width: 60%;"
           :min="1"
@@ -41,7 +41,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">阴影颜色：</div>
+        <div style="width: 40%;">{{ t('toolbar.shadow.color') }}：</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker
@@ -68,6 +68,7 @@ import ColorPicker from '@/components/ColorPicker/index.vue'
 import Switch from '@/components/Switch.vue'
 import Slider from '@/components/Slider.vue'
 import Popover from '@/components/Popover.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const { theme } = storeToRefs(slidesStore)
@@ -75,6 +76,7 @@ const { handleElement } = storeToRefs(useMainStore())
 
 const shadow = ref<PPTElementShadow>()
 const hasShadow = ref(false)
+const { t } = useI18n()
 
 watch(handleElement, () => {
   if (!handleElement.value) return

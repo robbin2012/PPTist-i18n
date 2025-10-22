@@ -10,9 +10,9 @@
       </div>
     </div>
     <div class="menu">
-      <div class="menu-item" @click="changeMode('editor')"><IconEdit class="icon" /> 编辑</div>
+      <div class="menu-item" @click="changeMode('editor')"><IconEdit class="icon" /> {{ t('mobile.menu.edit') }}</div>
       <Divider type="vertical" style="height: 30px;" />
-      <div class="menu-item" @click="changeMode('player')"><IconFullScreenPlay class="icon" /> 播放</div>
+      <div class="menu-item" @click="changeMode('player')"><IconFullScreenPlay class="icon" /> {{ t('mobile.menu.play') }}</div>
       <Divider type="vertical" style="height: 30px;" />
       <div class="menu-item ai" @click="openAIPPTDialog()">AIPPT</div>
     </div>
@@ -41,6 +41,7 @@ import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
 import Divider from '@/components/Divider.vue'
 import Modal from '@/components/Modal.vue'
 import AIPPTDialog from '../Editor/AIPPTDialog.vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   changeMode: (mode: Mode) => void
@@ -50,6 +51,7 @@ const { slides } = storeToRefs(useSlidesStore())
 const { slidesLoadLimit } = useLoadSlides()
 const mainStore = useMainStore()
 const { showAIPPTDialog } = storeToRefs(mainStore)
+const { t } = useI18n()
 
 const openAIPPTDialog = () => mainStore.setAIPPTDialogState(true)
 const closeAIPPTDialog = () => mainStore.setAIPPTDialogState(false)

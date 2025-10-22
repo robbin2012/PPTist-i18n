@@ -1,0 +1,16 @@
+{
+  "name": "pptist-ai-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal streaming backend for PPTist AIPPT and AI writing demos",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
+

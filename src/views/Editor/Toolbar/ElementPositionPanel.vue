@@ -1,27 +1,27 @@
 <template>
   <div class="element-positopn-panel">
-    <div class="title">层级：</div>
+    <div class="title">{{ t('toolbar.layer.title') }}</div>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)"><IconSendToBack /> 置顶</Button>
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)"><IconBringToFrontOne /> 置底</Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)"><IconSendToBack /> {{ t('toolbar.layer.toTop') }}</Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)"><IconBringToFrontOne /> {{ t('toolbar.layer.toBottom') }}</Button>
     </ButtonGroup>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)"><IconBringToFront /> 上移</Button>
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.DOWN)"><IconSentToBack /> 下移</Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)"><IconBringToFront /> {{ t('toolbar.layer.up') }}</Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.DOWN)"><IconSentToBack /> {{ t('toolbar.layer.down') }}</Button>
     </ButtonGroup>
 
     <Divider />
     
-    <div class="title">对齐：</div>
+    <div class="title">{{ t('toolbar.position.title') }}</div>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" v-tooltip="'左对齐'" @click="alignElementToCanvas(ElementAlignCommands.LEFT)"><IconAlignLeft /></Button>
-      <Button style="flex: 1;" v-tooltip="'水平居中'" @click="alignElementToCanvas(ElementAlignCommands.HORIZONTAL)"><IconAlignVertically /></Button>
-      <Button style="flex: 1;" v-tooltip="'右对齐'" @click="alignElementToCanvas(ElementAlignCommands.RIGHT)"><IconAlignRight /></Button>
+      <Button style="flex: 1;" v-tooltip="t('toolbar.position.alignLeft')" @click="alignElementToCanvas(ElementAlignCommands.LEFT)"><IconAlignLeft /></Button>
+      <Button style="flex: 1;" v-tooltip="t('toolbar.position.alignHCenter')" @click="alignElementToCanvas(ElementAlignCommands.HORIZONTAL)"><IconAlignVertically /></Button>
+      <Button style="flex: 1;" v-tooltip="t('toolbar.position.alignRight')" @click="alignElementToCanvas(ElementAlignCommands.RIGHT)"><IconAlignRight /></Button>
     </ButtonGroup>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" v-tooltip="'上对齐'" @click="alignElementToCanvas(ElementAlignCommands.TOP)"><IconAlignTop /></Button>
-      <Button style="flex: 1;" v-tooltip="'垂直居中'" @click="alignElementToCanvas(ElementAlignCommands.VERTICAL)"><IconAlignHorizontally /></Button>
-      <Button style="flex: 1;" v-tooltip="'下对齐'" @click="alignElementToCanvas(ElementAlignCommands.BOTTOM)"><IconAlignBottom /></Button>
+      <Button style="flex: 1;" v-tooltip="t('toolbar.position.alignTop')" @click="alignElementToCanvas(ElementAlignCommands.TOP)"><IconAlignTop /></Button>
+      <Button style="flex: 1;" v-tooltip="t('toolbar.position.alignVCenter')" @click="alignElementToCanvas(ElementAlignCommands.VERTICAL)"><IconAlignHorizontally /></Button>
+      <Button style="flex: 1;" v-tooltip="t('toolbar.position.alignBottom')" @click="alignElementToCanvas(ElementAlignCommands.BOTTOM)"><IconAlignBottom /></Button>
     </ButtonGroup>
 
     <Divider />
@@ -35,7 +35,7 @@
         style="width: 45%;"
       >
         <template #prefix>
-          水平：
+          {{ t('toolbar.numeric.horizontal') }}
         </template>
       </NumberInput>
       <div style="width: 10%;"></div>
@@ -47,7 +47,7 @@
         style="width: 45%;"
       >
         <template #prefix>
-          垂直：
+          {{ t('toolbar.numeric.vertical') }}
         </template>
       </NumberInput>
     </div>
@@ -64,12 +64,12 @@
           style="width: 45%;"
         >
           <template #prefix>
-            宽度：
+            {{ t('toolbar.numeric.width') }}
           </template>
         </NumberInput>
         <template v-if="['image', 'shape', 'audio'].includes(handleElement!.type)">
-          <IconLock style="width: 10%;" class="icon-btn active" v-tooltip="'解除宽高比锁定'" @click="updateFixedRatio(false)" v-if="fixedRatio" />
-          <IconUnlock style="width: 10%;" class="icon-btn" v-tooltip="'宽高比锁定'" @click="updateFixedRatio(true)" v-else />
+          <IconLock style="width: 10%;" class="icon-btn active" v-tooltip="t('toolbar.ratio.unlock')" @click="updateFixedRatio(false)" v-if="fixedRatio" />
+          <IconUnlock style="width: 10%;" class="icon-btn" v-tooltip="t('toolbar.ratio.lock')" @click="updateFixedRatio(true)" v-else />
         </template>
         <div style="width: 10%;" v-else></div>
         <NumberInput 
@@ -82,7 +82,7 @@
           style="width: 45%;"
         >
           <template #prefix>
-            高度：
+            {{ t('toolbar.numeric.height') }}
           </template>
         </NumberInput>
       </div>
@@ -101,7 +101,7 @@
           style="width: 45%;" 
         >
           <template #prefix>
-            旋转：
+            {{ t('toolbar.numeric.rotate') }}
           </template>
         </NumberInput>
         <div style="width: 7%;"></div>
@@ -128,9 +128,11 @@ import Divider from '@/components/Divider.vue'
 import Button from '@/components/Button.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 import NumberInput from '@/components/NumberInput.vue'
+import { useI18n } from 'vue-i18n'
 
 const slidesStore = useSlidesStore()
 const { handleElement, handleElementId } = storeToRefs(useMainStore())
+const { t } = useI18n()
 
 const left = ref(0)
 const top = ref(0)

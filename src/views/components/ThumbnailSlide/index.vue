@@ -22,7 +22,7 @@
         :elementIndex="index + 1"
       />
     </div>
-    <div class="placeholder" v-else>加载中 ...</div>
+    <div class="placeholder" v-else>{{ t('common.loading') }}</div>
   </div>
 </template>
 
@@ -33,6 +33,7 @@ import { useSlidesStore } from '@/store'
 import type { Slide } from '@/types/slides'
 import { injectKeySlideScale } from '@/types/injectKey'
 import useSlideBackgroundStyle from '@/hooks/useSlideBackgroundStyle'
+import { useI18n } from 'vue-i18n'
 
 import ThumbnailElement from './ThumbnailElement.vue'
 
@@ -51,6 +52,7 @@ const { backgroundStyle } = useSlideBackgroundStyle(background)
 
 const scale = computed(() => props.size / viewportSize.value)
 provide(injectKeySlideScale, scale)
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>
