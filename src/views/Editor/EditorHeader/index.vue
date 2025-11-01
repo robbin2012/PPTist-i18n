@@ -178,7 +178,7 @@ const openAIPPTDialog = () => {
   background-color: $panelBackground;
   user-select: none;
   border-bottom: 1px solid $borderColor;
-  box-shadow: $panelShadow;
+  box-shadow: none; // 去掉顶部菜单下方阴影，保留分隔线
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
