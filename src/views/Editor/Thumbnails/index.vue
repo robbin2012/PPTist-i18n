@@ -74,9 +74,7 @@
 
     <div class="page-footer">
       <span class="count" v-if="!thumbnailsCollapsed">{{ slideIndex + 1 }}/{{ slides.length }}</span>
-      <span class="collapse-circle" @click="toggleThumbnailsCollapse">
-        <IconRight class="collapse-icon" :class="{ 'collapsed': thumbnailsCollapsed }" />
-      </span>
+      <!-- 折叠按钮移动到主布局中，这里移除原有按钮 -->
     </div>
   </div>
 </template>
@@ -372,10 +370,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   ]
 }
 
-// 切换缩略图栏折叠状态
-const toggleThumbnailsCollapse = () => {
-  mainStore.setThumbnailsCollapsed(!thumbnailsCollapsed.value)
-}
+// 折叠按钮迁移到主布局（Editor/index.vue）中，这里保留占位逻辑（无需实现）
 </script>
 
 <style lang="scss" scoped>
