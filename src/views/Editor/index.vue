@@ -141,7 +141,8 @@ usePasteEvent()
   .center-body {
     border-radius: $borderRadiusMedium;
     overflow: hidden;
-    box-shadow: $panelShadow;
+    box-shadow: none; // 去掉阴影
+    border: 0; // 去掉边框
   }
 }
 .layout-content-right {
