@@ -16,6 +16,8 @@ export interface MainState {
   canvasScale: number
   canvasDragged: boolean
   thumbnailsFocus: boolean
+  thumbnailsCollapsed: boolean
+  headerCollapsed: boolean
   editorAreaFocus: boolean
   disableHotkeys: boolean
   gridLineSize: number
@@ -53,6 +55,8 @@ export const useMainStore = defineStore('main', {
     canvasScale: 1, // 画布缩放比例（基于宽度{{slidesStore.viewportSize}}像素）
     canvasDragged: false, // 画布被拖拽移动
     thumbnailsFocus: false, // 左侧导航缩略图区域聚焦
+    thumbnailsCollapsed: false, // 左侧缩略图栏折叠状态
+    headerCollapsed: false, // 顶部菜单栏折叠状态
     editorAreaFocus: false, //  编辑区域聚焦
     disableHotkeys: false, // 禁用快捷键
     gridLineSize: 0, // 网格线尺寸（0表示不显示网格线）
@@ -60,7 +64,7 @@ export const useMainStore = defineStore('main', {
     creatingElement: null, // 正在插入的元素信息，需要通过绘制插入的元素（文字、形状、线条）
     creatingCustomShape: false, // 正在绘制任意多边形
     toolbarState: ToolbarStates.SLIDE_DESIGN, // 右侧工具栏状态
-    clipingImageElementId: '', // 当前正在裁剪的图片ID  
+    clipingImageElementId: '', // 当前正在裁剪的图片ID
     richTextAttrs: defaultRichTextAttrs, // 富文本状态
     selectedTableCells: [], // 选中的表格单元格
     isScaling: false, // 正在进行元素缩放
@@ -128,7 +132,15 @@ export const useMainStore = defineStore('main', {
     setThumbnailsFocus(isFocus: boolean) {
       this.thumbnailsFocus = isFocus
     },
-  
+
+    setThumbnailsCollapsed(isCollapsed: boolean) {
+      this.thumbnailsCollapsed = isCollapsed
+    },
+
+    setHeaderCollapsed(isCollapsed: boolean) {
+      this.headerCollapsed = isCollapsed
+    },
+
     setEditorareaFocus(isFocus: boolean) {
       this.editorAreaFocus = isFocus
     },

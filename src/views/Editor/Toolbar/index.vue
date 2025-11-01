@@ -1,9 +1,9 @@
 <template>
   <div class="toolbar">
-    <Tabs 
-      :tabs="currentTabs" 
-      :value="toolbarState" 
-      card 
+    <Tabs
+      :tabs="currentTabs"
+      :value="toolbarState"
+      card
       @update:value="key => setToolbarState(key as ToolbarStates)"
     />
     <div class="content">
@@ -29,7 +29,7 @@ import Tabs from '@/components/Tabs.vue'
 import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
-const { activeElementIdList, activeElementList, activeGroupElementId, toolbarState } = storeToRefs(mainStore)
+const { activeElementIdList, activeElementList, activeGroupElementId, toolbarState, headerCollapsed } = storeToRefs(mainStore)
 
 const { t } = useI18n()
 
@@ -83,14 +83,19 @@ const currentPanelComponent = computed(() => {
   }
   return panelMap[toolbarState.value] || null
 })
+
+// 顶部 header 折叠入口已移到中心工具条（CanvasTool）最右侧
 </script>
 
 <style lang="scss" scoped>
 .toolbar {
   border-left: solid 1px $borderColor;
-  background-color: #fff;
+  background-color: $panelBackground;
+  box-shadow: $panelShadow;
   display: flex;
   flex-direction: column;
+  z-index: 5;
+  position: relative;
 }
 .content {
   padding: 12px;

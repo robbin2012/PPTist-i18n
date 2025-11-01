@@ -18,7 +18,7 @@
           <template v-for="key in animationTypes">
             <div :class="['animation-pool', key]" :key="key" v-if="activeTab === key">
               <div class="pool-type" :key="effect.name" v-for="effect in animations[key]">
-                <div class="type-title">{{effect.name}}：</div>
+                <div class="type-title">{{ t(`animation.effects.categories.${effect.type}`) || effect.name }}：</div>
                 <div class="pool-item-wrapper">
                   <div 
                     class="pool-item" 
@@ -34,7 +34,7 @@
                         `${ANIMATION_CLASS_PREFIX}fast`,
                         hoverPreviewAnimation === item.value && `${ANIMATION_CLASS_PREFIX}${item.value}`,
                       ]"
-                    >{{item.name}}</div>
+                    >{{ t(`animation.effects.labels.${item.value}`) || item.name }}</div>
                   </div>
                 </div>
               </div>
@@ -142,20 +142,23 @@ import Select from '@/components/Select.vue'
 import Popover from '@/components/Popover.vue'
 import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
+
 const animationEffects: { [key: string]: string } = {}
 for (const effect of ENTER_ANIMATIONS) {
   for (const animation of effect.children) {
-    animationEffects[animation.value] = animation.name
+    // Prefer i18n label; fallback to config name
+    animationEffects[animation.value] = (t(`animation.effects.labels.${animation.value}`) as string) || animation.name
   }
 }
 for (const effect of EXIT_ANIMATIONS) {
   for (const animation of effect.children) {
-    animationEffects[animation.value] = animation.name
+    animationEffects[animation.value] = (t(`animation.effects.labels.${animation.value}`) as string) || animation.name
   }
 }
 for (const effect of ATTENTION_ANIMATIONS) {
   for (const animation of effect.children) {
-    animationEffects[animation.value] = animation.name
+    animationEffects[animation.value] = (t(`animation.effects.labels.${animation.value}`) as string) || animation.name
   }
 }
 
@@ -171,7 +174,6 @@ const slidesStore = useSlidesStore()
 const { handleElement, handleElementId } = storeToRefs(useMainStore())
 const { currentSlide, formatedAnimations, currentSlideAnimations } = storeToRefs(slidesStore)
 
-const { t } = useI18n()
 const tabs: TabItem[] = [
   { key: 'in', label: t('animation.tabs.in'), color: '#68a490' },
   { key: 'out', label: t('animation.tabs.out'), color: '#d86344' },

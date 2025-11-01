@@ -175,12 +175,15 @@ const openAIPPTDialog = () => {
 
 <style lang="scss" scoped>
 .editor-header {
-  background-color: #fff;
+  background-color: $panelBackground;
   user-select: none;
   border-bottom: 1px solid $borderColor;
+  box-shadow: $panelShadow;
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
+  z-index: 10;
+  position: relative;
 }
 .left, .right {
   display: flex;

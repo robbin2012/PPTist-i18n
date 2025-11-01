@@ -5,7 +5,7 @@
     v-click-outside="() => setThumbnailsFocus(false)"
     v-contextmenu="contextmenusThumbnails"
   >
-    <div class="add-slide">
+    <div class="add-slide" v-if="!thumbnailsCollapsed">
       <div class="btn" @click="createSlide()"><IconPlus class="icon" />{{ t('thumbnails.addSlide') }}</div>
       <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
         <template #content>
@@ -17,8 +17,11 @@
         <div class="select-btn"><IconDown /></div>
       </Popover>
     </div>
+    <div class="add-slide collapsed" v-else>
+      <div class="btn icon-only" @click="createSlide()"><IconPlus class="icon" /></div>
+    </div>
 
-    <Draggable 
+    <Draggable v-if="!thumbnailsCollapsed"
       class="thumbnail-list"
       ref="thumbnailsRef"
       :modelValue="slides"
@@ -69,7 +72,12 @@
       </template>
     </Draggable>
 
-    <div class="page-number">{{ t('thumbnails.pageNumber', { cur: slideIndex + 1, total: slides.length }) }}</div>
+    <div class="page-footer">
+      <span class="count" v-if="!thumbnailsCollapsed">{{ slideIndex + 1 }}/{{ slides.length }}</span>
+      <span class="collapse-circle" @click="toggleThumbnailsCollapse">
+        <IconRight class="collapse-icon" :class="{ 'collapsed': thumbnailsCollapsed }" />
+      </span>
+    </div>
   </div>
 </template>
 
@@ -96,7 +104,7 @@ import { useI18n } from 'vue-i18n'
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
 const keyboardStore = useKeyboardStore()
-const { selectedSlidesIndex: _selectedSlidesIndex, thumbnailsFocus } = storeToRefs(mainStore)
+const { selectedSlidesIndex: _selectedSlidesIndex, thumbnailsFocus, thumbnailsCollapsed } = storeToRefs(mainStore)
 const { slides, slideIndex, currentSlide } = storeToRefs(slidesStore)
 const { ctrlKeyState, shiftKeyState } = storeToRefs(keyboardStore)
 
@@ -363,15 +371,23 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     },
   ]
 }
+
+// 切换缩略图栏折叠状态
+const toggleThumbnailsCollapse = () => {
+  mainStore.setThumbnailsCollapsed(!thumbnailsCollapsed.value)
+}
 </script>
 
 <style lang="scss" scoped>
 .thumbnails {
   border-right: solid 1px $borderColor;
-  background-color: #fff;
+  background-color: $panelBackground;
+  box-shadow: $panelShadow;
   display: flex;
   flex-direction: column;
   user-select: none;
+  z-index: 5;
+  position: relative;
 }
 .add-slide {
   height: 40px;
@@ -408,6 +424,18 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     margin-right: 3px;
     font-size: 14px;
   }
+  &.collapsed {
+    .btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon {
+      margin-right: 0;
+      font-size: 16px;
+    }
+  }
 }
 .thumbnail-list {
   padding: 5px 0;
@@ -422,7 +450,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   position: relative;
 
   .thumbnail {
-    border-radius: $borderRadius;
+    border-radius: $borderRadiusMedium;
     outline: 2px solid rgba($color: $themeColor, $alpha: .15);
   }
 
@@ -488,13 +516,42 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     cursor: grabbing;
   }
 }
-.page-number {
+.page-footer {
   height: 40px;
   font-size: 12px;
   border-top: 1px solid $borderColor;
-  line-height: 40px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto; // 保持页脚固定在底部（折叠时无列表也不上移）
   color: #666;
+  position: relative;
+
+  .count { line-height: 1; }
+
+  .collapse-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color $transitionDelayFast;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &:hover .collapse-icon { color: #333; }
+
+    .collapse-icon {
+      font-size: 14px;
+      color: #555;
+      transition: transform $transitionDelay;
+      &.collapsed { transform: rotate(180deg); }
+    }
+  }
 }
 .section-title {
   height: 26px;

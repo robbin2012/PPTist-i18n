@@ -100,6 +100,7 @@
       </Popover>
       <IconPlus class="handler-item viewport-size" v-tooltip="t('toolbar.canvasTool.zoomIn')" @click="scaleCanvas('+')" />
       <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="t('toolbar.canvasTool.fitScreen')" @click="resetCanvas()" />
+      <IconDown class="handler-item header-collapse-btn" :class="{ 'collapsed': headerCollapsed }" @click="toggleHeaderCollapse()" />
     </div>
 
     <Modal
@@ -139,7 +140,7 @@ import PopoverMenuItem from '@/components/PopoverMenuItem.vue'
 import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
-const { creatingElement, creatingCustomShape, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel } = storeToRefs(mainStore)
+const { creatingElement, creatingCustomShape, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, headerCollapsed } = storeToRefs(mainStore)
 const { canUndo, canRedo } = storeToRefs(useSnapshotStore())
 
 const { redo, undo } = useHistorySnapshot()
@@ -235,19 +236,30 @@ const toggleNotesPanel = () => {
 const toggleSymbolPanel = () => {
   mainStore.setSymbolPanelState(!showSymbolPanel.value)
 }
+
+// 折叠顶部菜单栏
+const toggleHeaderCollapse = () => {
+  mainStore.setHeaderCollapsed(!headerCollapsed.value)
+}
 </script>
 
 <style lang="scss" scoped>
 .canvas-tool {
   position: relative;
-  border-bottom: 1px solid $borderColor;
-  background-color: #fff;
+  border: 1px solid $borderColor;
+  background-color: $toolbarBackground;
+  border-radius: 18px;
+  box-shadow: none;
   display: flex;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 4px 12px;
   font-size: 13px;
   user-select: none;
+  z-index: 5;
+  overflow: hidden;
 }
+.header-collapse-btn { transition: transform $transitionDelay; }
+.header-collapse-btn.collapsed { transform: rotate(180deg); }
 .left-handler, .more {
   display: flex;
   align-items: center;
@@ -265,9 +277,7 @@ const toggleSymbolPanel = () => {
   .handler-item {
     width: 32px;
 
-    &:not(.group-btn):hover {
-      background-color: #f1f1f1;
-    }
+    &:not(.group-btn):hover { background-color: #e7edf5; }
 
     &.active {
       color: $themeColor;
@@ -277,9 +287,7 @@ const toggleSymbolPanel = () => {
       width: auto;
       margin-right: 5px;
 
-      &:hover {
-        background-color: #f3f3f3;
-      }
+      &:hover { background-color: #e7edf5; }
 
       .icon, .arrow {
         height: 100%;
@@ -292,9 +300,7 @@ const toggleSymbolPanel = () => {
         width: 26px;
         padding: 0 2px;
 
-        &:hover {
-          background-color: #e9e9e9;
-        }
+        &:hover { background-color: #dfe7f1; }
         &.active {
           color: $themeColor;
         }
@@ -302,9 +308,7 @@ const toggleSymbolPanel = () => {
       .arrow {
         font-size: 12px;
 
-        &:hover {
-          background-color: #e9e9e9;
-        }
+        &:hover { background-color: #dfe7f1; }
       }
     }
   }
@@ -330,7 +334,7 @@ const toggleSymbolPanel = () => {
 
     &.active,
     &:not(.disable):hover {
-      background-color: #f1f1f1;
+      background-color: #e7edf5;
     }
   }
 }

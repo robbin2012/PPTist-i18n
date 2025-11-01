@@ -38,6 +38,31 @@ function detectLocale(): AppLocale {
       const key = raw.toLowerCase()
       return SUPPORTED[key] || (SUPPORTED[raw] as AppLocale) || 'zh-CN'
     }
+
+    // Check persisted preference
+    const stored = (localStorage.getItem('lang') || localStorage.getItem('locale') || '').trim()
+    if (stored) {
+      const key = stored.toLowerCase()
+      return SUPPORTED[key] || (SUPPORTED[stored] as AppLocale) || 'zh-CN'
+    }
+
+    // Check <html lang> attribute
+    try {
+      const htmlLang = (document.documentElement.getAttribute('lang') || '').trim()
+      if (htmlLang) {
+        const key = htmlLang.toLowerCase()
+        return SUPPORTED[key] || (SUPPORTED[htmlLang] as AppLocale) || 'zh-CN'
+      }
+    } catch {}
+
+    // Use browser language as a hint
+    try {
+      const nav = (navigator.language || (navigator as any).userLanguage || '').trim()
+      if (nav) {
+        const key = nav.toLowerCase()
+        return SUPPORTED[key] || (SUPPORTED[nav] as AppLocale) || 'zh-CN'
+      }
+    } catch {}
   } catch {}
   return 'zh-CN'
 }

@@ -1,14 +1,14 @@
 <template>
   <div class="pptist-editor">
-    <EditorHeader class="layout-header" />
-    <div class="layout-content">
-      <Thumbnails class="layout-content-left" />
-      <div class="layout-content-center">
+    <EditorHeader class="layout-header" :style="{ height: `${headerHeight}px`, overflow: 'hidden' }" />
+    <div class="layout-content" :style="{ height: contentHeight }">
+      <Thumbnails class="layout-content-left" :style="{ width: `${thumbnailsWidth}px` }" />
+      <div class="layout-content-center" :style="{ width: `calc(100% - ${thumbnailsWidth}px - 260px)` }">
         <CanvasTool class="center-top" />
-        <Canvas class="center-body" :style="{ height: `calc(100% - ${remarkHeight + 40}px)` }" />
+        <Canvas class="center-body" :style="{ height: `calc(100% - ${remarkHeight + 44}px)` }" />
         <Remark
-          class="center-bottom" 
-          v-model:height="remarkHeight" 
+          class="center-bottom"
+          v-model:height="remarkHeight"
           :style="{ height: `${remarkHeight}px` }"
         />
       </div>
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store'
 import useGlobalHotkey from '@/hooks/useGlobalHotkey'
@@ -65,12 +65,19 @@ import AIPPTDialog from './AIPPTDialog.vue'
 import Modal from '@/components/Modal.vue'
 
 const mainStore = useMainStore()
-const { dialogForExport, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, showMarkupPanel, showAIPPTDialog } = storeToRefs(mainStore)
+const { dialogForExport, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, showMarkupPanel, showAIPPTDialog, thumbnailsCollapsed, headerCollapsed } = storeToRefs(mainStore)
 
 const closeExportDialog = () => mainStore.setDialogForExport('')
 const closeAIPPTDialog = () => mainStore.setAIPPTDialogState(false)
 
 const remarkHeight = ref(40)
+
+// 计算左侧栏宽度
+const thumbnailsWidth = computed(() => thumbnailsCollapsed.value ? 40 : 160)
+
+// 计算header高度和content高度
+const headerHeight = computed(() => headerCollapsed.value ? 0 : 40)
+const contentHeight = computed(() => `calc(100% - ${headerHeight.value}px)`)
 
 useGlobalHotkey()
 usePasteEvent()
@@ -79,24 +86,35 @@ usePasteEvent()
 <style lang="scss" scoped>
 .pptist-editor {
   height: 100%;
+  background-color: $backgroundGray;
 }
 .layout-header {
-  height: 40px;
+  transition: height $transitionDelay;
 }
 .layout-content {
-  height: calc(100% - 40px);
   display: flex;
+  transition: height $transitionDelay;
 }
 .layout-content-left {
-  width: 160px;
   height: 100%;
   flex-shrink: 0;
+  transition: width $transitionDelay;
+  overflow: hidden;
 }
 .layout-content-center {
-  width: calc(100% - 160px - 260px);
+  background-color: $backgroundGray;
+  padding: 8px 8px 8px 0;
+  transition: width $transitionDelay;
 
   .center-top {
-    height: 40px;
+    height: 44px;
+    margin-bottom: 8px;
+    margin-left: 8px; // 与左侧 panel 拉开距离
+  }
+  .center-body {
+    border-radius: $borderRadiusMedium;
+    overflow: hidden;
+    box-shadow: $panelShadow;
   }
 }
 .layout-content-right {
