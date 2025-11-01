@@ -69,6 +69,7 @@
     "inputFirst": "まず検索文字列を入力してください"
   },
   "common": {
+    "untitled": "無題",
     "applyAll": "すべてに適用",
     "appliedAll": "すべてに適用しました",
     "undo": "元に戻す",

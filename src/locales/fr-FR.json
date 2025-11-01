@@ -69,6 +69,7 @@
     "inputFirst": "Veuillez d'abord saisir le texte à rechercher"
   },
   "common": {
+    "untitled": "Sans titre",
     "applyAll": "Appliquer à tous",
     "appliedAll": "Appliqué à tous",
     "undo": "Annuler",

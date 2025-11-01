@@ -69,6 +69,7 @@
     "inputFirst": "请先输入查找内容"
   },
   "common": {
+    "untitled": "未命名",
     "applyAll": "应用到全部",
     "appliedAll": "已应用到全部",
     "undo": "撤销",

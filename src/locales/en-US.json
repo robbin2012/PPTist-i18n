@@ -69,6 +69,7 @@
     "inputFirst": "Please enter text to find"
   },
   "common": {
+    "untitled": "Untitled",
     "applyAll": "Apply to all",
     "appliedAll": "Applied to all",
     "undo": "Undo",

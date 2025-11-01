@@ -64,7 +64,7 @@
           @blur="handleUpdateTitle()" 
           v-if="editingTitle" 
         ></Input>
-        <div 
+        <div
           class="title-text"
           @click="startEditTitle()"
           :title="title"

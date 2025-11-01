@@ -69,6 +69,7 @@
     "inputFirst": "Introduce primero el texto a buscar"
   },
   "common": {
+    "untitled": "Sin título",
     "applyAll": "Aplicar a todos",
     "appliedAll": "Aplicado a todos",
     "undo": "Deshacer",
