@@ -76,6 +76,7 @@ const resize = (e: MouseEvent) => {
 .remark {
   position: relative;
   border-top: 1px solid $borderColor;
+  padding-left: 36px; // 为避免与左侧悬浮按钮重叠，增加左侧留白
 }
 .resize-handler {
   height: 7px;
