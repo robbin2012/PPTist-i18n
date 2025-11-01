@@ -377,7 +377,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
 .thumbnails {
   border-right: solid 1px $borderColor;
   background-color: $panelBackground;
-  box-shadow: $panelShadow;
+  box-shadow: none; // 去掉面板阴影，保留分隔线
   display: flex;
   flex-direction: column;
   user-select: none;
