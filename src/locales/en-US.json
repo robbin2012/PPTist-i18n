@@ -574,10 +574,10 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Letters",
-      "number": "Numbers",
+      "letter": "A-Z",
+      "number": "123",
       "math": "Math",
-      "arrow": "Arrows",
+      "arrow": "Arr.",
       "graph": "Graph.",
       "emoji": "Emoji"
     },
