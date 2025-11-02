@@ -577,7 +577,14 @@
     "templates": {
       "insertAll": "Вставить",
       "insertTemplate": "Вставить шаблон",
-      "type": { "all": "Все" },
+      "type": {
+        "all": "Все",
+        "cover": "Облож.",
+        "contents": "Содерж.",
+        "transition": "Переход",
+        "content": "Контент",
+        "end": "Конец"
+      },
       "catalogName": {
         "template_1": "Красный",
         "template_2": "Синий",

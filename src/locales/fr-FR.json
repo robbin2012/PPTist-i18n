@@ -576,7 +576,14 @@
     "templates": {
       "insertAll": "Insérer",
       "insertTemplate": "Insérer le modèle",
-      "type": { "all": "Tout" },
+      "type": {
+        "all": "Tout",
+        "cover": "Couv.",
+        "contents": "Som.",
+        "transition": "Trans.",
+        "content": "Cont.",
+        "end": "Fin"
+      },
       "catalogName": {
         "template_1": "Rouge",
         "template_2": "Bleu",

@@ -765,7 +765,14 @@
     "templates": {
       "insertAll": "Insert",
       "insertTemplate": "Insert Template",
-      "type": { "all": "All" },
+      "type": {
+        "all": "All",
+        "cover": "Cover",
+        "contents": "Contents",
+        "transition": "Transition",
+        "content": "Content",
+        "end": "End"
+      },
       "catalogName": {
         "template_1": "Red",
         "template_2": "Blue",

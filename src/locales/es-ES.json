@@ -576,7 +576,14 @@
     "templates": {
       "insertAll": "Insertar",
       "insertTemplate": "Insertar plantilla",
-      "type": { "all": "Todos" },
+      "type": {
+        "all": "Todos",
+        "cover": "Port.",
+        "contents": "Índ.",
+        "transition": "Trans.",
+        "content": "Cont.",
+        "end": "Fin"
+      },
       "catalogName": {
         "template_1": "Rojo",
         "template_2": "Azul",

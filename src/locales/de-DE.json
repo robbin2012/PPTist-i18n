@@ -842,7 +842,12 @@
       "insertAll": "Insert",
       "insertTemplate": "Insert Template",
       "type": {
-        "all": "All"
+        "all": "Alle",
+        "cover": "Deckbl.",
+        "contents": "Inh.",
+        "transition": "Überg.",
+        "content": "Inh.",
+        "end": "Ende"
       },
       "catalogName": {
         "template_1": "Red",

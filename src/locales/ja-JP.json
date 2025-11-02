@@ -576,7 +576,14 @@
     "templates": {
       "insertAll": "挿入",
       "insertTemplate": "テンプレートを挿入",
-      "type": { "all": "すべて" },
+      "type": {
+        "all": "すべて",
+        "cover": "表紙",
+        "contents": "目次",
+        "transition": "切替",
+        "content": "内容",
+        "end": "最後"
+      },
       "catalogName": {
         "template_1": "赤",
         "template_2": "青",
