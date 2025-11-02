@@ -177,7 +177,7 @@
     "tabs": {
       "style": "Style",
       "position": "Position",
-      "animation": "Animation",
+      "animation": "Animations",
       "design": "Conception",
       "transition": "Transitions",
       "multiStyle": "Style (multi-sélection)",
@@ -237,7 +237,7 @@
       "font": "Police",
       "searchFont": "Rechercher des polices",
       "fontColor": "Couleur de police",
-      "backgroundColor": "Couleur d'arrière-plan",
+      "backgroundColor": "Fond",
       "themeColors": "Couleurs du thème",
       "outlineStyle": "Style du contour",
       "outlineColor": "Couleur du contour",
@@ -258,7 +258,7 @@
     "themeExtract": {
       "font": "Police",
       "fontColor": "Couleur de police",
-      "backgroundColor": "Couleur d'arrière-plan",
+      "backgroundColor": "Fond",
       "themeColors": "Couleurs du thème",
       "themeColorsTip": "(Cliquez sur les couleurs pour exclure)",
       "fromCurrent": "Extraire depuis la diapo actuelle",
