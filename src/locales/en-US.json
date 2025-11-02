@@ -477,7 +477,17 @@
       "customizeColors": "Customize Colors",
       "themeColorsSetting": "Chart Theme Colors",
       "themeColorN": "Theme Color {n}",
-      "addThemeColor": "Add Theme Color"
+      "addThemeColor": "Add Theme Color",
+      "types": {
+        "bar": "Bar",
+        "column": "Column",
+        "line": "Line",
+        "area": "Area",
+        "scatter": "Scatter",
+        "pie": "Pie",
+        "ring": "Doughnut",
+        "radar": "Radar"
+      }
     },
     "chartData": {
       "type": "Chart Type:",
@@ -546,6 +556,44 @@
         "scale": "Zoom In",
         "scaleReverse": "Zoom Out"
       }
+    },
+    "shapePool": {
+      "categories": { "rect": "Rectangles", "common": "Common Shapes", "arrow": "Arrows", "others": "Others", "linear": "Linear" }
+    },
+    "linePool": {
+      "categories": { "straight": "Straight Lines", "polyCurve": "Polylines & Curves" }
+    }
+  },
+  "symbols": {
+    "tabs": {
+      "letter": "Letters",
+      "number": "Numbers",
+      "math": "Math",
+      "arrow": "Arrows",
+      "graph": "Graphics",
+      "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "Faces",
+      "gesture": "Gestures",
+      "nature": "Nature",
+      "food": "Food",
+      "travel": "Travel",
+      "activity": "Activities",
+      "objects": "Objects",
+      "symbols": "Symbols"
+    }
+  },
+  "latex": {
+    "placeholder": "Enter LaTeX formula",
+    "preview": "Preview",
+    "tabs": { "symbol": "Common Symbols", "formula": "Preset Formulas" },
+    "emptyError": "Formula cannot be empty",
+    "symbolTabs": {
+      "operators": "Math",
+      "group": "Structures",
+      "verbatim": "Functions",
+      "greek": "Greek Letters"
     }
   },
   "select": {

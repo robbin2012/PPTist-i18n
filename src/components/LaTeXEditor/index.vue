@@ -3,10 +3,10 @@
     <div class="container">
       <div class="left">
         <div class="input-area">
-          <TextArea v-model:value="latex" placeholder="输入 LaTeX 公式" ref="textAreaRef" />
+          <TextArea v-model:value="latex" :placeholder="t('latex.placeholder')" ref="textAreaRef" />
         </div>
         <div class="preview">
-          <div class="placeholder" v-if="!latex">公式预览</div>
+          <div class="placeholder" v-if="!latex">{{ t('latex.preview') }}</div>
           <div class="preview-content" v-else>
             <FormulaContent
               :width="518"
@@ -52,8 +52,8 @@
       </div>
     </div>
     <div class="footer">
-      <Button class="btn" @click="emit('close')">取消</Button>
-      <Button class="btn" type="primary" @click="update()">确定</Button>
+      <Button class="btn" @click="emit('close')">{{ t('common.cancel') }}</Button>
+      <Button class="btn" type="primary" @click="update()">{{ t('common.confirm') }}</Button>
     </div>
   </div>
 </template>
@@ -69,16 +69,19 @@ import SymbolContent from './SymbolContent.vue'
 import Button from '../Button.vue'
 import TextArea from '../TextArea.vue'
 import Tabs from '../Tabs.vue'
+import { useI18n } from 'vue-i18n'
 
 interface TabItem {
   key: 'symbol' | 'formula'
   label: string
 }
 
-const tabs: TabItem[] = [
-  { label: '常用符号', key: 'symbol' },
-  { label: '预置公式', key: 'formula' },
-]
+const { t } = useI18n()
+
+const tabs = computed<TabItem[]>(() => ([
+  { label: t('latex.tabs.symbol'), key: 'symbol' },
+  { label: t('latex.tabs.formula'), key: 'formula' },
+]))
 
 interface LatexResult {
   latex: string
@@ -100,10 +103,10 @@ const emit = defineEmits<{
 
 const formulaList = FORMULA_LIST
 
-const symbolTabs = SYMBOL_LIST.map(item => ({
-  label: item.label,
+const symbolTabs = computed(() => SYMBOL_LIST.map(item => ({
+  label: t(`latex.symbolTabs.${item.type}`),
   key: item.type,
-}))
+})))
 
 const latex = ref('')
 const toolbarState = ref<'symbol' | 'formula'>('symbol')
@@ -123,7 +126,7 @@ onMounted(() => {
 })
 
 const update = () => {
-  if (!latex.value) return message.error('公式不能为空')
+  if (!latex.value) return message.error(t('latex.emptyError'))
 
   const eq = new hfmath(latex.value)
   const pathd = eq.pathd({})

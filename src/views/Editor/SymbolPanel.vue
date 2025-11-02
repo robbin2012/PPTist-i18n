@@ -21,10 +21,10 @@
     <div class="emoji-types" v-if="selectedSymbolKey === 'emoji'">
       <div class="emoji-type" 
         :class="{'active': selectedEmojiTypeIndex === index}"
-        v-for="(item, index) in emojiTypeList"
+        v-for="(label, index) in emojiTypeLabels"
         :key="index"
         @click="selectedEmojiTypeIndex = index"
-      >{{item}}</div>
+      >{{ label }}</div>
     </div>
 
     <div class="pool">
@@ -46,14 +46,17 @@ import emitter, { EmitterEvents } from '@/utils/emitter'
 import useCreateElement from '@/hooks/useCreateElement'
 import MoveablePanel from '@/components/MoveablePanel.vue'
 import Tabs from '@/components/Tabs.vue'
+import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
 const { handleElement } = storeToRefs(mainStore)
 
 const { createTextElement } = useCreateElement()
 
+const { t } = useI18n()
 const selectedSymbolKey = ref(SYMBOL_LIST[0].key)
-const emojiTypeList = ref(['表情', '动作', '动植物', '食物', '旅行', '活动', '物品', '符号'])
+const emojiTypeKeys = ['face', 'gesture', 'nature', 'food', 'travel', 'activity', 'objects', 'symbols'] as const
+const emojiTypeLabels = computed(() => emojiTypeKeys.map(k => t(`symbols.emojiCategories.${k}`)))
 const selectedEmojiTypeIndex = ref(0)
 const symbolPool = computed(() => {
   const selectedSymbol = SYMBOL_LIST.find(item => item.key === selectedSymbolKey.value)
@@ -67,10 +70,10 @@ const symbolPool = computed(() => {
   return selectedSymbol.children
 })
 
-const tabs = SYMBOL_LIST.map(item => ({
+const tabs = computed(() => SYMBOL_LIST.map(item => ({
   key: item.key,
-  label: item.label,
-}))
+  label: t(`symbols.tabs.${item.key}`),
+})))
 
 const selectSymbol = (value: string) => {
   if (handleElement.value?.type === 'text') {

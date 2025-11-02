@@ -312,7 +312,17 @@
       "customizeColors": "Personnaliser les couleurs",
       "themeColorsSetting": "Couleurs de thème du graphique",
       "themeColorN": "Couleur de thème {n}",
-      "addThemeColor": "Ajouter une couleur de thème"
+      "addThemeColor": "Ajouter une couleur de thème",
+      "types": {
+        "bar": "Histogramme",
+        "column": "Barres",
+        "line": "Courbe",
+        "area": "Aire",
+        "scatter": "Nuage de points",
+        "pie": "Camembert",
+        "ring": "Anneau",
+        "radar": "Radar"
+      }
     },
     "chartData": {
       "type": "Type :",
@@ -382,6 +392,44 @@
         "scale": "Zoom avant",
         "scaleReverse": "Zoom arrière"
       }
+    },
+    "shapePool": {
+      "categories": { "rect": "Rectangles", "common": "Formes courantes", "arrow": "Flèches", "others": "Autres", "linear": "Linéaire" }
+    },
+    "linePool": {
+      "categories": { "straight": "Lignes droites", "polyCurve": "Polylignes et courbes" }
+    }
+  },
+  "symbols": {
+    "tabs": {
+      "letter": "Lettres",
+      "number": "Nombres",
+      "math": "Mathématiques",
+      "arrow": "Flèches",
+      "graph": "Graphiques",
+      "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "Visages",
+      "gesture": "Gestes",
+      "nature": "Nature",
+      "food": "Nourriture",
+      "travel": "Voyage",
+      "activity": "Activités",
+      "objects": "Objets",
+      "symbols": "Symboles"
+    }
+  },
+  "latex": {
+    "placeholder": "Saisir une formule LaTeX",
+    "preview": "Aperçu",
+    "tabs": { "symbol": "Symboles courants", "formula": "Formules prédéfinies" },
+    "emptyError": "La formule ne peut pas être vide",
+    "symbolTabs": {
+      "operators": "Mathématiques",
+      "group": "Structures",
+      "verbatim": "Fonctions",
+      "greek": "Lettres grecques"
     }
   },
   "mobile": {

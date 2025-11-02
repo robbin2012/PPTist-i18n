@@ -312,7 +312,17 @@
       "customizeColors": "色をカスタマイズ",
       "themeColorsSetting": "グラフのテーマカラー",
       "themeColorN": "テーマカラー {n}",
-      "addThemeColor": "テーマカラーを追加"
+      "addThemeColor": "テーマカラーを追加",
+      "types": {
+        "bar": "縦棒",
+        "column": "横棒",
+        "line": "折れ線",
+        "area": "面",
+        "scatter": "散布図",
+        "pie": "円グラフ",
+        "ring": "ドーナツ",
+        "radar": "レーダー"
+      }
     },
     "chartData": {
       "type": "種類：",
@@ -382,6 +392,44 @@
         "scale": "ズームイン",
         "scaleReverse": "ズームアウト"
       }
+    },
+    "shapePool": {
+      "categories": { "rect": "長方形", "common": "基本図形", "arrow": "矢印", "others": "その他", "linear": "線形" }
+    },
+    "linePool": {
+      "categories": { "straight": "直線", "polyCurve": "折線・曲線" }
+    }
+  },
+  "symbols": {
+    "tabs": {
+      "letter": "文字",
+      "number": "数字",
+      "math": "数学",
+      "arrow": "矢印",
+      "graph": "図形",
+      "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "顔",
+      "gesture": "ジェスチャー",
+      "nature": "自然",
+      "food": "食べ物",
+      "travel": "旅行",
+      "activity": "アクティビティ",
+      "objects": "物",
+      "symbols": "記号"
+    }
+  },
+  "latex": {
+    "placeholder": "LaTeX 公式を入力",
+    "preview": "プレビュー",
+    "tabs": { "symbol": "一般的な記号", "formula": "定型公式" },
+    "emptyError": "公式は空にできません",
+    "symbolTabs": {
+      "operators": "数学",
+      "group": "構造",
+      "verbatim": "関数",
+      "greek": "ギリシャ文字"
     }
   },
   "mobile": {

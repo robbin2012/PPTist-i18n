@@ -312,7 +312,17 @@
       "customizeColors": "Настроить цвета",
       "themeColorsSetting": "Цвета темы диаграммы",
       "themeColorN": "Цвет темы {n}",
-      "addThemeColor": "Добавить цвет темы"
+      "addThemeColor": "Добавить цвет темы",
+      "types": {
+        "bar": "Столбчатая",
+        "column": "Ленточная",
+        "line": "Линейная",
+        "area": "Площадная",
+        "scatter": "Точечная",
+        "pie": "Круговая",
+        "ring": "Кольцевая",
+        "radar": "Радар"
+      }
     },
     "chartData": {
       "type": "Тип:",
@@ -382,6 +392,44 @@
         "scale": "Увеличение",
         "scaleReverse": "Уменьшение"
       }
+    },
+    "shapePool": {
+      "categories": { "rect": "Прямоугольники", "common": "Обычные фигуры", "arrow": "Стрелки", "others": "Другое", "linear": "Линейные" }
+    },
+    "linePool": {
+      "categories": { "straight": "Прямые", "polyCurve": "Ломаные и кривые" }
+    }
+  },
+  "symbols": {
+    "tabs": {
+      "letter": "Буквы",
+      "number": "Числа",
+      "math": "Математика",
+      "arrow": "Стрелки",
+      "graph": "Графика",
+      "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "Лица",
+      "gesture": "Жесты",
+      "nature": "Природа",
+      "food": "Еда",
+      "travel": "Путешествия",
+      "activity": "Активности",
+      "objects": "Предметы",
+      "symbols": "Символы"
+    }
+  },
+  "latex": {
+    "placeholder": "Введите формулу LaTeX",
+    "preview": "Предпросмотр",
+    "tabs": { "symbol": "Частые символы", "formula": "Готовые формулы" },
+    "emptyError": "Формула не может быть пустой",
+    "symbolTabs": {
+      "operators": "Математика",
+      "group": "Структуры",
+      "verbatim": "Функции",
+      "greek": "Греческие буквы"
     }
   },
   "mobile": {

@@ -1,7 +1,7 @@
 <template>
   <div class="line-pool">
     <div class="category" v-for="(item, i) in LINE_LIST" :key="item.type">
-      <div class="category-name">{{item.type}}</div>
+      <div class="category-name">{{ lineCategoryLabel(item.type) }}</div>
       <div class="line-list">
         <div class="line-item" v-for="(line, j) in item.children" :key="j">
           <div class="line-content" @click="selectLine(line)">
@@ -50,6 +50,7 @@
 
 <script lang="ts" setup>
 import { LINE_LIST, type LinePoolItem } from '@/configs/lines'
+import { useI18n } from 'vue-i18n'
 
 import LinePointMarker from '@/views/components/element/LineElement/LinePointMarker.vue'
 
@@ -59,6 +60,16 @@ const emit = defineEmits<{
 
 const selectLine = (line: LinePoolItem) => {
   emit('select', line)
+}
+
+const { t } = useI18n()
+const LINE_CAT_MAP: Record<string, string> = {
+  '直线': 'straight',
+  '折线、曲线': 'polyCurve',
+}
+const lineCategoryLabel = (raw: string) => {
+  const key = LINE_CAT_MAP[raw]
+  return key ? t(`toolbar.linePool.categories.${key}`) : raw
 }
 </script>
 

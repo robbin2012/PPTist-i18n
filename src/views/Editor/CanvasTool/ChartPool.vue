@@ -11,7 +11,7 @@
         <IconChartScatter size="24" v-else-if="chart === 'scatter'" />
         <IconRadarChart size="23" v-else-if="chart === 'radar'" />
 
-        <div class="name">{{ CHART_TYPE_MAP[chart] }}</div>
+        <div class="name">{{ t(`toolbar.chart.types.${chart}`) }}</div>
       </div>
     </li>
   </ul>
@@ -19,13 +19,14 @@
 
 <script lang="ts" setup>
 import type { ChartType } from '@/types/slides'
-import { CHART_TYPE_MAP } from '@/configs/chart'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
   (event: 'select', payload: ChartType): void
 }>()
 
 const chartList: ChartType[] = ['bar', 'column', 'line', 'area', 'scatter', 'pie', 'ring', 'radar']
+const { t } = useI18n()
 
 const selectChart = (chart: ChartType) => {
   emit('select', chart)

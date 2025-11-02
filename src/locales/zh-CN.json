@@ -338,7 +338,17 @@
       "customizeColors": "自定义配色",
       "themeColorsSetting": "图表主题配色",
       "themeColorN": "主题配色{n}",
-      "addThemeColor": "添加主题色"
+      "addThemeColor": "添加主题色",
+      "types": {
+        "bar": "柱状图",
+        "column": "条形图",
+        "line": "折线图",
+        "area": "面积图",
+        "scatter": "散点图",
+        "pie": "饼图",
+        "ring": "环形图",
+        "radar": "雷达图"
+      }
     },
     "chartData": {
       "type": "图表类型：",
@@ -373,8 +383,47 @@
         "scale": "放大",
         "scaleReverse": "缩小"
       }
+    },
+    "shapePool": {
+      "categories": { "rect": "矩形", "common": "常用形状", "arrow": "箭头", "others": "其他形状", "linear": "线性" }
+    },
+    "linePool": {
+      "categories": { "straight": "直线", "polyCurve": "折线、曲线" }
     }
   },
+  "symbols": {
+    "tabs": {
+      "letter": "字母",
+      "number": "序号",
+      "math": "数学",
+      "arrow": "箭头",
+      "graph": "图形",
+      "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "表情",
+      "gesture": "动作",
+      "nature": "动植物",
+      "food": "食物",
+      "travel": "旅行",
+      "activity": "活动",
+      "objects": "物品",
+      "symbols": "符号"
+    }
+  },
+  "latex": {
+    "placeholder": "输入 LaTeX 公式",
+    "preview": "公式预览",
+    "tabs": { "symbol": "常用符号", "formula": "预置公式" },
+    "emptyError": "公式不能为空",
+    "symbolTabs": {
+      "operators": "数学",
+      "group": "组合",
+      "verbatim": "函数",
+      "greek": "希腊字母"
+    }
+  },
+  
   "elements": {
     "type": {
       "text": "文本",

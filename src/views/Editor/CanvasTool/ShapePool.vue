@@ -1,7 +1,7 @@
 <template>
   <div class="shape-pool">
     <div class="category" v-for="item in SHAPE_LIST" :key="item.type">
-      <div class="category-name">{{item.type}}</div>
+      <div class="category-name">{{ shapeCategoryLabel(item.type) }}</div>
       <div class="shape-list">
         <ShapeItemThumbnail 
           class="shape-item"
@@ -17,6 +17,7 @@
 
 <script lang="ts" setup>
 import { SHAPE_LIST, type ShapePoolItem } from '@/configs/shapes'
+import { useI18n } from 'vue-i18n'
 import ShapeItemThumbnail from './ShapeItemThumbnail.vue'
 
 const emit = defineEmits<{
@@ -25,6 +26,20 @@ const emit = defineEmits<{
 
 const selectShape = (shape: ShapePoolItem) => {
   emit('select', shape)
+}
+
+// map built-in Chinese category names to i18n keys
+const { t } = useI18n()
+const SHAPE_CAT_MAP: Record<string, string> = {
+  '矩形': 'rect',
+  '常用形状': 'common',
+  '箭头': 'arrow',
+  '其他形状': 'others',
+  '线性': 'linear',
+}
+const shapeCategoryLabel = (raw: string) => {
+  const key = SHAPE_CAT_MAP[raw]
+  return key ? t(`toolbar.shapePool.categories.${key}`) : raw
 }
 </script>
 

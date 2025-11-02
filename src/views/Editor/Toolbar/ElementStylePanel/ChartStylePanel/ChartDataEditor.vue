@@ -68,7 +68,7 @@
 
     <div class="btns">
       <div class="left">
-        {{ t('toolbar.chartData.type') }} {{ CHART_TYPE_MAP[chartType] }}
+        {{ t('toolbar.chartData.type') }} {{ t(`toolbar.chart.types.${chartType}`) }}
         <Popover trigger="click" placement="top" v-model:value="chartTypeSelectVisible">
           <template #content>
             <PopoverMenuItem
@@ -76,7 +76,7 @@
               v-for="item in chartList" 
               :key="item" 
               @click="chartType = item; chartTypeSelectVisible = false"
-            >{{CHART_TYPE_MAP[item]}}</PopoverMenuItem>
+            >{{ t(`toolbar.chart.types.${item}`) }}</PopoverMenuItem>
           </template>
           <span class="change">{{ t('common.change') }}</span>
         </Popover>
@@ -94,7 +94,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { ChartData, ChartType } from '@/types/slides'
 import { KEYS } from '@/configs/hotkey'
-import { CHART_TYPE_MAP } from '@/configs/chart'
+// chart type labels now use i18n inside template
 import { pasteCustomClipboardString, pasteExcelClipboardString, pasteHTMLTableClipboardString } from '@/utils/clipboard'
 import Button from '@/components/Button.vue'
 import Popover from '@/components/Popover.vue'

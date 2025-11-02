@@ -2,6 +2,38 @@
   "app": {
     "initializing": "Inicializando datos, por favor espere ..."
   },
+  "symbols": {
+    "tabs": {
+      "letter": "Letras",
+      "number": "Números",
+      "math": "Matemáticas",
+      "arrow": "Flechas",
+      "graph": "Gráficos",
+      "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "Caras",
+      "gesture": "Gestos",
+      "nature": "Naturaleza",
+      "food": "Comida",
+      "travel": "Viajes",
+      "activity": "Actividades",
+      "objects": "Objetos",
+      "symbols": "Símbolos"
+    }
+  },
+  "latex": {
+    "placeholder": "Introduce fórmula LaTeX",
+    "preview": "Vista previa",
+    "tabs": { "symbol": "Símbolos comunes", "formula": "Fórmulas preestablecidas" },
+    "emptyError": "La fórmula no puede estar vacía",
+    "symbolTabs": {
+      "operators": "Matemáticas",
+      "group": "Estructuras",
+      "verbatim": "Funciones",
+      "greek": "Letras griegas"
+    }
+  },
   "header": {
     "menu": {
       "export": "Exportar",
@@ -312,7 +344,17 @@
       "customizeColors": "Personalizar colores",
       "themeColorsSetting": "Colores de tema del gráfico",
       "themeColorN": "Color de tema {n}",
-      "addThemeColor": "Añadir color de tema"
+      "addThemeColor": "Añadir color de tema",
+      "types": {
+        "bar": "Barras",
+        "column": "Columnas",
+        "line": "Líneas",
+        "area": "Áreas",
+        "scatter": "Dispersión",
+        "pie": "Circular",
+        "ring": "Dona",
+        "radar": "Radar"
+      }
     },
     "chartData": {
       "type": "Tipo:",
@@ -382,6 +424,12 @@
         "scale": "Acercar",
         "scaleReverse": "Alejar"
       }
+    },
+    "shapePool": {
+      "categories": { "rect": "Rectángulos", "common": "Formas comunes", "arrow": "Flechas", "others": "Otros", "linear": "Lineal" }
+    },
+    "linePool": {
+      "categories": { "straight": "Líneas rectas", "polyCurve": "Polilíneas y curvas" }
     }
   },
   "mobile": {
