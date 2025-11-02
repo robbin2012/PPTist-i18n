@@ -1,0 +1,52 @@
+{
+  "common": {
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "change": "Cambia"
+  },
+  "symbols": {
+    "tabs": {
+      "letter": "Lett.",
+      "number": "Num.",
+      "math": "Mat.",
+      "arrow": "Frec.",
+      "graph": "Graf.",
+      "emoji": "Emoji"
+    }
+  },
+  "latex": {
+    "placeholder": "Inserisci formula LaTeX",
+    "preview": "Anteprima",
+    "tabs": { "symbol": "Simb.", "formula": "Form." },
+    "emptyError": "La formula non può essere vuota",
+    "symbolTabs": {
+      "operators": "Mat.",
+      "group": "Strutt.",
+      "verbatim": "Funz.",
+      "greek": "Lett."
+    }
+  },
+  "toolbar": {
+    "chart": {
+      "types": {
+        "bar": "Bar.",
+        "column": "Col.",
+        "line": "Lin.",
+        "area": "Area",
+        "scatter": "Disp.",
+        "pie": "Torta",
+        "ring": "Anell.",
+        "radar": "Radar"
+      }
+    },
+    "tableGenerator": {
+      "title": "Tabella",
+      "back": "Indietro",
+      "custom": "Pers.",
+      "rows": "Righe",
+      "cols": "Colonne",
+      "invalidRange": "Righe/colonne: 1–20"
+    }
+  }
+}
+

@@ -1,0 +1,52 @@
+{
+  "common": {
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "change": "Ändern"
+  },
+  "symbols": {
+    "tabs": {
+      "letter": "Buchst.",
+      "number": "Zahlen",
+      "math": "Mat.",
+      "arrow": "Pfeil.",
+      "graph": "Graf.",
+      "emoji": "Emoji"
+    }
+  },
+  "latex": {
+    "placeholder": "LaTeX-Formel eingeben",
+    "preview": "Vorschau",
+    "tabs": { "symbol": "Symb.", "formula": "Form." },
+    "emptyError": "Formel darf nicht leer sein",
+    "symbolTabs": {
+      "operators": "Mat.",
+      "group": "Strukt.",
+      "verbatim": "Funk.",
+      "greek": "Buchst."
+    }
+  },
+  "toolbar": {
+    "chart": {
+      "types": {
+        "bar": "Säul.",
+        "column": "Balk.",
+        "line": "Lin.",
+        "area": "Fläch.",
+        "scatter": "Punkt.",
+        "pie": "Kreis",
+        "ring": "Ring",
+        "radar": "Radar"
+      }
+    },
+    "tableGenerator": {
+      "title": "Tabelle",
+      "back": "Zurück",
+      "custom": "Custom",
+      "rows": "Zeilen",
+      "cols": "Spalten",
+      "invalidRange": "Zeilen/Spalten: 1–20"
+    }
+  }
+}
+
