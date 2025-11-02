@@ -541,10 +541,10 @@
     "placeholder": "Sélectionnez une image, un texte ou une forme avec texte pour marquer le type",
     "none": "Non marqué",
     "slideType": {
-      "cover": "Page de couverture",
-      "contents": "Table des matières",
-      "transition": "Transition",
-      "content": "Contenu",
+      "cover": "Couv.",
+      "contents": "Som.",
+      "transition": "Trans.",
+      "content": "Cont.",
       "end": "Fin"
     },
     "textType": {

@@ -806,11 +806,11 @@
     "placeholder": "Select an image, text, or shape with text to mark type",
     "none": "Unmarked",
     "slideType": {
-      "cover": "Cover",
-      "contents": "Contents",
-      "transition": "Transition",
-      "content": "Content",
-      "end": "End"
+      "cover": "Deckbl.",
+      "contents": "Inh.",
+      "transition": "Überg.",
+      "content": "Inh.",
+      "end": "Ende"
     },
     "textType": {
       "title": "Title",

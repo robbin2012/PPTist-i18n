@@ -541,11 +541,11 @@
     "placeholder": "Selecciona una imagen, texto o forma con texto para marcar el tipo",
     "none": "Sin marcar",
     "slideType": {
-      "cover": "Portada",
-      "contents": "Índice",
-      "transition": "Transición",
-      "content": "Contenido",
-      "end": "Final"
+      "cover": "Port.",
+      "contents": "Índ.",
+      "transition": "Trans.",
+      "content": "Cont.",
+      "end": "Fin"
     },
     "textType": {
       "title": "Título",

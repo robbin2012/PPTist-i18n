@@ -543,9 +543,9 @@
     "slideType": {
       "cover": "表紙",
       "contents": "目次",
-      "transition": "トランジション",
-      "content": "コンテンツ",
-      "end": "終了"
+      "transition": "切替",
+      "content": "内容",
+      "end": "最後"
     },
     "textType": {
       "title": "タイトル",
