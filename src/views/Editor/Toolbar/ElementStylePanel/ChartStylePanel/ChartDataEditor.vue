@@ -124,6 +124,7 @@ const selectedRange = ref([0, 0])
 const tempRangeSize = ref({ width: 0, height: 0 })
 const focusCell = ref<[number, number] | null>(null)
 const chartType = ref<ChartType>('bar')
+const { t } = useI18n()
 
 // 当前选区的边框线条位置
 const rangeLines = computed(() => {
@@ -565,4 +566,3 @@ table {
   }
 }
 </style>
-const { t } = useI18n()
