@@ -410,10 +410,10 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Буквы",
-      "number": "Числа",
+      "letter": "Бук.",
+      "number": "Чис.",
       "math": "Мат.",
-      "arrow": "Стрелки",
+      "arrow": "Стр.",
       "graph": "Граф.",
       "emoji": "Emoji"
     },
