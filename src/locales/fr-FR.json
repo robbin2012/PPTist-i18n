@@ -314,12 +314,12 @@
       "themeColorN": "Couleur de thème {n}",
       "addThemeColor": "Ajouter une couleur de thème",
       "types": {
-        "bar": "Histogramme",
-        "column": "Barres",
+        "bar": "Hist.",
+        "column": "Bar.",
         "line": "Courbe",
         "area": "Aire",
-        "scatter": "Nuage de points",
-        "pie": "Camembert",
+        "scatter": "Points",
+        "pie": "Sect.",
         "ring": "Anneau",
         "radar": "Radar"
       }
@@ -410,10 +410,10 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Lettres",
-      "number": "Nombres",
+      "letter": "Lett.",
+      "number": "Nomb.",
       "math": "Math.",
-      "arrow": "Flèches",
+      "arrow": "Flèch.",
       "graph": "Graph.",
       "emoji": "Emoji"
     },
@@ -434,10 +434,10 @@
     "tabs": { "symbol": "Symboles courants", "formula": "Formules prédéfinies" },
     "emptyError": "La formule ne peut pas être vide",
     "symbolTabs": {
-      "operators": "Mathématiques",
-      "group": "Structures",
-      "verbatim": "Fonctions",
-      "greek": "Lettres"
+      "operators": "Math.",
+      "group": "Struct.",
+      "verbatim": "Fonct.",
+      "greek": "Lett."
     },
     "formulas": {
       "gauss": "Théorème de Gauss",
