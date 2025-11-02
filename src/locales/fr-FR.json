@@ -566,7 +566,7 @@
     }
   },
   "thumbnails": {
-    "addSlide": "Ajouter une diapositive",
+    "addSlide": "Ajouter",
     "section": {
       "inputPlaceholder": "Saisir le nom de la section",
       "emptyTitle": "Section sans titre",
