@@ -12,6 +12,16 @@
       "arrow": "Pfeil.",
       "graph": "Graf.",
       "emoji": "Emoji"
+    },
+    "emojiCategories": {
+      "face": "Gesichter",
+      "gesture": "Gesten",
+      "nature": "Natur",
+      "food": "Essen",
+      "travel": "Reisen",
+      "activity": "Aktivitäten",
+      "objects": "Objekte",
+      "symbols": "Symbole"
     }
   },
   "latex": {
@@ -24,10 +34,49 @@
       "group": "Strukt.",
       "verbatim": "Funk.",
       "greek": "Buchst."
+    },
+    "formulas": {
+      "gauss": "Gauss-Theorem",
+      "fourier": "Fourier-Reihe",
+      "taylor": "Taylorentwicklung",
+      "definiteIntegral": "Bestimmtes Integral",
+      "trigonIdentity1": "Trig. Identität I",
+      "trigonIdentity2": "Trig. Identität II",
+      "binomial": "Binomische Entw.",
+      "euler": "Eulersche Formel",
+      "bernoulli": "Bernoulli-Gleichung",
+      "totalDifferential": "Exakte Dgl.",
+      "inhomogeneous": "Inhomogene Gl.",
+      "cauchyMean": "Cauchyscher MWS",
+      "lagrangeMean": "Lagrangescher MWS",
+      "derivative": "Ableitungsformel",
+      "trigIntegral": "Trig. Integral",
+      "quadricSurface": "Quadrik",
+      "secondOrderDiff": "Dgl. 2. Ordnung",
+      "directionalDerivative": "Richtungsableitung"
     }
   },
   "toolbar": {
+    "shapePool": {
+      "categories": { "rect": "Rechteck", "common": "Allg. Formen", "arrow": "Pfeile", "others": "Sonst.", "linear": "Linear" }
+    },
+    "linePool": {
+      "categories": { "straight": "Gerade", "polyCurve": "Polyl./Kurv." }
+    },
     "chart": {
+      "editData": "Diagramm bearbeiten",
+      "stack": "Stapel",
+      "lineSmooth": "Glättung",
+      "fill": "Hintergrund",
+      "axesAndText": "Achsen & Text",
+      "gridColor": "Gitterfarbe",
+      "themeColors": "Thema",
+      "presetThemes": "Voreingest. Themen",
+      "slideTheme": "Folienthema",
+      "customizeColors": "Farben anpassen",
+      "themeColorsSetting": "Diagramm-Themenfarben",
+      "themeColorN": "Themenfarbe {n}",
+      "addThemeColor": "Themenfarbe hinzufügen",
       "types": {
         "bar": "Säul.",
         "column": "Balk.",
@@ -39,6 +88,12 @@
         "radar": "Radar"
       }
     },
+    "chartData": {
+      "type": "Typ:",
+      "clear": "Daten löschen",
+      "category": "Kategorie",
+      "series": "Serie"
+    },
     "tableGenerator": {
       "title": "Tabelle",
       "back": "Zurück",
@@ -49,4 +104,3 @@
     }
   }
 }
-

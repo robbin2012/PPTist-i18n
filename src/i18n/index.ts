@@ -4,9 +4,10 @@ import enUS from '@/locales/en-US.json'
 import esES from '@/locales/es-ES.json'
 import frFR from '@/locales/fr-FR.json'
 import ruRU from '@/locales/ru-RU.json'
+import deDE from '@/locales/de-DE.json'
 import jaJP from '@/locales/ja-JP.json'
 
-export type AppLocale = 'zh-CN' | 'en-US' | 'es-ES' | 'fr-FR' | 'ru-RU' | 'ja-JP'
+export type AppLocale = 'zh-CN' | 'en-US' | 'es-ES' | 'fr-FR' | 'ru-RU' | 'ja-JP' | 'de-DE'
 
 const SUPPORTED: Record<string, AppLocale> = {
   zh: 'zh-CN',
@@ -24,6 +25,9 @@ const SUPPORTED: Record<string, AppLocale> = {
   ru: 'ru-RU',
   'ru-ru': 'ru-RU',
   'ru-RU': 'ru-RU',
+  de: 'de-DE',
+  'de-de': 'de-DE',
+  'de-DE': 'de-DE',
   ja: 'ja-JP',
   jp: 'ja-JP',
   'ja-jp': 'ja-JP',
@@ -79,6 +83,7 @@ export const i18n = createI18n({
     'es-ES': esES,
     'fr-FR': frFR,
     'ru-RU': ruRU,
+    'de-DE': deDE,
     'ja-JP': jaJP,
   },
 })
