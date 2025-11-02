@@ -14,8 +14,8 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Buchst.",
-      "number": "Zahlen",
+      "letter": "A-Z",
+      "number": "123",
       "math": "Mat.",
       "arrow": "Pfeile",
       "graph": "Graf.",

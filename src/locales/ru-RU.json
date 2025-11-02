@@ -418,8 +418,8 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Бук.",
-      "number": "Чис.",
+      "letter": "A-Z",
+      "number": "123",
       "math": "Мат.",
       "arrow": "Стрелки",
       "graph": "Граф.",

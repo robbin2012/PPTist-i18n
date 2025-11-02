@@ -418,8 +418,8 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "文字",
-      "number": "数字",
+      "letter": "A-Z",
+      "number": "123",
       "math": "数学",
       "arrow": "矢印",
       "graph": "図形",

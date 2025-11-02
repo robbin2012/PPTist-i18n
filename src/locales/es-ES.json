@@ -4,8 +4,8 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Letras",
-      "number": "Números",
+      "letter": "A-Z",
+      "number": "123",
       "math": "Mat.",
       "arrow": "Flechas",
       "graph": "Gráf.",

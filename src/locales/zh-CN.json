@@ -409,8 +409,8 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "字母",
-      "number": "序号",
+      "letter": "A-Z",
+      "number": "123",
       "math": "数学",
       "arrow": "箭头",
       "graph": "图形",

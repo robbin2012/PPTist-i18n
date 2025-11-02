@@ -418,8 +418,8 @@
   },
   "symbols": {
     "tabs": {
-      "letter": "Lett.",
-      "number": "Nomb.",
+      "letter": "A-Z",
+      "number": "123",
       "math": "Math.",
       "arrow": "Flèches",
       "graph": "Graph.",
