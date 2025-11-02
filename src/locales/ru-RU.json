@@ -434,10 +434,10 @@
     "tabs": { "symbol": "Частые символы", "formula": "Готовые формулы" },
     "emptyError": "Формула не может быть пустой",
     "symbolTabs": {
-      "operators": "Математика",
-      "group": "Структуры",
-      "verbatim": "Функции",
-      "greek": "Буквы"
+      "operators": "Мат.",
+      "group": "Стр.",
+      "verbatim": "Функ.",
+      "greek": "Бук."
     },
     "formulas": {
       "gauss": "Теорема Гаусса",
