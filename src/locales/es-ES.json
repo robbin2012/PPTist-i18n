@@ -28,9 +28,9 @@
     "tabs": { "symbol": "Símbolos", "formula": "Fórmulas" },
     "emptyError": "La fórmula no puede estar vacía",
     "symbolTabs": {
-      "operators": "Matemáticas",
-      "group": "Estructuras",
-      "verbatim": "Funciones",
+      "operators": "Mat.",
+      "group": "Estr.",
+      "verbatim": "Func.",
       "greek": "Letras"
     },
     "formulas": {
