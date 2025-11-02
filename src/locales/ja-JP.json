@@ -419,11 +419,11 @@
     },
     "emojiCategories": {
       "face": "顔",
-      "gesture": "ジェスチャー",
+      "gesture": "ジェス",
       "nature": "自然",
-      "food": "食べ物",
+      "food": "食",
       "travel": "旅行",
-      "activity": "アクティビティ",
+      "activity": "活動",
       "objects": "物",
       "symbols": "記号"
     }

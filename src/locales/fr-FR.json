@@ -418,14 +418,14 @@
       "emoji": "Emoji"
     },
     "emojiCategories": {
-      "face": "Visages",
-      "gesture": "Gestes",
-      "nature": "Nature",
-      "food": "Nourriture",
-      "travel": "Voyage",
-      "activity": "Activités",
-      "objects": "Objets",
-      "symbols": "Symboles"
+      "face": "Visag.",
+      "gesture": "Gest.",
+      "nature": "Nat.",
+      "food": "Nourr.",
+      "travel": "Voy.",
+      "activity": "Activ.",
+      "objects": "Obj.",
+      "symbols": "Symb."
     }
   },
   "latex": {

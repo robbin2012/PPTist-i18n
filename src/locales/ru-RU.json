@@ -418,14 +418,14 @@
       "emoji": "Emoji"
     },
     "emojiCategories": {
-      "face": "Лица",
-      "gesture": "Жесты",
-      "nature": "Природа",
+      "face": "Лиц.",
+      "gesture": "Жест.",
+      "nature": "Прир.",
       "food": "Еда",
-      "travel": "Путешествия",
-      "activity": "Активности",
-      "objects": "Предметы",
-      "symbols": "Символы"
+      "travel": "Пут.",
+      "activity": "Актив.",
+      "objects": "Предм.",
+      "symbols": "Симв."
     }
   },
   "latex": {

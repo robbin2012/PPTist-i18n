@@ -13,13 +13,13 @@
     },
     "emojiCategories": {
       "face": "Caras",
-      "gesture": "Gestos",
-      "nature": "Naturaleza",
-      "food": "Comida",
-      "travel": "Viajes",
-      "activity": "Actividades",
-      "objects": "Objetos",
-      "symbols": "Símbolos"
+      "gesture": "Gest.",
+      "nature": "Natur.",
+      "food": "Com.",
+      "travel": "Viaj.",
+      "activity": "Activ.",
+      "objects": "Obj.",
+      "symbols": "Símb."
     }
   },
   "latex": {

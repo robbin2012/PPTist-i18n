@@ -14,14 +14,14 @@
       "emoji": "Emoji"
     },
     "emojiCategories": {
-      "face": "Gesichter",
-      "gesture": "Gesten",
-      "nature": "Natur",
-      "food": "Essen",
-      "travel": "Reisen",
-      "activity": "Aktivitäten",
-      "objects": "Objekte",
-      "symbols": "Symbole"
+      "face": "Ges.",
+      "gesture": "Gest.",
+      "nature": "Nat.",
+      "food": "Ess.",
+      "travel": "Reis.",
+      "activity": "Aktiv.",
+      "objects": "Obj.",
+      "symbols": "Symb."
     }
   },
   "latex": {
