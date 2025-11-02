@@ -377,6 +377,14 @@
       "insertMedia": "メディアを挿入",
       "insertSymbol": "記号を挿入"
     },
+    "media": {
+      "tabs": { "video": "動画", "audio": "音声" },
+      "placeholder": { "videoUrl": "動画URLを入力（例: https://xxx.mp4）", "audioUrl": "音声URLを入力（例: https://xxx.mp3）" },
+      "uploadVideo": "ローカル動画をアップロード",
+      "uploadAudio": "ローカル音声をアップロード",
+      "invalidVideoUrl": "正しい動画URLを入力してください",
+      "invalidAudioUrl": "正しい音声URLを入力してください"
+    },
     "tableGenerator": {
       "title": "表",
       "back": "戻る",

@@ -2,7 +2,15 @@
   "common": {
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
-    "change": "Ändern"
+    "change": "Ändern",
+    "untitled": "Untitled",
+    "applyAll": "Apply to all",
+    "appliedAll": "Applied to all",
+    "undo": "Undo",
+    "redo": "Redo",
+    "loading": "Loading ...",
+    "select": "Select",
+    "delete": "Delete"
   },
   "symbols": {
     "tabs": {
@@ -27,7 +35,10 @@
   "latex": {
     "placeholder": "LaTeX-Formel eingeben",
     "preview": "Vorschau",
-    "tabs": { "symbol": "Symb.", "formula": "Form." },
+    "tabs": {
+      "symbol": "Symb.",
+      "formula": "Form."
+    },
     "emptyError": "Formel darf nicht leer sein",
     "symbolTabs": {
       "operators": "Mat.",
@@ -58,10 +69,19 @@
   },
   "toolbar": {
     "shapePool": {
-      "categories": { "rect": "Rechteck", "common": "Allg. Formen", "arrow": "Pfeile", "others": "Sonst.", "linear": "Linear" }
+      "categories": {
+        "rect": "Rechteck",
+        "common": "Allg. Formen",
+        "arrow": "Pfeile",
+        "others": "Sonst.",
+        "linear": "Linear"
+      }
     },
     "linePool": {
-      "categories": { "straight": "Gerade", "polyCurve": "Polyl./Kurv." }
+      "categories": {
+        "straight": "Gerade",
+        "polyCurve": "Polyl./Kurv."
+      }
     },
     "chart": {
       "editData": "Diagramm bearbeiten",
@@ -101,6 +121,782 @@
       "rows": "Zeilen",
       "cols": "Spalten",
       "invalidRange": "Zeilen/Spalten: 1–20"
+    },
+    "tabs": {
+      "style": "Style",
+      "position": "Position",
+      "animation": "Animation",
+      "design": "Design",
+      "transition": "Transitions",
+      "multiStyle": "Style (Multi-Select)",
+      "multiPosition": "Position (Multi-Select)"
+    },
+    "layer": {
+      "title": "Layer:",
+      "toTop": "Front",
+      "toBottom": "Back",
+      "up": "Raise",
+      "down": "Lower"
+    },
+    "position": {
+      "title": "Align:",
+      "alignLeft": "Align Left",
+      "alignHCenter": "Align Horizontal Center",
+      "alignRight": "Align Right",
+      "alignTop": "Align Top",
+      "alignVCenter": "Align Vertical Center",
+      "alignBottom": "Align Bottom"
+    },
+    "numeric": {
+      "horizontal": "Horizontal:",
+      "vertical": "Vertical:",
+      "width": "Width:",
+      "height": "Height:",
+      "rotate": "Rotate:"
+    },
+    "ratio": {
+      "lock": "Lock aspect ratio",
+      "unlock": "Unlock aspect ratio"
+    },
+    "multi": {
+      "fillColor": "Fill Color",
+      "outlineStyle": "Outline Style",
+      "outlineColor": "Outline Color",
+      "outlineWidth": "Outline Width"
+    },
+    "designPanel": {
+      "backgroundFill": "Background Fill",
+      "fillTypes": {
+        "solid": "Solid Fill",
+        "image": "Image Fill",
+        "gradient": "Gradient Fill"
+      },
+      "imageSize": {
+        "contain": "Contain",
+        "repeat": "Repeat",
+        "cover": "Cover"
+      },
+      "gradientType": {
+        "linear": "Linear Gradient",
+        "radial": "Radial Gradient"
+      },
+      "currentColor": "Current Color",
+      "gradientAngle": "Gradient Angle",
+      "applyBackgroundAll": "Apply background to all",
+      "ratio": {
+        "widescreen_16_9": "Widescreen 16 : 9",
+        "widescreen_16_10": "Widescreen 16 : 10",
+        "standard_4_3": "Standard 4 : 3",
+        "paper_a3_a4": "Paper A3 / A4",
+        "portrait_a3_a4": "Portrait A3 / A4"
+      },
+      "canvasSize": "Canvas Size:",
+      "globalTheme": "Global Theme",
+      "more": "More",
+      "font": "Font",
+      "searchFont": "Search fonts",
+      "fontColor": "Font Color",
+      "backgroundColor": "Background",
+      "themeColors": "Theme",
+      "outlineStyle": "Outline Style",
+      "outlineColor": "Outline Color",
+      "outlineWidth": "Outline Width",
+      "shadowH": "Horizontal Shadow",
+      "shadowV": "Vertical Shadow",
+      "shadowBlur": "Blur Distance",
+      "shadowColor": "Shadow Color",
+      "applyThemeAll": "Apply theme to all",
+      "extractFromSlides": "Extract theme from slides",
+      "presetTheme": "Preset Themes",
+      "sampleText": "Text Aa",
+      "set": "Set",
+      "setAndApply": "Set and Apply",
+      "themeColorsSetting": "Edit Theme Colors",
+      "slideThemeColorN": "Slide Theme Color {n}"
+    },
+    "themeExtract": {
+      "font": "Font",
+      "fontColor": "Font Color",
+      "backgroundColor": "Background",
+      "themeColors": "Theme",
+      "themeColorsTip": "(Click colors to exclude)",
+      "fromCurrent": "Extract from current slide",
+      "fromAll": "Extract from all slides",
+      "applyToTheme": "Apply to Theme",
+      "saveSelectionToTheme": "Save selection as theme",
+      "themeColorOverflow": "Theme colors exceed limit. Kept first 6."
+    },
+    "filter": {
+      "enable": "Enable Filters",
+      "labels": {
+        "blur": "Blur",
+        "brightness": "Brightness",
+        "contrast": "Contrast",
+        "grayscale": "Grayscale",
+        "saturate": "Saturation",
+        "hue-rotate": "Hue",
+        "sepia": "Sepia",
+        "invert": "Invert",
+        "opacity": "Opacity"
+      },
+      "presets": {
+        "blackwhite": "B&W",
+        "retro": "Retro",
+        "sharpen": "Sharpen",
+        "soft": "Soft",
+        "warm": "Warm",
+        "bright": "Bright",
+        "vivid": "Vivid",
+        "blur": "Blur",
+        "invert": "Invert"
+      }
+    },
+    "outline": {
+      "enable": "Enable Outline",
+      "style": "Outline Style",
+      "color": "Outline Color",
+      "width": "Outline Width"
+    },
+    "colorMask": {
+      "enable": "Color Overlay",
+      "color": "Overlay Color"
+    },
+    "line": {
+      "style": "Line Style",
+      "color": "Line Color",
+      "width": "Line Width",
+      "startMarker": "Start Marker",
+      "endMarker": "End Marker",
+      "swapDirection": "Swap Direction"
+    },
+    "shadow": {
+      "enable": "Enable Shadow",
+      "h": "Horizontal Shadow",
+      "v": "Vertical Shadow",
+      "blur": "Blur Distance",
+      "color": "Shadow Color"
+    },
+    "opacity": {
+      "label": "Opacity"
+    },
+    "flip": {
+      "vertical": "Flip Vertical",
+      "horizontal": "Flip Horizontal"
+    },
+    "video": {
+      "posterTitle": "Video Poster",
+      "resetPoster": "Reset Poster",
+      "autoplay": "Autoplay"
+    },
+    "text": {
+      "searchFont": "Search fonts",
+      "searchFontSize": "Search sizes",
+      "fontColor": "Font Color",
+      "highlight": "Highlight",
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "strikethrough": "Strikethrough",
+      "superscript": "Superscript",
+      "subscript": "Subscript",
+      "inlineCode": "Inline Code",
+      "blockquote": "Blockquote",
+      "aiAssist": "AI Assist",
+      "clearFormatting": "Clear Formatting",
+      "formatPainterTip": "Format Painter (double-click to lock)",
+      "link": "Link",
+      "increaseFontSize": "Increase font size",
+      "decreaseFontSize": "Decrease font size",
+      "alignLeft": "Align Left",
+      "alignCenter": "Align Center",
+      "alignRight": "Align Right",
+      "alignJustify": "Justify",
+      "bulletList": "Bulleted List",
+      "orderedList": "Numbered List",
+      "decreaseIndent": "Decrease Indent",
+      "increaseIndent": "Increase Indent",
+      "decreaseFirstLineIndent": "Decrease First-Line Indent",
+      "increaseFirstLineIndent": "Increase First-Line Indent"
+    },
+    "textStyle": {
+      "lineHeight": "Line Spacing",
+      "lineHeightTimes": "{n}x",
+      "paragraphSpacing": "Paragraph Spacing",
+      "letterSpacing": "Letter Spacing",
+      "textboxFill": "Textbox Fill",
+      "presets": {
+        "titleLarge": "Head 1",
+        "titleSmall": "Head 2",
+        "body": "Body",
+        "bodySmall": "Body (Small)",
+        "note1": "Note 1",
+        "note2": "Note 2"
+      }
+    },
+    "image": {
+      "clipImage": "Crop Image",
+      "byShape": "By Shape:",
+      "byRatio": "By {label}:",
+      "ratio": {
+        "square": "Square",
+        "portrait": "Portrait",
+        "landscape": "Landscape"
+      },
+      "radius": "Corner Radius",
+      "replaceImage": "Replace Image",
+      "resetStyle": "Reset Style",
+      "setAsBackground": "Set as Background"
+    },
+    "shape": {
+      "replaceShape": "Click to replace shape",
+      "fillTypes": {
+        "fill": "Solid Fill",
+        "gradient": "Gradient Fill",
+        "pattern": "Image Fill"
+      },
+      "gradientType": {
+        "linear": "Linear Gradient",
+        "radial": "Radial Gradient"
+      },
+      "currentColor": "Current Color",
+      "gradientAngle": "Gradient Angle",
+      "alignTop": "Align Top",
+      "alignMiddle": "Align Middle",
+      "alignBottom": "Align Bottom",
+      "doubleClickToKeep": "Double-click to keep using",
+      "formatPainter": "Format Painter"
+    },
+    "audio": {
+      "iconColor": "Icon Color",
+      "autoplay": "Autoplay",
+      "loop": "Loop"
+    },
+    "table": {
+      "cellFill": "Cell Fill",
+      "rows": "Rows",
+      "cols": "Columns",
+      "enableTheme": "Enable Themed Table",
+      "rowHeader": "Header Row",
+      "rowFooter": "Total Row",
+      "colHeader": "First Column",
+      "colFooter": "Last Column",
+      "themeColor": "Theme Color"
+    },
+    "canvasTool": {
+      "undo": "Undo (Ctrl + Z)",
+      "redo": "Redo (Ctrl + Y)",
+      "notesPanel": "Notes Panel",
+      "selectPanel": "Selection Pane",
+      "searchReplace": "Find/Replace (Ctrl + F)",
+      "zoomOut": "Zoom Out (Ctrl + -)",
+      "zoomIn": "Zoom In (Ctrl + =)",
+      "fitScreen": "Fit to Screen (Ctrl + 0)",
+      "insertText": "Insert Text",
+      "textboxHorizontal": "Horizontal Textbox",
+      "textboxVertical": "Vertical Textbox",
+      "insertShape": "Insert Shape",
+      "freeDraw": "Free Draw",
+      "insertImage": "Insert Image",
+      "insertLine": "Insert Line",
+      "insertChart": "Insert Chart",
+      "insertTable": "Insert Table",
+      "insertFormula": "Insert Formula",
+      "insertMedia": "Insert Media",
+      "insertSymbol": "Insert Symbol"
+    },
+    "transition": {
+      "labels": {
+        "no": "None",
+        "random": "Random",
+        "slideX": "Slide (Left/Right)",
+        "slideY": "Slide (Up/Down)",
+        "slideX3D": "Slide 3D (Left/Right)",
+        "slideY3D": "Slide 3D (Up/Down)",
+        "fade": "Fade",
+        "rotate": "Rotate",
+        "scaleY": "Expand Vertically",
+        "scaleX": "Expand Horizontally",
+        "scale": "Zoom In",
+        "scaleReverse": "Zoom Out"
+      }
+    },
+    "media": {
+      "tabs": {
+        "video": "Video",
+        "audio": "Audio"
+      },
+      "placeholder": {
+        "videoUrl": "Video-URL eingeben, z. B. https://xxx.mp4",
+        "audioUrl": "Audio-URL eingeben, z. B. https://xxx.mp3"
+      },
+      "uploadVideo": "Lokales Video hochladen",
+      "uploadAudio": "Lokale Audiodatei hochladen",
+      "invalidVideoUrl": "Bitte eine gültige Video-URL eingeben",
+      "invalidAudioUrl": "Bitte eine gültige Audio-URL eingeben"
+    }
+  },
+  "app": {
+    "initializing": "Initializing data, please wait ..."
+  },
+  "header": {
+    "menu": {
+      "export": "Export",
+      "reset": "Reset Slides",
+      "markup": "Slide Type Markup",
+      "hotkeys": "Hotkeys",
+      "feedback": "Feedback",
+      "faq": "FAQ",
+      "statement": "Note: This site is for demo only and provides no services",
+      "fromStart": "From Start",
+      "fromCurrent": "From Current Slide"
+    },
+    "tooltip": {
+      "screening": "Slide Show (F5)",
+      "ai": "AI Generate PPT",
+      "export": "Export"
+    },
+    "aipptSubtitle": "Enter a sentence to generate a presentation",
+    "import": {
+      "label": "Import Files",
+      "testOnly": "(Test Only)",
+      "proprietary": "(Proprietary)"
+    },
+    "githubTooltip": "Copyright © 2020–PRESENT pipipi-pikachu"
+  },
+  "service": {
+    "error": {
+      "unknown": "Unknown request error!",
+      "server": "Server encountered an unknown error!",
+      "timeout": "Failed to connect or request timed out!"
+    }
+  },
+  "aippt": {
+    "generating": "Generating with AI, please wait ...",
+    "inputTopicFirst": "Please enter a PPT topic first",
+    "serviceError": "AI service error, please try another model",
+    "inputPlaceholder": "Enter a PPT topic, e.g., Career Planning for College Students",
+    "aiGenerate": "AI Generate",
+    "uploadTemplateError": "Invalid template file data. Please re-upload or use a preset template.",
+    "buttons": {
+      "selectTemplate": "Select Template",
+      "backToSetup": "Back to Setup",
+      "generate": "Generate",
+      "backToOutline": "Back to Outline"
+    }
+  },
+  "import": {
+    "loading": "Importing..."
+  },
+  "search": {
+    "noMatch": "No matches found",
+    "tabs": {
+      "search": "Search",
+      "replace": "Replace"
+    },
+    "placeholder": {
+      "search": "Enter text to find",
+      "replace": "Enter replacement text"
+    },
+    "ignoreCase": "Ignore case",
+    "prev": "Previous",
+    "next": "Next",
+    "replace": "Replace",
+    "replaceAll": "Replace All",
+    "inputFirst": "Please enter text to find"
+  },
+  "elements": {
+    "type": {
+      "text": "Text",
+      "image": "Image",
+      "shape": "Shape",
+      "line": "Line",
+      "chart": "Chart",
+      "table": "Table",
+      "video": "Video",
+      "audio": "Audio",
+      "latex": "Formula"
+    }
+  },
+  "animation": {
+    "tabs": {
+      "in": "Entrance",
+      "out": "Exit",
+      "attention": "Emphasis"
+    },
+    "add": "Add Animation",
+    "selectToAdd": "Select an element to add animation",
+    "preview": "Preview",
+    "previewAll": "Preview All",
+    "stopPreview": "Stop Preview",
+    "duration": "Duration:",
+    "trigger": "Trigger:",
+    "triggers": {
+      "click": "On Click",
+      "meantime": "With Previous",
+      "auto": "After Previous"
+    },
+    "change": "Change Animation",
+    "effects": {
+      "categories": {
+        "bounce": "Bounce",
+        "fade": "Fade",
+        "rotate": "Rotate",
+        "zoom": "Zoom",
+        "slide": "Slide",
+        "flip": "Flip",
+        "back": "Back (In/Out)",
+        "lightSpeed": "Light Speed",
+        "shake": "Shake",
+        "other": "Other"
+      },
+      "labels": {
+        "bounceIn": "Bounce In",
+        "bounceInLeft": "Bounce In (From Left)",
+        "bounceInRight": "Bounce In (From Right)",
+        "bounceInUp": "Bounce In (Up)",
+        "bounceInDown": "Bounce In (Down)",
+        "fadeIn": "Fade In",
+        "fadeInDown": "Fade In (Down)",
+        "fadeInDownBig": "Fade In (Down, Long)",
+        "fadeInLeft": "Fade In (From Left)",
+        "fadeInLeftBig": "Fade In (From Left, Long)",
+        "fadeInRight": "Fade In (From Right)",
+        "fadeInRightBig": "Fade In (From Right, Long)",
+        "fadeInUp": "Fade In (Up)",
+        "fadeInUpBig": "Fade In (Up, Long)",
+        "fadeInTopLeft": "Fade In (Top-Left)",
+        "fadeInTopRight": "Fade In (Top-Right)",
+        "fadeInBottomLeft": "Fade In (Bottom-Left)",
+        "fadeInBottomRight": "Fade In (Bottom-Right)",
+        "rotateIn": "Rotate In",
+        "rotateInDownLeft": "Rotate In (Down-Left)",
+        "rotateInDownRight": "Rotate In (Down-Right)",
+        "rotateInUpLeft": "Rotate In (Up-Left)",
+        "rotateInUpRight": "Rotate In (Up-Right)",
+        "zoomIn": "Zoom In",
+        "zoomInDown": "Zoom In (Down)",
+        "zoomInLeft": "Zoom In (From Left)",
+        "zoomInRight": "Zoom In (From Right)",
+        "zoomInUp": "Zoom In (Up)",
+        "slideInDown": "Slide In (Down)",
+        "slideInLeft": "Slide In (From Left)",
+        "slideInRight": "Slide In (From Right)",
+        "slideInUp": "Slide In (Up)",
+        "flipInX": "Flip In (X)",
+        "flipInY": "Flip In (Y)",
+        "backInDown": "Back In (Down)",
+        "backInLeft": "Back In (From Left)",
+        "backInRight": "Back In (From Right)",
+        "backInUp": "Back In (Up)",
+        "lightSpeedInRight": "Light Speed In (From Right)",
+        "lightSpeedInLeft": "Light Speed In (From Left)",
+        "bounceOut": "Bounce Out",
+        "bounceOutLeft": "Bounce Out (Left)",
+        "bounceOutRight": "Bounce Out (Right)",
+        "bounceOutUp": "Bounce Out (Up)",
+        "bounceOutDown": "Bounce Out (Down)",
+        "fadeOut": "Fade Out",
+        "fadeOutDown": "Fade Out (Down)",
+        "fadeOutDownBig": "Fade Out (Down, Long)",
+        "fadeOutLeft": "Fade Out (Left)",
+        "fadeOutLeftBig": "Fade Out (Left, Long)",
+        "fadeOutRight": "Fade Out (Right)",
+        "fadeOutRightBig": "Fade Out (Right, Long)",
+        "fadeOutUp": "Fade Out (Up)",
+        "fadeOutUpBig": "Fade Out (Up, Long)",
+        "fadeOutTopLeft": "Fade Out (Top-Left)",
+        "fadeOutTopRight": "Fade Out (Top-Right)",
+        "fadeOutBottomLeft": "Fade Out (Bottom-Left)",
+        "fadeOutBottomRight": "Fade Out (Bottom-Right)",
+        "rotateOut": "Rotate Out",
+        "rotateOutDownLeft": "Rotate Out (Down-Left)",
+        "rotateOutDownRight": "Rotate Out (Down-Right)",
+        "rotateOutUpLeft": "Rotate Out (Up-Left)",
+        "rotateOutUpRight": "Rotate Out (Up-Right)",
+        "zoomOut": "Zoom Out",
+        "zoomOutDown": "Zoom Out (Down)",
+        "zoomOutLeft": "Zoom Out (Left)",
+        "zoomOutRight": "Zoom Out (Right)",
+        "zoomOutUp": "Zoom Out (Up)",
+        "slideOutDown": "Slide Out (Down)",
+        "slideOutLeft": "Slide Out (Left)",
+        "slideOutRight": "Slide Out (Right)",
+        "slideOutUp": "Slide Out (Up)",
+        "flipOutX": "Flip Out (X)",
+        "flipOutY": "Flip Out (Y)",
+        "backOutDown": "Back Out (Down)",
+        "backOutLeft": "Back Out (Left)",
+        "backOutRight": "Back Out (Right)",
+        "backOutUp": "Back Out (Up)",
+        "lightSpeedOutRight": "Light Speed Out (Right)",
+        "lightSpeedOutLeft": "Light Speed Out (Left)",
+        "shakeX": "Shake X",
+        "shakeY": "Shake Y",
+        "headShake": "Head Shake",
+        "swing": "Swing",
+        "wobble": "Wobble",
+        "tada": "Tada",
+        "jello": "Jello",
+        "bounce": "Bounce",
+        "flash": "Flash",
+        "pulse": "Pulse",
+        "rubberBand": "Rubber Band",
+        "heartBeat": "Heart Beat"
+      }
+    }
+  },
+  "notes": {
+    "title": "Notes of Slide {index}",
+    "replyPlaceholder": "Enter reply",
+    "inputForElement": "Enter a note (for selected element)",
+    "inputForSlide": "Enter a note (for current slide)",
+    "clear": "Clear notes of this slide",
+    "reply": "Reply",
+    "cancel": "Cancel",
+    "add": "Add Note",
+    "empty": "No notes on this slide"
+  },
+  "screen": {
+    "tooltip": {
+      "penTool": "Drawing Tool",
+      "laser": "Laser Pointer",
+      "timer": "Timer",
+      "presenterView": "Presenter View",
+      "exitFullscreen": "Exit Fullscreen",
+      "enterFullscreen": "Enter Fullscreen",
+      "endShow": "End Slideshow"
+    },
+    "writing": {
+      "pen": "Pen",
+      "shape": "Shape",
+      "mark": "Highlighter",
+      "eraser": "Eraser",
+      "clear": "Clear Ink",
+      "blackboard": "Blackboard",
+      "close": "Close Drawing",
+      "inkSize": "Stroke Width",
+      "eraserSize": "Eraser Size"
+    },
+    "timer": {
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "countdown": "Countdown"
+    },
+    "presenter": {
+      "normalView": "Normal View",
+      "notes": "Speaker Notes",
+      "noNotes": "No notes"
+    },
+    "context": {
+      "prev": "Previous Page",
+      "next": "Next Page",
+      "first": "First Page",
+      "last": "Last Page",
+      "autoplay": "Start Autoplay",
+      "stopAutoplay": "Stop Autoplay",
+      "s2_5": "2.5s",
+      "s5": "5s",
+      "s7_5": "7.5s",
+      "s10": "10s",
+      "loop": "Loop Playback",
+      "showToolbar": "Show Toolbar",
+      "viewAllSlides": "View All Slides",
+      "toggleBottomThumbs": "Toggle Bottom Thumbnails",
+      "penTool": "Drawing Tool",
+      "presenterView": "Presenter View",
+      "endShow": "End Slideshow"
+    }
+  },
+  "select": {
+    "title": "Select ({selected}/{total})",
+    "showAll": "Show All",
+    "hideAll": "Hide All",
+    "group": "Group"
+  },
+  "mobile": {
+    "speakerNotesPlaceholder": "Tap to enter the notes",
+    "newSlide": "New Slide",
+    "text": "Text",
+    "image": "Image",
+    "rect": "Rectangle",
+    "circle": "Circle",
+    "newTextDefault": "New text",
+    "menu": {
+      "edit": "Edit",
+      "play": "Play",
+      "exitPlay": "Exit Playback",
+      "exitEdit": "Exit Editor"
+    },
+    "tabs": {
+      "style": "Style",
+      "common": "Layout"
+    },
+    "fontColor": "Font Color",
+    "fill": "Fill",
+    "actions": {
+      "copy": "Copy",
+      "delete": "Delete",
+      "up": "Move Up",
+      "down": "Move Down"
+    }
+  },
+  "fonts": {
+    "default": "Default",
+    "SourceHanSans": "Source Han Sans",
+    "SourceHanSerif": "Source Han Serif",
+    "FangZhengHeiTi": "FangZheng HeiTi",
+    "FangZhengKaiTi": "FangZheng KaiTi",
+    "FangZhengShuSong": "FangZheng Song",
+    "FangZhengFangSong": "FangZheng FangSong",
+    "AlibabaPuHuiTi": "Alibaba PuHuiTi",
+    "ZhuqueFangSong": "Zhuque FangSong",
+    "LXGWWenKai": "LXGW WenKai",
+    "WenDingPLKaiTi": "Wending PL KaiTi",
+    "DeYiHei": "DeYi Hei",
+    "MiSans": "MiSans",
+    "CangerXiaowanzi": "Canger Xiaowanzi",
+    "YousheTitleBlack": "Youshe Title Black",
+    "FengguangMingrui": "Fengguang Mingrui",
+    "ShetuModernSquare": "Shetu Modern Square",
+    "ZcoolHappy": "ZCOOL KuaiLe",
+    "ZizhiQuXiMai": "Ximai",
+    "SucaiJishiKangkang": "Kangkang",
+    "SucaiJishiCoolSquare": "Cool Square",
+    "TuniuRounded": "Tuniu Rounded",
+    "RuiziZhenyan": "Ruizi Zhenyan"
+  },
+  "export": {
+    "tabs": {
+      "pptist": "Export PPTIST",
+      "pptx": "Export PPTX",
+      "image": "Export Image",
+      "json": "Export JSON",
+      "pdf": "Print / Export PDF"
+    },
+    "scope": "Export Range:",
+    "scopeAll": "All",
+    "scopeCurrent": "Current",
+    "scopeCustom": "Custom",
+    "customRange": "Custom Range:",
+    "format": "Format:",
+    "quality": "Image Quality:",
+    "ignoreWebfont": "Ignore Web Fonts:",
+    "ignoreWebfontTip": "By default, web fonts are ignored on export. Disable to keep styles for web fonts, which may increase export time.",
+    "ignoreMedia": "Ignore Audio/Video:",
+    "ignoreMediaTip": "Tip: Supported formats: avi, mp4, mov, wmv, mp3, wav; Cross-origin resources cannot be exported.",
+    "masterOverwrite": "Overwrite Default Master:",
+    "exportImage": "Export Image",
+    "exportPPTX": "Export PPTX",
+    "exportPPTIST": "Export PPTIST",
+    "exportJSON": "Export JSON",
+    "close": "Close",
+    "exporting": "Exporting...",
+    "imageFailed": "Failed to export image",
+    "failed": "Export failed",
+    "countPerPage": "Items Per Page:",
+    "padding": "Page Padding:",
+    "printTip": "Tip: If print preview differs from actual, check 'Background graphics' in the print dialog."
+  },
+  "markup": {
+    "title": "Slide Type Markup",
+    "slideTypeLabel": "Current slide type:",
+    "textTypeLabel": "Current text type:",
+    "imageTypeLabel": "Current image type:",
+    "placeholder": "Select an image, text, or shape with text to mark type",
+    "none": "Unmarked",
+    "slideType": {
+      "cover": "Cover",
+      "contents": "Contents",
+      "transition": "Transition",
+      "content": "Content",
+      "end": "End"
+    },
+    "textType": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "content": "Body",
+      "item": "List Item",
+      "itemTitle": "Item Title",
+      "notes": "Notes",
+      "header": "Header",
+      "footer": "Footer",
+      "partNumber": "Section Number",
+      "itemNumber": "Item Number"
+    },
+    "imageType": {
+      "pageFigure": "Page Figure",
+      "itemFigure": "Item Figure",
+      "background": "Background"
+    }
+  },
+  "thumbnails": {
+    "addSlide": "Add Slide",
+    "section": {
+      "inputPlaceholder": "Enter section name",
+      "emptyTitle": "Untitled Section",
+      "default": "Default Section"
+    },
+    "pageNumber": "Slide {cur} / {total}",
+    "templates": {
+      "insertAll": "Insert",
+      "insertTemplate": "Insert Template",
+      "type": {
+        "all": "All"
+      },
+      "catalogName": {
+        "template_1": "Red",
+        "template_2": "Blue",
+        "template_3": "Purple",
+        "template_4": "Morandi"
+      }
+    },
+    "context": {
+      "paste": "Paste",
+      "selectAll": "Select All",
+      "newSlide": "New Slide",
+      "slideShow": "Slide Show",
+      "cut": "Cut",
+      "copy": "Copy",
+      "duplicate": "Duplicate Slide",
+      "delete": "Delete Slide",
+      "addSection": "Add Section",
+      "fromCurrent": "Present from Current",
+      "deleteSection": "Delete Section",
+      "deleteSectionWithSlides": "Delete Section and Slides",
+      "deleteAllSections": "Delete All Sections",
+      "renameSection": "Rename Section"
+    }
+  },
+  "canvas": {
+    "context": {
+      "paste": "Paste",
+      "selectAll": "Select All",
+      "ruler": "Ruler",
+      "grid": "Grid",
+      "gridNone": "None",
+      "gridSmall": "Small",
+      "gridMedium": "Medium",
+      "gridLarge": "Large",
+      "resetSlide": "Reset Current Slide"
+    }
+  },
+  "element": {
+    "doubleClickToEdit": "Double-click to edit",
+    "context": {
+      "unlock": "Unlock",
+      "cut": "Cut",
+      "copy": "Copy",
+      "paste": "Paste",
+      "alignCenterBoth": "Align Center (Both)",
+      "alignTop": "Align Top",
+      "alignBottom": "Align Bottom",
+      "toTop": "Bring to Front",
+      "up": "Bring Forward",
+      "toBottom": "Send to Back",
+      "down": "Send Backward",
+      "setLink": "Set Link",
+      "lock": "Lock"
     }
   }
 }

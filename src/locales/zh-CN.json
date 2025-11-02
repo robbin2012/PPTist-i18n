@@ -325,6 +325,14 @@
       "insertMedia": "插入音视频",
       "insertSymbol": "插入符号"
     },
+    "media": {
+      "tabs": { "video": "视频", "audio": "音频" },
+      "placeholder": { "videoUrl": "请输入视频地址，e.g. https://xxx.mp4", "audioUrl": "请输入音频地址，e.g. https://xxx.mp3" },
+      "uploadVideo": "上传本地视频",
+      "uploadAudio": "上传本地音频",
+      "invalidVideoUrl": "请先输入正确的视频地址",
+      "invalidAudioUrl": "请先输入正确的音频地址"
+    },
     "tableGenerator": {
       "title": "表格",
       "back": "返回",

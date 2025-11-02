@@ -377,6 +377,14 @@
       "insertMedia": "Вставить медиа",
       "insertSymbol": "Вставить символ"
     },
+    "media": {
+      "tabs": { "video": "Видео", "audio": "Аудио" },
+      "placeholder": { "videoUrl": "Введите URL видео, напр. https://xxx.mp4", "audioUrl": "Введите URL аудио, напр. https://xxx.mp3" },
+      "uploadVideo": "Загрузить локальное видео",
+      "uploadAudio": "Загрузить аудиофайл",
+      "invalidVideoUrl": "Пожалуйста, введите корректный URL видео",
+      "invalidAudioUrl": "Пожалуйста, введите корректный URL аудио"
+    },
     "tableGenerator": {
       "title": "Таблица",
       "back": "Назад",

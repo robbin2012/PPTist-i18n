@@ -541,6 +541,14 @@
       "insertMedia": "Insert Media",
       "insertSymbol": "Insert Symbol"
     },
+    "media": {
+      "tabs": { "video": "Video", "audio": "Audio" },
+      "placeholder": { "videoUrl": "Enter video URL, e.g. https://xxx.mp4", "audioUrl": "Enter audio URL, e.g. https://xxx.mp3" },
+      "uploadVideo": "Upload Local Video",
+      "uploadAudio": "Upload Local Audio",
+      "invalidVideoUrl": "Please enter a valid video URL",
+      "invalidAudioUrl": "Please enter a valid audio URL"
+    },
     "tableGenerator": {
       "title": "Table",
       "back": "Back",

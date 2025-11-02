@@ -7,27 +7,27 @@
     />
 
     <template v-if="type === 'video'">
-      <Input v-model:value="videoSrc" placeholder="请输入视频地址，e.g. https://xxx.mp4"></Input>
+      <Input v-model:value="videoSrc" :placeholder="t('toolbar.media.placeholder.videoUrl')"></Input>
       <div class="btns">
         <FileInput accept="video/*" @change="files => uploadVideo(files)">
-          <Button>上传本地视频</Button>
+          <Button>{{ t('toolbar.media.uploadVideo') }}</Button>
         </FileInput>
         <div class="group">
-          <Button @click="emit('close')" style="margin-right: 10px;">取消</Button>
-          <Button type="primary" @click="insertVideo()">确认</Button>
+          <Button @click="emit('close')" style="margin-right: 10px;">{{ t('common.cancel') }}</Button>
+          <Button type="primary" @click="insertVideo()">{{ t('common.confirm') }}</Button>
         </div>
       </div>
     </template>
 
     <template v-if="type === 'audio'">
-      <Input v-model:value="audioSrc" placeholder="请输入音频地址，e.g. https://xxx.mp3"></Input>
+      <Input v-model:value="audioSrc" :placeholder="t('toolbar.media.placeholder.audioUrl')"></Input>
       <div class="btns">
         <FileInput accept="audio/*" @change="files => uploadAudio(files)">
-          <Button>上传本地音频</Button>
+          <Button>{{ t('toolbar.media.uploadAudio') }}</Button>
         </FileInput>
         <div class="group">
-          <Button @click="emit('close')" style="margin-right: 10px;">取消</Button>
-          <Button type="primary" @click="insertAudio()">确认</Button>
+          <Button @click="emit('close')" style="margin-right: 10px;">{{ t('common.cancel') }}</Button>
+          <Button type="primary" @click="insertAudio()">{{ t('common.confirm') }}</Button>
         </div>
       </div>
     </template>
@@ -35,12 +35,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import message from '@/utils/message'
 import Tabs from '@/components/Tabs.vue'
 import Input from '@/components/Input.vue'
 import Button from '@/components/Button.vue'
 import FileInput from '@/components/FileInput.vue'
+import { useI18n } from 'vue-i18n'
 
 const MIME_MAP: { [key: string]: string } = {
 
@@ -82,22 +83,23 @@ const emit = defineEmits<{
 }>()
 
 const type = ref<TypeKey>('video')
+const { t } = useI18n()
 
 const videoSrc = ref('https://videos.pexels.com/video-files/29261597/12623866_640_360_24fps.mp4')
 const audioSrc = ref('https://freesound.org/data/previews/614/614107_11861866-lq.mp3')
 
-const tabs: TabItem[] = [
-  { key: 'video', label: '视频' },
-  { key: 'audio', label: '音频' },
-]
+const tabs = computed<TabItem[]>(() => ([
+  { key: 'video', label: t('toolbar.media.tabs.video') },
+  { key: 'audio', label: t('toolbar.media.tabs.audio') },
+]))
 
 const insertVideo = () => {
-  if (!videoSrc.value) return message.error('请先输入正确的视频地址')
+  if (!videoSrc.value) return message.error(t('toolbar.media.invalidVideoUrl'))
   emit('insertVideo', { src: videoSrc.value })
 }
 
 const insertAudio = () => {
-  if (!audioSrc.value) return message.error('请先输入正确的音频地址')
+  if (!audioSrc.value) return message.error(t('toolbar.media.invalidAudioUrl'))
   emit('insertAudio', { src: audioSrc.value })
 }
 
