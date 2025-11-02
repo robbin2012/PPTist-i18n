@@ -377,6 +377,14 @@
       "insertMedia": "Вставить медиа",
       "insertSymbol": "Вставить символ"
     },
+    "tableGenerator": {
+      "title": "Таблица",
+      "back": "Назад",
+      "custom": "Настроить",
+      "rows": "Строки",
+      "cols": "Столбцы",
+      "invalidRange": "Число строк/столбцов должно быть от 1 до 20!"
+    },
     "transition": {
       "labels": {
         "no": "Нет",

@@ -541,6 +541,14 @@
       "insertMedia": "Insert Media",
       "insertSymbol": "Insert Symbol"
     },
+    "tableGenerator": {
+      "title": "Table",
+      "back": "Back",
+      "custom": "Custom",
+      "rows": "Rows",
+      "cols": "Columns",
+      "invalidRange": "Rows/columns must be between 1 and 20!"
+    },
     "transition": {
       "labels": {
         "no": "None",

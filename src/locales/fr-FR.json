@@ -377,6 +377,14 @@
       "insertMedia": "Insérer un média",
       "insertSymbol": "Insérer un symbole"
     },
+    "tableGenerator": {
+      "title": "Tableau",
+      "back": "Retour",
+      "custom": "Personnalisé",
+      "rows": "Lignes",
+      "cols": "Colonnes",
+      "invalidRange": "Les lignes/colonnes doivent être comprises entre 1 et 20 !"
+    },
     "transition": {
       "labels": {
         "no": "Aucun",

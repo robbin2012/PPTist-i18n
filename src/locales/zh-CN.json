@@ -325,6 +325,14 @@
       "insertMedia": "插入音视频",
       "insertSymbol": "插入符号"
     },
+    "tableGenerator": {
+      "title": "表格",
+      "back": "返回",
+      "custom": "自定义",
+      "rows": "行数",
+      "cols": "列数",
+      "invalidRange": "行数/列数必须在1~20之间！"
+    },
     "chart": {
       "editData": "编辑图表",
       "stack": "堆叠样式",

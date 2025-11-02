@@ -377,6 +377,14 @@
       "insertMedia": "メディアを挿入",
       "insertSymbol": "記号を挿入"
     },
+    "tableGenerator": {
+      "title": "表",
+      "back": "戻る",
+      "custom": "カスタム",
+      "rows": "行数",
+      "cols": "列数",
+      "invalidRange": "行数/列数は1〜20の範囲で入力してください！"
+    },
     "transition": {
       "labels": {
         "no": "なし",

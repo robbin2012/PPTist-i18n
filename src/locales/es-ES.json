@@ -409,6 +409,14 @@
       "insertMedia": "Insertar multimedia",
       "insertSymbol": "Insertar símbolo"
     },
+    "tableGenerator": {
+      "title": "Tabla",
+      "back": "Volver",
+      "custom": "Personalizado",
+      "rows": "Filas",
+      "cols": "Columnas",
+      "invalidRange": "¡Las filas/columnas deben estar entre 1 y 20!"
+    },
     "transition": {
       "labels": {
         "no": "Ninguno",
