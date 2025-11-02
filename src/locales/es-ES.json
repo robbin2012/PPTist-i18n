@@ -25,7 +25,7 @@
   "latex": {
     "placeholder": "Introduce fórmula LaTeX",
     "preview": "Vista previa",
-    "tabs": { "symbol": "Símbolos comunes", "formula": "Fórmulas preestablecidas" },
+    "tabs": { "symbol": "Símbolos", "formula": "Fórmulas" },
     "emptyError": "La fórmula no puede estar vacía",
     "symbolTabs": {
       "operators": "Matemáticas",
