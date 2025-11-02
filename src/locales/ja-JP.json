@@ -438,6 +438,26 @@
       "group": "構造",
       "verbatim": "関数",
       "greek": "ギリシャ文字"
+    },
+    "formulas": {
+      "gauss": "ガウスの定理",
+      "fourier": "フーリエ級数",
+      "taylor": "テイラー展開",
+      "definiteIntegral": "定積分",
+      "trigonIdentity1": "三角恒等式 I",
+      "trigonIdentity2": "三角恒等式 II",
+      "binomial": "二項展開",
+      "euler": "オイラーの公式",
+      "bernoulli": "ベルヌーイ方程式",
+      "totalDifferential": "全微分方程式",
+      "inhomogeneous": "非斉次方程式",
+      "cauchyMean": "コーシーの平均値の定理",
+      "lagrangeMean": "ラグランジュの平均値の定理",
+      "derivative": "導関数の公式",
+      "trigIntegral": "三角関数の積分",
+      "quadricSurface": "二次曲面",
+      "secondOrderDiff": "二階微分方程式",
+      "directionalDerivative": "方向微分"
     }
   },
   "mobile": {

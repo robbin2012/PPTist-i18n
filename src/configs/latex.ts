@@ -1,73 +1,91 @@
 export const FORMULA_LIST = [
   {
+    key: 'gauss',
     label: '高斯公式',
     latex: `\\int\\int\\int _ { \\Omega } \\left( \\frac { \\partial {P} } { \\partial {x} } + \\frac { \\partial {Q} } { \\partial {y} } + \\frac { \\partial {R} }{ \\partial {z} } \\right) \\mathrm { d } V = \\oint _ { \\partial \\Omega } ( P \\cos \\alpha + Q \\cos \\beta + R \\cos \\gamma ) \\mathrm{ d} S`
   },
   {
+    key: 'fourier',
     label: '傅里叶级数',
     latex: `f(x) = \\frac {a_0} 2 + \\sum_{n = 1}^\\infty {({a_n}\\cos {nx} + {b_n}\\sin {nx})}`,
   },
   {
+    key: 'taylor',
     label: '泰勒展开式',
     latex: `e ^ { x } = 1 + \\frac { x } { 1 ! } + \\frac { x ^ { 2 } } { 2 ! } + \\frac { x ^ { 3 } } { 3 ! } + ... , \\quad - \\infty < x < \\infty`,
   },
   {
+    key: 'definiteIntegral',
     label: '定积分',
     latex: `\\lim_ { n \\rightarrow + \\infty } \\sum _ { i = 1 } ^ { n } f \\left[ a + \\frac { i } { n } ( b - a ) \\right] \\frac { b - a } { n } = \\int _ { a } ^ { b } f ( x ) dx`,
   },
   {
+    key: 'trigonIdentity1',
     label: '三角恒等式1',
     latex: `\\sin \\alpha \\pm \\sin \\beta = 2 \\sin \\frac { 1 } { 2 } ( \\alpha \\pm \\beta ) \\cos \\frac { 1 } { 2 } ( \\alpha \\mp \\beta )`,
   },
   {
+    key: 'trigonIdentity2',
     label: '三角恒等式2',
     latex: `\\cos \\alpha + \\cos \\beta = 2 \\cos \\frac { 1 } { 2 } ( \\alpha + \\beta ) \\cos \\frac { 1 } { 2 } ( \\alpha - \\beta )`,
   },
   {
+    key: 'binomial',
     label: '和的展开式',
     latex: `( 1 + x ) ^ { n } = 1 + \\frac { n x } { 1 ! } + \\frac { n ( n - 1 ) x ^ { 2 } } { 2 ! } + ...`,
   },
   {
+    key: 'euler',
     label: '欧拉公式',
     latex: ` e^{ix} = \\cos {x} + i\\sin {x}`,
   },
   {
+    key: 'bernoulli',
     label: '贝努利方程',
     latex: `\\frac {dy} {dx} + P(x)y = Q(x) y^n ({n} \\not= {0,1})`,
   },
   {
+    key: 'totalDifferential',
     label: '全微分方程',
     latex: `du(x,y) = P(x,y)dx + Q(x,y)dy = 0`,
   },
   {
+    key: 'inhomogeneous',
     label: '非齐次方程',
     latex: `y = (\\int Q(x) e^{\\int {P(x)dx}}dx + C)e^{-\\int {P(x)dx}}`,
   },
   {
+    key: 'cauchyMean',
     label: '柯西中值定理',
     latex: `\\frac{{f(b) - f(a)}}{{F(b) - F(a)}} = \\frac{{f'(\\xi )}}{{F'(\\xi )}}`,
   },
   {
+    key: 'lagrangeMean',
     label: '拉格朗日中值定理',
     latex: `f(b) - f(a) = f'(\\xi )(b - a)`,
   },
   {
+    key: 'derivative',
     label: '导数公式',
     latex: `(\\arcsin x)' = \\frac{1}{{\\sqrt {1 - x^2} }}`,
   },
   {
+    key: 'trigIntegral',
     label: '三角函数积分',
     latex: `\\int {tgxdx = - \\ln \\left| {\\cos x} \\right| + C}`,
   },
   {
+    key: 'quadricSurface',
     label: '二次曲面',
     latex: `\\frac{{{x^2}}}{{{a^2}}} + \\frac{{{y^2}}}{{{b^2}}} - \\frac{{{z^2}}}{{{c^2}}} = 1`,
   },
   {
+    key: 'secondOrderDiff',
     label: '二阶微分',
     latex: `\\frac {{d^2}y} {dx^2} + P(x) \\frac {dy} {dx} + Q(x)y = f(x)`,
   },
   {
+    key: 'directionalDerivative',
     label: '方向导数',
     latex: `\\frac{{\\partial f}}{{\\partial l}} = \\frac{{\\partial f}}{{\\partial x}}\\cos \\phi + \\frac{{\\partial f}}{{\\partial y}}\\sin \\phi`,
   },

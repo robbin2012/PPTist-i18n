@@ -438,6 +438,26 @@
       "group": "Structures",
       "verbatim": "Fonctions",
       "greek": "Lettres grecques"
+    },
+    "formulas": {
+      "gauss": "Théorème de Gauss",
+      "fourier": "Série de Fourier",
+      "taylor": "Développement de Taylor",
+      "definiteIntegral": "Intégrale définie",
+      "trigonIdentity1": "Identité trigonométrique I",
+      "trigonIdentity2": "Identité trigonométrique II",
+      "binomial": "Développement binomial",
+      "euler": "Formule d'Euler",
+      "bernoulli": "Équation de Bernoulli",
+      "totalDifferential": "Équation différentielle exacte",
+      "inhomogeneous": "Équation non homogène",
+      "cauchyMean": "Théorème des accroissements finis de Cauchy",
+      "lagrangeMean": "Théorème des accroissements finis de Lagrange",
+      "derivative": "Formule de dérivée",
+      "trigIntegral": "Intégrale trigonométrique",
+      "quadricSurface": "Surface quadrique",
+      "secondOrderDiff": "Équation différentielle du second ordre",
+      "directionalDerivative": "Dérivée directionnelle"
     }
   },
   "mobile": {

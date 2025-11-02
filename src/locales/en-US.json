@@ -602,6 +602,26 @@
       "group": "Structures",
       "verbatim": "Functions",
       "greek": "Greek Letters"
+    },
+    "formulas": {
+      "gauss": "Gauss's theorem",
+      "fourier": "Fourier series",
+      "taylor": "Taylor expansion",
+      "definiteIntegral": "Definite integral",
+      "trigonIdentity1": "Trigonometric identity I",
+      "trigonIdentity2": "Trigonometric identity II",
+      "binomial": "Binomial expansion",
+      "euler": "Euler's formula",
+      "bernoulli": "Bernoulli equation",
+      "totalDifferential": "Exact differential equation",
+      "inhomogeneous": "Non-homogeneous equation",
+      "cauchyMean": "Cauchy mean value theorem",
+      "lagrangeMean": "Lagrange mean value theorem",
+      "derivative": "Derivative formula",
+      "trigIntegral": "Trigonometric integral",
+      "quadricSurface": "Quadric surface",
+      "secondOrderDiff": "Second-order differential equation",
+      "directionalDerivative": "Directional derivative"
     }
   },
   "select": {

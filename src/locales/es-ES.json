@@ -32,6 +32,26 @@
       "group": "Estructuras",
       "verbatim": "Funciones",
       "greek": "Letras griegas"
+    },
+    "formulas": {
+      "gauss": "Teorema de Gauss",
+      "fourier": "Serie de Fourier",
+      "taylor": "Expansión de Taylor",
+      "definiteIntegral": "Integral definida",
+      "trigonIdentity1": "Identidad trigonométrica I",
+      "trigonIdentity2": "Identidad trigonométrica II",
+      "binomial": "Expansión binomial",
+      "euler": "Fórmula de Euler",
+      "bernoulli": "Ecuación de Bernoulli",
+      "totalDifferential": "Ecuación diferencial exacta",
+      "inhomogeneous": "Ecuación no homogénea",
+      "cauchyMean": "Teorema del valor medio de Cauchy",
+      "lagrangeMean": "Teorema del valor medio de Lagrange",
+      "derivative": "Fórmula de derivada",
+      "trigIntegral": "Integral trigonométrica",
+      "quadricSurface": "Superficie cuádrica",
+      "secondOrderDiff": "Ecuación diferencial de segundo orden",
+      "directionalDerivative": "Derivada direccional"
     }
   },
   "header": {

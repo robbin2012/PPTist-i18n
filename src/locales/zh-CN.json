@@ -429,6 +429,26 @@
       "group": "组合",
       "verbatim": "函数",
       "greek": "希腊字母"
+    },
+    "formulas": {
+      "gauss": "高斯公式",
+      "fourier": "傅里叶级数",
+      "taylor": "泰勒展开式",
+      "definiteIntegral": "定积分",
+      "trigonIdentity1": "三角恒等式1",
+      "trigonIdentity2": "三角恒等式2",
+      "binomial": "和的展开式",
+      "euler": "欧拉公式",
+      "bernoulli": "贝努利方程",
+      "totalDifferential": "全微分方程",
+      "inhomogeneous": "非齐次方程",
+      "cauchyMean": "柯西中值定理",
+      "lagrangeMean": "拉格朗日中值定理",
+      "derivative": "导数公式",
+      "trigIntegral": "三角函数积分",
+      "quadricSurface": "二次曲面",
+      "secondOrderDiff": "二阶微分",
+      "directionalDerivative": "方向导数"
     }
   },
   

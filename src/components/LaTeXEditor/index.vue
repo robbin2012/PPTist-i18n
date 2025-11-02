@@ -101,7 +101,10 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
-const formulaList = FORMULA_LIST
+const formulaList = computed(() => FORMULA_LIST.map(item => ({
+  ...item,
+  label: t(`latex.formulas.${item.key}`),
+})))
 
 const symbolTabs = computed(() => SYMBOL_LIST.map(item => ({
   label: t(`latex.symbolTabs.${item.type}`),
