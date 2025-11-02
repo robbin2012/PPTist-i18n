@@ -37,8 +37,8 @@
             </div>
           </div>
           <div class="formula" v-else>
-            <div class="formula-item" v-for="item in formulaList" :key="item.label">
-              <div class="formula-title">{{item.label}}</div>
+            <div class="formula-item" v-for="item in formulaList" :key="item.key">
+              <div class="formula-title">{{ item.label }}</div>
               <div class="formula-item-content" @click="latex = item.latex">
                 <FormulaContent
                   :width="236"
