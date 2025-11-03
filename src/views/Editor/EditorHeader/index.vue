@@ -389,10 +389,10 @@ const openAIPPTDialog = () => {
     color: #fff;
   }
 }
-.title {
-  height: 30px;
-  margin-left: 2px;
-  font-size: 13px;
+  .title {
+    height: 30px;
+    margin-left: 2px;
+    font-size: 13px;
 
   /* 深度选择子组件 Input 的根与内部 input，使样式生效 */
   :deep(.title-input) {
@@ -400,6 +400,19 @@ const openAIPPTDialog = () => {
     height: 100%;
     padding-left: 0;
     padding-right: 0;
+  }
+  /* 强制标题编辑输入在任何状态都保持透明背景，仅显示边框 */
+  :deep(.title .input),
+  :deep(.title .input:hover),
+  :deep(.title .input.focused),
+  :deep(.title .input input),
+  :deep(.title .input input:hover),
+  :deep(.title .input input:focus) {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    appearance: none;
   }
   :deep(.title-input.input) {
     background-color: transparent !important;
