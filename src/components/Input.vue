@@ -1,10 +1,11 @@
 <template>
-  <div 
+<div 
     class="input"
     :class="{
       'disabled': disabled,
       'focused': focused,
       'simple': simple,
+      'ghost': ghost,
     }"
   >
     <span class="prefix">
@@ -39,10 +40,12 @@ withDefaults(defineProps<{
   placeholder?: string
   simple?: boolean
   maxlength?: number
+  ghost?: boolean
 }>(), {
   disabled: false,
   placeholder: '',
   simple: false,
+  ghost: false,
 })
 
 const emit = defineEmits<{
@@ -133,5 +136,19 @@ defineExpose({
     line-height: 30px;
     user-select: none;
   }
+}
+
+/* Ghost style: transparent background, border-only container */
+.input.ghost {
+  background-color: transparent !important;
+  border-color: var(--input-border, #d9d9d9);
+}
+.input.ghost input {
+  background-color: transparent !important;
+  color: var(--input-text-color, $textColor);
+}
+.input.ghost:not(.disabled):hover,
+.input.ghost.focused {
+  border-color: var(--input-border-hover, $themeColor);
 }
 </style>

@@ -63,6 +63,7 @@
           v-model:value="titleValue" 
           @blur="handleUpdateTitle()" 
           v-if="editingTitle" 
+          ghost
           :style="{
             '--input-bg': 'transparent',
             '--input-field-bg': 'transparent',
