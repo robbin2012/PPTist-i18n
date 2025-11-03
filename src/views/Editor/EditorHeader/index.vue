@@ -63,6 +63,14 @@
           v-model:value="titleValue" 
           @blur="handleUpdateTitle()" 
           v-if="editingTitle" 
+          :style="{
+            '--input-bg': 'transparent',
+            '--input-border': 'rgba(255,255,255,.65)',
+            '--input-border-hover': 'rgba(255,255,255,.9)',
+            '--input-radius': '8px',
+            '--input-text-color': '#fff',
+            '--input-placeholder-color': 'rgba(255,255,255,.75)'
+          }"
         ></Input>
         <div
           class="title-text"
@@ -384,16 +392,34 @@ const openAIPPTDialog = () => {
   margin-left: 2px;
   font-size: 13px;
 
-  .title-input {
+  /* 深度选择子组件 Input 的根与内部 input，使样式生效 */
+  :deep(.title-input) {
     width: 200px;
     height: 100%;
     padding-left: 0;
     padding-right: 0;
-
-    ::v-deep(input) {
-      height: 28px;
-      line-height: 28px;
-    }
+  }
+  :deep(.title-input.input) {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, .65) !important;
+    border-radius: 8px;
+    transition: border-color .15s ease;
+  }
+  :deep(.title-input.input:hover),
+  :deep(.title-input.input.focused) {
+    background-color: transparent !important; /* 防止 hover 变白 */
+    border-color: rgba(255, 255, 255, .9) !important;
+  }
+  :deep(.title-input input) {
+    height: 28px;
+    line-height: 28px;
+    background: transparent !important;
+    color: #fff;
+    &::placeholder { color: rgba(255, 255, 255, .75); }
+  }
+  :deep(.title-input input:hover),
+  :deep(.title-input input:focus) {
+    background: transparent !important; /* 防止 hover/focus 变白 */
   }
   .title-text {
     min-width: 20px;

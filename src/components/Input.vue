@@ -81,10 +81,10 @@ defineExpose({
 
 <style lang="scss" scoped>
 .input {
-  background-color: #fff;
-  border: 1px solid #d9d9d9;
+  background-color: var(--input-bg, #fff);
+  border: 1px solid var(--input-border, #d9d9d9);
   padding: 0 5px;
-  border-radius: $borderRadius;
+  border-radius: var(--input-radius, $borderRadius);
   transition: border-color .25s;
   font-size: 13px;
   display: flex;
@@ -96,19 +96,19 @@ defineExpose({
     border: 0;
     line-height: 30px;
     vertical-align: top;
-    color: $textColor;
+    color: var(--input-text-color, $textColor);
     padding: 0 5px;
     flex: 1;
     font-size: 13px;
     font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
 
     &::placeholder {
-      color: #bfbfbf;
+      color: var(--input-placeholder-color, #bfbfbf);
     }
   }
 
   &:not(.disabled):hover, &.focused {
-    border-color: $themeColor;
+    border-color: var(--input-border-hover, $themeColor);
   }
 
   &.disabled {
