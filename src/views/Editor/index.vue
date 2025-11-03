@@ -143,6 +143,7 @@ usePasteEvent()
     overflow: hidden;
     box-shadow: none; // 去掉阴影
     border: 0; // 去掉边框
+    background-color: $backgroundGray; // 与主背景一致
   }
 }
 .layout-content-right {

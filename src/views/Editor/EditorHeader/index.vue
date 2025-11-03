@@ -175,13 +175,17 @@ const openAIPPTDialog = () => {
 
 <style lang="scss" scoped>
 .editor-header {
-  background-color: $panelBackground;
+  // 渐变背景（参考 Canva 顶部导航）
+  background-image: linear-gradient(90deg, #00c4cc, #7d2ae8);
   user-select: none;
   border-bottom: 1px solid $borderColor;
-  box-shadow: $panelShadow;
+  box-shadow: none;
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
+  // iOS 安全区域内边距（不改动结构，仅补充），需要放在 padding 之后覆盖
+  padding-left: calc(5px + var(--safe-area-inset-left, 0px));
+  padding-right: calc(5px + var(--safe-area-inset-right, 0px));
   z-index: 10;
   position: relative;
 }
@@ -199,10 +203,11 @@ const openAIPPTDialog = () => {
   padding: 0 10px;
   border-radius: $borderRadius;
   cursor: pointer;
+  color: #fff;
 
   .icon {
     font-size: 18px;
-    color: #666;
+    color: #fff;
   }
   .text {
     width: 18px;
@@ -215,9 +220,49 @@ const openAIPPTDialog = () => {
     color: transparent;
     font-weight: 700;
   }
+}
+.right {
+  .menu-item {
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: 8px;
+    background-color: transparent;
+  }
+  // 控制右侧按钮间距：分组与独立按钮统一为 8px
+  .group-menu-item {
+    margin: 0;         // 先清空通用左右 8px
+    margin-right: 8px; // 仅保留右侧 8px，与后续按钮保持间距
+  }
+  > .menu-item {       // 右侧直接子级按钮（AI、导出）
+    margin-left: 8px;
+  }
+  > .github-link {     // GitHub 按钮
+    margin-left: 8px;
+  }
 
-  &:hover {
-    background-color: #f1f1f1;
+  .group-menu-item {
+    // no hover effect for group container
+    &:hover { background-color: transparent; }
+    // 作为一个整体显示边框和圆角
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: 8px;
+    background-color: transparent;
+    overflow: hidden;
+
+    // 组内的两个子块不再单独带边框
+    .menu-item {
+      border: 0;
+      border-radius: 0;
+      background-color: transparent;
+      // no hover effect per request
+    }
+    .arrow-btn {
+      height: 30px;
+      padding: 0 8px;
+      border: 0;
+      border-radius: 0;
+      background-color: transparent;
+      // no hover effect per request
+    }
   }
 }
 .popover-menu-item {
@@ -322,9 +367,6 @@ const openAIPPTDialog = () => {
   padding: 0 2px;
   border-radius: $borderRadius;
 
-  &:hover {
-    background-color: #f1f1f1;
-  }
 
   .menu-item {
     padding: 0 3px;
@@ -334,6 +376,7 @@ const openAIPPTDialog = () => {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    color: #fff;
   }
 }
 .title {

@@ -100,9 +100,10 @@ const onClickMask = () => {
   z-index: 5001;
   padding: 20px;
   background: #fff;
-  border-radius: $borderRadius;
+  border-radius: $borderRadiusLarge; // 统一与弹出样式
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+  // 统一阴影风格（与 Popover 保持一致）
+  box-shadow: 0 0 0 1px rgba(64, 87, 109, 0.07), 0 8px 20px rgba(57, 76, 96, 0.15);
   position: relative;
 }
 

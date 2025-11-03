@@ -168,9 +168,10 @@ const startResize = (e: MouseEvent) => {
 .moveable-panel {
   position: fixed;
   background-color: #fff;
-  box-shadow: $boxShadow;
+  // 统一弹出层的阴影与圆角
+  box-shadow: 0 0 0 1px rgba(64, 87, 109, 0.07), 0 8px 20px rgba(57, 76, 96, 0.15);
   border: 1px solid $borderColor;
-  border-radius: $borderRadius;
+  border-radius: $borderRadiusLarge;
   display: flex;
   flex-direction: column;
   z-index: 999;

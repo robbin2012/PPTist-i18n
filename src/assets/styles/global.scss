@@ -136,3 +136,9 @@ textarea {
   background-color: #e1e1e1;
   border-radius: 3px;
 }
+
+// Safe area CSS variables mapping for padding on iOS notch devices
+:root {
+  --safe-area-inset-left: env(safe-area-inset-left);
+  --safe-area-inset-right: env(safe-area-inset-right);
+}

@@ -389,18 +389,31 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   font-size: 12px;
   display: flex;
   flex-shrink: 0;
-  border-bottom: 1px solid $borderColor;
+  border: 1px solid $borderColor; // 使用容器边框
+  border-color: darken($borderColor, 10%); // 稍微加深边框颜色
+  border-radius: 999px; // 更大的两侧圆角
+  margin: 8px 8px; // 上下左右都留空隙
+  overflow: hidden; // 保持圆角
   cursor: pointer;
+  justify-content: center; // 内容整体居中
+  transition: box-shadow $transitionDelayFast, border-color $transitionDelayFast;
+
+  // Hover 提升感（阴影）
+  &:hover {
+    box-shadow: 0 2px 8px rgba(64, 87, 109, 0.15), 0 0 0 1px rgba(64, 87, 109, 0.07);
+    border-color: darken($borderColor, 15%);
+  }
 
   .btn {
-    flex: 1;
+    flex: 0; // 不占满，使整体更紧凑，便于居中
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 10px; // 两侧留出内边距
+    font-weight: 600; // 文案加粗
+    white-space: nowrap; // 文案不换行
 
-    &:hover {
-      background-color: $lightGray;
-    }
+    &:hover { background-color: transparent; }
   }
   .select-btn {
     width: 30px;
@@ -408,11 +421,8 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid $borderColor;
-
-    &:hover {
-      background-color: $lightGray;
-    }
+    // 去掉下拉箭头的分隔线
+    &:hover { background-color: transparent; }
   }
 
   .icon {

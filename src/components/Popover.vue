@@ -95,10 +95,12 @@ onMounted(() => {
 }
 .popover-content {
   background-color: #fff;
-  padding: 10px;
-  border: 1px solid $borderColor;
-  box-shadow: $boxShadow;
-  border-radius: $borderRadius;
+  // Canva-like dropdown container styling
+  --popover-padding: 16px;
+  padding: var(--popover-padding);
+  border: 0.5px solid rgba(53, 71, 90, 0.2);
+  box-shadow: 0 0 0 1px rgba(64, 87, 109, 0.07), 0 8px 20px rgba(57, 76, 96, 0.15);
+  border-radius: 8px;
   font-size: 13px;
 }
 </style>

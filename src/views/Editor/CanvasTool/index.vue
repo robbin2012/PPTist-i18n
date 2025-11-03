@@ -246,13 +246,13 @@ const toggleHeaderCollapse = () => {
 <style lang="scss" scoped>
 .canvas-tool {
   position: relative;
-  border: 1px solid $borderColor;
-  background-color: $toolbarBackground;
-  border-radius: 18px;
-  box-shadow: none;
+  border: 0;
+  background-color: #fff; // 主工具栏背景改为白色
+  border-radius: 12px;
+  box-shadow: rgba(64, 87, 109, 0.04) 0 0 0 1px, rgba(64, 87, 109, 0.3) 0 6px 20px -4px;
   display: flex;
   justify-content: space-between;
-  padding: 4px 12px;
+  padding: 4px 0;
   font-size: 13px;
   user-select: none;
   z-index: 5;
@@ -264,6 +264,7 @@ const toggleHeaderCollapse = () => {
   display: flex;
   align-items: center;
 }
+.left-handler, .right-handler { padding: 0 4px; }
 .more-icon {
   display: none;
 }
@@ -277,7 +278,7 @@ const toggleHeaderCollapse = () => {
   .handler-item {
     width: 32px;
 
-    &:not(.group-btn):hover { background-color: #e7edf5; }
+    &:not(.group-btn):hover { background-color: $lightGray; } // 悬停浅灰
 
     &.active {
       color: $themeColor;
@@ -287,7 +288,7 @@ const toggleHeaderCollapse = () => {
       width: auto;
       margin-right: 5px;
 
-      &:hover { background-color: #e7edf5; }
+      &:hover { background-color: $lightGray; }
 
       .icon, .arrow {
         height: 100%;
@@ -300,7 +301,7 @@ const toggleHeaderCollapse = () => {
         width: 26px;
         padding: 0 2px;
 
-        &:hover { background-color: #dfe7f1; }
+        &:hover { background-color: $lightGray; }
         &.active {
           color: $themeColor;
         }
@@ -308,7 +309,7 @@ const toggleHeaderCollapse = () => {
       .arrow {
         font-size: 12px;
 
-        &:hover { background-color: #dfe7f1; }
+        &:hover { background-color: $lightGray; }
       }
     }
   }
@@ -334,7 +335,7 @@ const toggleHeaderCollapse = () => {
 
     &.active,
     &:not(.disable):hover {
-      background-color: #e7edf5;
+      background-color: $lightGray; // 悬停浅灰
     }
   }
 }

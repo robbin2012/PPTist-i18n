@@ -286,9 +286,9 @@
     "tabs": {
       "style": "Style",
       "position": "Position",
-      "animation": "Animation",
+      "animation": "Motion",
       "design": "Design",
-      "transition": "Transitions",
+      "transition": "Transition",
       "multiStyle": "Style (Multi-Select)",
       "multiPosition": "Position (Multi-Select)"
     },

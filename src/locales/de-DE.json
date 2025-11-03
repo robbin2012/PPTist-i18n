@@ -125,11 +125,11 @@
     "tabs": {
       "style": "Style",
       "position": "Position",
-      "animation": "Animation",
+      "animation": "Bewegung",
       "design": "Design",
-      "transition": "Transitions",
-      "multiStyle": "Style (Multi-Select)",
-      "multiPosition": "Position (Multi-Select)"
+      "transition": "Übergang",
+      "multiStyle": "Style (Multi)",
+      "multiPosition": "Position (Multi)"
     },
     "layer": {
       "title": "Layer:",

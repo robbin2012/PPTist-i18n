@@ -177,9 +177,9 @@
     "tabs": {
       "style": "Style",
       "position": "Position",
-      "animation": "Animations",
-      "design": "Conception",
-      "transition": "Transitions",
+      "animation": "Effets",
+      "design": "Design",
+      "transition": "Transition",
       "multiStyle": "Style (multi-sélection)",
       "multiPosition": "Position (multi-sélection)"
     },
@@ -223,7 +223,7 @@
       "gradientType": { "linear": "Dégradé linéaire", "radial": "Dégradé radial" },
       "currentColor": "Couleur actuelle",
       "gradientAngle": "Angle du dégradé",
-      "applyBackgroundAll": "Appliquer l'arrière-plan à tous",
+      "applyBackgroundAll": "Appliquer à tous",
       "ratio": {
         "widescreen_16_9": "Écran large 16 : 9",
         "widescreen_16_10": "Écran large 16 : 10",
@@ -247,7 +247,7 @@
       "shadowBlur": "Distance de flou",
       "shadowColor": "Couleur de l'ombre",
       "applyThemeAll": "Appliquer le thème à tous",
-      "extractFromSlides": "Extraire le thème des diapositives",
+      "extractFromSlides": "Extraire des diapositives",
       "presetTheme": "Thèmes prédéfinis",
       "sampleText": "Texte Aa",
       "set": "Définir",
@@ -297,7 +297,7 @@
     "line": { "style": "Style de ligne", "color": "Couleur de ligne", "width": "Largeur de ligne", "startMarker": "Style de début", "endMarker": "Style de fin", "swapDirection": "Inverser la direction" },
     "shadow": { "enable": "Activer l'ombre", "h": "Ombre horizontale", "v": "Ombre verticale", "blur": "Distance de flou", "color": "Couleur de l'ombre" },
     "opacity": { "label": "Opacité" },
-    "flip": { "vertical": "Retourner verticalement", "horizontal": "Retourner horizontalement" },
+    "flip": { "vertical": "Inverser (V)", "horizontal": "Inverser (H)" },
     "video": { "posterTitle": "Affiche vidéo", "resetPoster": "Réinitialiser l'affiche", "autoplay": "Lecture automatique" },
     "chart": {
       "editData": "Éditer le graphique",
@@ -340,7 +340,7 @@
       "alignMiddle": "Aligner au milieu",
       "alignBottom": "Aligner en bas",
       "doubleClickToKeep": "Double-cliquez pour continuer",
-      "formatPainter": "Pinceau de format de forme"
+      "formatPainter": "Pinceau"
     },
     "multi": { "fillColor": "Couleur de remplissage", "outlineStyle": "Style du contour", "outlineColor": "Couleur du contour", "outlineWidth": "Épaisseur du contour" },
     "text": {

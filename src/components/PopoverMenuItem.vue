@@ -19,7 +19,11 @@ const emit = defineEmits<{
 <style lang="scss" scoped>
 .popover-menu-item {
   min-width: 80px;
-  padding: 6px 10px;
+  // Make hover background span full dropdown width
+  display: block;
+  margin-left: calc(-1 * var(--popover-padding, 16px));
+  margin-right: calc(-1 * var(--popover-padding, 16px));
+  padding: 6px calc(10px + var(--popover-padding, 16px));
   border-radius: $borderRadius;
   font-size: 13px;
   cursor: pointer;
