@@ -65,6 +65,7 @@
           v-if="editingTitle" 
           :style="{
             '--input-bg': 'transparent',
+            '--input-field-bg': 'transparent',
             '--input-border': 'rgba(255,255,255,.65)',
             '--input-border-hover': 'rgba(255,255,255,.9)',
             '--input-radius': '8px',

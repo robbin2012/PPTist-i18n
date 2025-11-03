@@ -96,6 +96,7 @@ defineExpose({
     border: 0;
     line-height: 30px;
     vertical-align: top;
+    background-color: var(--input-field-bg, transparent);
     color: var(--input-text-color, $textColor);
     padding: 0 5px;
     flex: 1;
