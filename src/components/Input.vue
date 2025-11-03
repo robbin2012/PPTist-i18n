@@ -153,8 +153,12 @@ defineExpose({
   background-color: transparent !important;
   color: var(--input-text-color, $textColor);
 }
-.input.ghost:not(.disabled):hover,
+.input.ghost:not(.disabled):hover {
+  background-color: transparent !important;
+  border-color: var(--input-border-hover, $themeColor);
+}
 .input.ghost.focused {
+  background-color: transparent !important;
   border-color: var(--input-border-hover, $themeColor);
 }
 </style>

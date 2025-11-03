@@ -441,13 +441,17 @@ const openAIPPTDialog = () => {
     max-width: 400px;
     line-height: 30px;
     padding: 0 6px;
-    border-radius: $borderRadius;
+    border-radius: 8px;
     cursor: pointer;
+    border: 1px solid transparent;
+    transition: border-color .15s ease;
+    color: #fff;
 
     @include ellipsis-oneline();
 
     &:hover {
-      background-color: #f1f1f1;
+      background-color: transparent;
+      border-color: rgba(255, 255, 255, .65);
     }
   }
 }
