@@ -33,9 +33,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef, ref, computed } from 'vue'
+import { useTemplateRef, ref, computed, type CSSProperties } from 'vue'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   value: string
   disabled?: boolean
   placeholder?: string
@@ -74,10 +74,10 @@ const handleFocus = (e: Event) => {
 }
 
 const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
-const inputStyle = computed(() => ({
-  backgroundColor: (/* @ts-ignore */ (typeof ghost !== 'undefined' && ghost)) ? 'transparent' : undefined,
-  WebkitAppearance: (/* @ts-ignore */ (typeof ghost !== 'undefined' && ghost)) ? 'none' : undefined,
-  appearance: (/* @ts-ignore */ (typeof ghost !== 'undefined' && ghost)) ? 'none' : undefined,
+const inputStyle = computed<CSSProperties>(() => ({
+  backgroundColor: props.ghost ? 'transparent' : undefined,
+  WebkitAppearance: props.ghost ? 'none' as any : undefined,
+  appearance: props.ghost ? 'none' as any : undefined,
 }))
 const focus = () => {
   if (inputRef.value) inputRef.value.focus()
