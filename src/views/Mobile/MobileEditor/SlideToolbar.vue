@@ -13,7 +13,7 @@
         <Button style="flex: 1;" @click="copyAndPasteSlide()"><IconCopy class="icon" /> {{ t('mobile.actions.copy') }}</Button>
         <Button style="flex: 1;" @click="deleteSlide()"><IconDelete class="icon" /> {{ t('mobile.actions.delete') }}</Button>
       </ButtonGroup>
-      <ButtonGroup class="row">
+      <ButtonGroup class="row row-elements">
         <Button style="flex: 1;" @click="insertTextElement()"><IconFontSize class="icon" /> {{ t('mobile.text') }}</Button>
         <Button style="flex: 1;">
           <FileInput @change="files => insertImageElement(files)">
@@ -140,6 +140,27 @@ const handleInputMark = (e: Event) => {
 
   .icon {
     margin-right: 3px;
+  }
+}
+
+/* Ensure the element buttons (text/image/rect/circle) layout well on small screens */
+.row-elements {
+  flex-wrap: wrap;
+
+  /* Target the real button element rendered by <Button> */
+  ::v-deep(button.button) {
+    /* Two buttons per row */
+    flex: 0 0 50%;
+    box-sizing: border-box;
+    /* Prevent label from wrapping under the icon */
+    white-space: nowrap;
+    /* Slightly reduce side padding to gain room for longer English words */
+    padding: 0 10px;
+    /* Avoid extra width added by letter-spacing for these compact buttons */
+    letter-spacing: 0;
+    /* If text still overflows on ultra-narrow screens, clip gracefully */
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>

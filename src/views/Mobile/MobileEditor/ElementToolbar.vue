@@ -95,7 +95,7 @@
         
         <Divider :margin="20" />
 
-        <ButtonGroup class="row">
+        <ButtonGroup class="row row-layer">
           <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)"><IconSendToBack class="icon" /> {{ t('toolbar.layer.toTop') }}</Button>
           <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)"><IconBringToFrontOne class="icon" /> {{ t('toolbar.layer.toBottom') }}</Button>
           <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)"><IconBringToFront class="icon" /> {{ t('mobile.actions.up') }}</Button>
@@ -260,6 +260,26 @@ const updateFill = (color: string) => {
 
   .icon {
     margin-right: 3px;
+  }
+}
+/* Layer (Front/Back/Move Up/Move Down) row: keep labels inline with icons */
+.row-layer {
+  flex-wrap: wrap;
+
+  /* Target the underlying button element rendered by <Button> */
+  ::v-deep(button.button) {
+    /* Two buttons per row */
+    flex: 0 0 50%;
+    box-sizing: border-box;
+    /* Keep text on one line */
+    white-space: nowrap;
+    /* Reduce padding to allow longer English labels */
+    padding: 0 10px;
+    /* Avoid extra spacing that widens labels */
+    letter-spacing: 0;
+    /* Gracefully clip on extremely narrow screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .row-block {
