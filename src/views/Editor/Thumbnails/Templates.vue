@@ -8,7 +8,7 @@
         @click="changeCatalog(item.id)"
       >{{ renderCatalogName(item) }}</div>
     </div>
-    <div class="content">
+    <div class="content" v-loading="{ state: loading, text: '加载中...' }">
       <div class="header">
         <div class="types">
           <div class="type" 
@@ -75,6 +75,7 @@ const types = ref<{ label: string; value: string }[]>([
 const activeType = ref('all')
 
 const activeCatalog = ref('')
+const loading = ref(false)
 
 const insertTemplate = (slide: Slide) => {
   emit('select', slide)
@@ -85,11 +86,15 @@ const insertTemplates = (slides: Slide[]) => {
 }
 
 const changeCatalog = (id: string) => {
+  loading.value = true
   activeCatalog.value = id
   api.getMockData(activeCatalog.value).then(ret => {
     slides.value = ret.slides
+    loading.value = false
 
     if (listRef.value) listRef.value.scrollTo(0, 0) 
+  }).catch(() => {
+    loading.value = false
   })
 }
 

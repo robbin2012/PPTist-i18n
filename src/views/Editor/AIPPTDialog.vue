@@ -60,9 +60,7 @@
             v-model:value="model"
             :options="[
               { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },
-              { label: 'GLM-4.5-Air', value: 'GLM-4.5-Air' },
               { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },
-              { label: 'Doubao-Seed-1.6', value: 'ark-doubao-seed-1.6' },
             ]"
           />
         </div>
@@ -139,8 +137,8 @@ import Checkbox from '@/components/Checkbox.vue'
 const mainStore = useMainStore()
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
-const slideStore = useSlidesStore()
-const { templates } = storeToRefs(slideStore)
+const slidesStore = useSlidesStore()
+const { templates } = storeToRefs(slidesStore)
 
 const { resetSlides, isEmptySlide } = useSlideHandler()
 const { AIPPT, presetImgPool, getMdContent } = useAIPPT()
@@ -258,7 +256,7 @@ const createPPT = async (template?: { slides: Slide[], theme: SlideTheme }) => {
       if (done) {
         loading.value = false
         mainStore.setAIPPTDialogState(false)
-        slideStore.setTheme(templateTheme)
+        slidesStore.setTheme(templateTheme)
         return
       }
   
@@ -362,20 +360,17 @@ const uploadLocalTemplate = () => {
 }
 .select-template {
   .templates {
+    max-height: 450px;
+    overflow: auto;
     display: flex;
     margin-bottom: 10px;
+    padding-right: 5px;
     @include flex-grid-layout();
   
     .template {
       border: 2px solid $borderColor;
       border-radius: $borderRadius;
-      width: 324px;
-      height: 184px;
-      margin-bottom: 12px;
-
-      &:not(:nth-child(2n)) {
-        margin-right: 12px;
-      }
+      @include flex-grid-layout-children(2, 49%);
 
       &.selected {
         border-color: $themeColor;
@@ -383,6 +378,7 @@ const uploadLocalTemplate = () => {
   
       img {
         width: 100%;
+        min-height: 180px;
       }
     }
   }
@@ -473,20 +469,7 @@ const uploadLocalTemplate = () => {
   }
   .select-template {
     .templates {
-      max-height: 450px;
-      display: block;
-      overflow: auto;
-    
-      .template {
-        width: 100%;
-        height: unset;
-        margin-bottom: 0 !important;
-        margin-right: 0 !important;
-
-        & + .template {
-          margin-top: 20px;
-        }
-      }
+      padding-right: 0;
     }
   }
 }

@@ -7,9 +7,9 @@
         <Divider type="vertical" style="height: 20px;" />
         <Popover class="more-icon" trigger="click" v-model:value="moreVisible" :offset="10">
           <template #content>
-            <PopoverMenuItem center @click="toggleNotesPanel(); moreVisible = false">{{ t('toolbar.canvasTool.notesPanel') }}</PopoverMenuItem>
-            <PopoverMenuItem center @click="toggleSelectPanel(); moreVisible = false">{{ t('toolbar.canvasTool.selectPanel') }}</PopoverMenuItem>
-            <PopoverMenuItem center @click="toggleSraechPanel(); moreVisible = false">{{ t('toolbar.canvasTool.searchReplace') }}</PopoverMenuItem>
+            <PopoverMenuItem class="popover-menu-item" center @click="toggleNotesPanel(); moreVisible = false"><IconComment class="icon" /> {{ t('toolbar.canvasTool.notesPanel') }}</PopoverMenuItem>
+            <PopoverMenuItem class="popover-menu-item" center @click="toggleSelectPanel(); moreVisible = false"><IconMoveOne class="icon" /> {{ t('toolbar.canvasTool.selectPanel') }}</PopoverMenuItem>
+            <PopoverMenuItem class="popover-menu-item" center @click="toggleSraechPanel(); moreVisible = false"><IconSearch class="icon" /> {{ t('toolbar.canvasTool.searchReplace') }}</PopoverMenuItem>
           </template>
           <IconMore class="handler-item" />
         </Popover>
@@ -267,6 +267,15 @@ const toggleHeaderCollapse = () => {
 .left-handler, .right-handler { padding: 0 4px; }
 .more-icon {
   display: none;
+}
+.popover-menu-item {
+  display: flex;
+  padding: 8px 10px;
+
+  .icon {
+    font-size: 18px;
+    margin-right: 8px;
+  }
 }
 .add-element-handler {
   position: absolute;
