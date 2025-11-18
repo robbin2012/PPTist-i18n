@@ -5,6 +5,7 @@
   "header": {
     "menu": {
       "export": "Экспорт",
+      "exportPPTIST": "Экспорт PPTIST",
       "reset": "Сбросить слайды",
       "markup": "Пометка типа слайда",
       "hotkeys": "Горячие клавиши",
@@ -251,7 +252,7 @@
       "presetTheme": "Предустановленные темы",
       "sampleText": "Текст Aa",
       "set": "Установить",
-      "setAndApply": "Установить и применить",
+      "setAndApply": "Применить",
       "themeColorsSetting": "Редактировать цвета темы",
       "slideThemeColorN": "Цвет темы слайда {n}"
     },
@@ -278,7 +279,7 @@
         "hue-rotate": "Оттенок",
         "sepia": "Сепия",
         "invert": "Инвертировать",
-        "opacity": "Непрозрачность"
+        "opacity": "Непрозр."
       },
       "presets": {
         "blackwhite": "Ч/Б",
@@ -296,7 +297,7 @@
     "colorMask": { "enable": "Цветовая заливка", "color": "Цвет маски" },
     "line": { "style": "Стиль линии", "color": "Цвет линии", "width": "Ширина линии", "startMarker": "Стиль начала", "endMarker": "Стиль конца", "swapDirection": "Поменять направление" },
     "shadow": { "enable": "Включить тень", "h": "Горизонтальная тень", "v": "Вертикальная тень", "blur": "Степень размытия", "color": "Цвет тени" },
-    "opacity": { "label": "Непрозрачность" },
+    "opacity": { "label": "Непрозр." },
     "flip": { "vertical": "Отразить по вертикали", "horizontal": "Отразить по горизонтали" },
     "video": { "posterTitle": "Обложка видео", "resetPoster": "Сбросить обложку", "autoplay": "Автовоспроизведение" },
     "chart": {
@@ -354,6 +355,13 @@
       "alignCenter": "Выровнять по центру",
       "alignRight": "Выровнять по правому краю",
       "alignJustify": "По ширине"
+    },
+    "textStyle": {
+      "lineHeight": "Межстрочный",
+      "lineHeightTimes": "{n}x",
+      "paragraphSpacing": "Межабзацный",
+      "letterSpacing": "Межбуквенный",
+      "textboxFill": "Заливка текстового блока"
     },
     "canvasTool": {
       "undo": "Отменить (Ctrl + Z)",
@@ -567,7 +575,7 @@
     }
   },
   "thumbnails": {
-    "addSlide": "Добавить слайд",
+    "addSlide": "Новый",
     "section": {
       "inputPlaceholder": "Введите название раздела",
       "emptyTitle": "Раздел без названия",

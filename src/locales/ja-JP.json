@@ -5,6 +5,7 @@
   "header": {
     "menu": {
       "export": "エクスポート",
+      "exportPPTIST": "PPTIST をエクスポート",
       "reset": "スライドをリセット",
       "markup": "スライドタイプのマークアップ",
       "hotkeys": "ショートカット",
@@ -566,7 +567,7 @@
     }
   },
   "thumbnails": {
-    "addSlide": "スライドを追加",
+    "addSlide": "追加",
     "section": {
       "inputPlaceholder": "セクション名を入力",
       "emptyTitle": "無題のセクション",

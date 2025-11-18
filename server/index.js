@@ -1,15 +1,10 @@
 /*
-  Minimal streaming backend for PPTist
+  Minimal streaming backend for PPTist with OpenRouter support
 
   Endpoints (match frontend expectations):
    - POST /tools/aippt_outline  -> streams Markdown outline text
    - POST /tools/aippt          -> streams JSON objects per chunk (AIPPTSlide)
    - POST /tools/ai_writing     -> streams incremental rewritten text
-
-  Notes
-   - This is a demo server without real LLM calls. Replace the generator
-     functions with calls to your own LLM/provider.
-   - Make sure your reverse proxy disables buffering for streaming responses.
 */
 
 const express = require('express')
@@ -17,6 +12,9 @@ const cors = require('cors')
 
 const app = express()
 const PORT = process.env.PORT || 51702
+
+// OpenRouter API key - 在这里直接配置
+const OPENROUTER_API_KEY = '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'
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
@@ -30,11 +28,26 @@ function writeStreamHeaders(res, contentType = 'text/plain; charset=utf-8') {
   res.setHeader('Content-Type', contentType)
   res.setHeader('Cache-Control', 'no-cache, no-transform')
   res.setHeader('Connection', 'keep-alive')
-  // For nginx, etc., disable buffering
   res.setHeader('X-Accel-Buffering', 'no')
 }
 
-// --- Generators (replace with real LLM calls) ---
+// --- OpenRouter API call ---
+async function callOpenRouter(prompt, model = 'openai/gpt-3.5-turbo') {
+  return fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      stream: true,
+    })
+  })
+}
+
+// --- Original generators (kept as fallback) ---
 
 function generateOutlineMarkdown(topic = '未命名主题', language = '中文') {
   const title = `# ${topic}`
@@ -63,7 +76,6 @@ function generateOutlineMarkdown(topic = '未命名主题', language = '中文')
 }
 
 function parseOutline(md = '') {
-  // Very naive parser to extract title and level-2 sections with bullets
   const lines = md.split(/\r?\n/)
   const result = { title: '未命名演示文稿', sections: [] }
   let current = null
@@ -87,7 +99,6 @@ function parseOutline(md = '') {
 }
 
 function makeContentItemsFromBullets(bullets = []) {
-  // Turn bullets into {title, text} items (max 4 per slide)
   const chunks = []
   const copy = bullets.slice()
   while (copy.length) {
@@ -106,19 +117,71 @@ function chunkString(str, size = 28) {
 // --- Routes ---
 
 app.post('/tools/aippt_outline', async (req, res) => {
-  const { content, language = '中文' } = req.body || {}
+  const { content, language = '中文', model = 'GLM-4.5-Flash' } = req.body || {}
   const topic = content || '未命名主题'
 
   writeStreamHeaders(res, 'text/plain; charset=utf-8')
 
-  const lines = generateOutlineMarkdown(topic, language)
+  // 映射模型名称
+  const openrouterModel = model === 'GLM-4.5-Flash' ? 'openai/gpt-3.5-turbo' : 'openai/gpt-3.5-turbo'
+
+  const prompt = `请为以下主题生成一个专业的PPT大纲，使用Markdown格式：
+
+主题: ${topic}
+语言: ${language}
+
+要求:
+1. 使用 # 作为主标题
+2. 使用 ## 作为章节标题（5-8个章节）
+3. 每个章节下用 - 列出3-5个要点
+4. 直接输出Markdown，不要额外解释
+
+示例格式:
+# 主题
+## 章节1
+- 要点1
+- 要点2`
+
   try {
-    for (const line of lines) {
-      res.write(line + '\n')
-      await sleep(120)
+    const response = await callOpenRouter(prompt, openrouterModel)
+
+    if (!response.ok) {
+      console.error('OpenRouter API error')
+      // fallback to demo
+      const lines = generateOutlineMarkdown(topic, language)
+      for (const line of lines) {
+        res.write(line + '\n')
+        await sleep(120)
+      }
+      res.end()
+      return
+    }
+
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder('utf-8')
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() || ''
+
+      for (const line of lines) {
+        if (!line.trim() || line.trim() === 'data: [DONE]') continue
+        if (line.startsWith('data: ')) {
+          try {
+            const json = JSON.parse(line.slice(6))
+            const content = json.choices?.[0]?.delta?.content
+            if (content) res.write(content)
+          } catch (e) {}
+        }
+      }
     }
   } catch (e) {
-    // client aborted or other
+    console.error('Stream error:', e)
   } finally {
     res.end()
   }
@@ -155,13 +218,11 @@ app.post('/tools/aippt', async (req, res) => {
   slides.push({ type: 'end' })
 
   try {
-    // Stream exactly one JSON object per chunk
     for (const s of slides) {
       res.write(JSON.stringify(s))
       await sleep(150)
     }
   } catch (e) {
-    // client aborted or other
   } finally {
     res.end()
   }
@@ -198,7 +259,6 @@ app.post('/tools/ai_writing', async (req, res) => {
       await sleep(80)
     }
   } catch (e) {
-    // client aborted or other
   } finally {
     res.end()
   }

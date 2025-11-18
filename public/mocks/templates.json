@@ -1,0 +1,58 @@
+{
+  "templates": [
+    {
+      "id": "template_1",
+      "name": "山河映红",
+      "cover": "./imgs/template_1.webp",
+      "origin": "官方制作"
+    },
+    {
+      "id": "template_2",
+      "name": "都市蓝调",
+      "cover": "./imgs/template_2.webp",
+      "origin": "官方制作"
+    },
+    {
+      "id": "template_3",
+      "name": "智感几何",
+      "cover": "./imgs/template_3.webp",
+      "origin": "官方制作"
+    },
+    {
+      "id": "template_4",
+      "name": "柔光莫兰迪",
+      "cover": "./imgs/template_4.webp",
+      "origin": "官方制作"
+    },
+    {
+      "id": "template_5",
+      "name": "简约绿意",
+      "cover": "./imgs/template_5.webp",
+      "origin": "社区贡献+官方深度完善优化"
+    },
+    {
+      "id": "template_6",
+      "name": "暖色复古",
+      "cover": "./imgs/template_6.webp",
+      "origin": "社区贡献+官方深度完善优化"
+    },
+    {
+      "id": "template_7",
+      "name": "深邃沉稳",
+      "cover": "./imgs/template_7.webp",
+      "origin": "社区贡献+官方深度完善优化"
+    },
+    {
+      "id": "template_8",
+      "name": "浅蓝小清新",
+      "cover": "./imgs/template_8.webp",
+      "origin": "社区贡献+官方深度完善优化"
+    },
+    {
+      "id": "template_9",
+      "name": "公司风格",
+      "cover": "./imgs/template_9.webp",
+      "origin": "官方制作"
+    }
+  ]
+}

@@ -5,6 +5,7 @@
   "header": {
     "menu": {
       "export": "Exporter",
+      "exportPPTIST": "Exporter PPTIST",
       "reset": "Réinitialiser les diapositives",
       "markup": "Annotation du type de diapositive",
       "hotkeys": "Raccourcis",

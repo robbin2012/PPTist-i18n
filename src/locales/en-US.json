@@ -5,6 +5,7 @@
   "header": {
     "menu": {
       "export": "Export",
+      "exportPPTIST": "Export PPTIST",
       "reset": "Reset Slides",
       "markup": "Slide Type Markup",
       "hotkeys": "Hotkeys",
@@ -755,7 +756,7 @@
     }
   },
   "thumbnails": {
-    "addSlide": "Add Slide",
+    "addSlide": "Add",
     "section": {
       "inputPlaceholder": "Enter section name",
       "emptyTitle": "Untitled Section",

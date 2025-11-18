@@ -57,6 +57,7 @@
   "header": {
     "menu": {
       "export": "Exportar",
+      "exportPPTIST": "Exportar PPTIST",
       "reset": "Restablecer diapositivas",
       "markup": "Marcado de tipo de diapositiva",
       "hotkeys": "Atajos",
@@ -566,7 +567,7 @@
     }
   },
   "thumbnails": {
-    "addSlide": "Añadir diapositiva",
+    "addSlide": "Nuevo",
     "section": {
       "inputPlaceholder": "Introduce el nombre de la sección",
       "emptyTitle": "Sección sin título",

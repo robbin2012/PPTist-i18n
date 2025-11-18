@@ -99,12 +99,9 @@
       <div class="menu-item" v-tooltip="t('header.tooltip.ai')" @click="openAIPPTDialog(); mainMenuVisible = false">
         <span class="text ai">AI</span>
       </div>
-      <div class="menu-item" v-tooltip="t('header.tooltip.export')" @click="setDialogForExport('pptx')">
+      <div class="menu-item export-btn" v-tooltip="t('header.tooltip.export')" @click="setDialogForExport('pptx')">
         <IconDownload class="icon" />
       </div>
-      <a class="github-link" v-tooltip="t('header.githubTooltip')" href="https://github.com/pipipi-pikachu/PPTist" target="_blank">
-        <div class="menu-item"><IconGithub class="icon" /></div>
-      </a>
     </div>
 
     <Drawer
@@ -236,6 +233,7 @@ const openAIPPTDialog = () => {
     border: 1px solid rgba(255, 255, 255, .45);
     border-radius: 8px;
     background-color: transparent;
+    transition: background-color $transitionDelay, color $transitionDelay, border-color $transitionDelay;
   }
   // 控制右侧按钮间距：分组与独立按钮统一为 8px
   .group-menu-item {
@@ -245,8 +243,21 @@ const openAIPPTDialog = () => {
   > .menu-item {       // 右侧直接子级按钮（AI、导出）
     margin-left: 8px;
   }
-  > .github-link {     // GitHub 按钮
-    margin-left: 8px;
+
+  .export-btn {
+    min-width: 80px;
+    padding: 0 16px;
+    background-color: #fff;
+    color: #333;
+    border-color: transparent;
+
+    .icon {
+      color: #333;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
   }
 
   .group-menu-item {

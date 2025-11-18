@@ -98,8 +98,16 @@ const changeCatalog = (id: string) => {
   })
 }
 
-onMounted(() => {
-  changeCatalog(templates.value[0].id)
+onMounted(async () => {
+  // 确保模板已加载
+  if (templates.value.length === 0) {
+    await slidesStore.loadTemplates()
+  }
+
+  // 加载完成后选择第一个模板
+  if (templates.value.length > 0) {
+    changeCatalog(templates.value[0].id)
+  }
 })
 </script>
 

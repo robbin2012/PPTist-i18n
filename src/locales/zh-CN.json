@@ -5,6 +5,7 @@
   "header": {
     "menu": {
       "export": "导出文件",
+      "exportPPTIST": "导出 PPTIST",
       "reset": "重置幻灯片",
       "markup": "幻灯片类型标注",
       "hotkeys": "快捷操作",
@@ -759,7 +760,7 @@
     "group": "组合"
   },
   "thumbnails": {
-    "addSlide": "添加幻灯片",
+    "addSlide": "新建",
     "section": {
       "inputPlaceholder": "输入节名称",
       "emptyTitle": "无标题节",

@@ -290,11 +290,37 @@ const uploadLocalTemplate = () => {
       const reader = new FileReader()
       reader.addEventListener('load', () => {
         try {
-          const { slides, theme } = JSON.parse(decrypt(reader.result as string))
+          const raw = String(reader.result || '')
+          const decrypted = decrypt(raw)
+          if (!decrypted) {
+            throw new Error('解密失败：内容为空或密钥不匹配')
+          }
+
+          const parsed = JSON.parse(decrypted) as { slides?: Slide[]; theme?: SlideTheme }
+          const { slides, theme } = parsed
+
+          if (!Array.isArray(slides) || !theme) {
+            throw new Error('模板结构缺少 slides 或 theme 字段')
+          }
+
           createPPT({ slides, theme })
         }
-        catch {
-          message.error(t('aippt.uploadTemplateError'))
+        catch (err) {
+          // 在控制台输出更详细的调试信息
+          // eslint-disable-next-line no-console
+          console.error('[AIPPT] 上传本地模板失败', {
+            fileName: file.name,
+            fileSize: file.size,
+            error: err,
+          })
+
+          const reason = err instanceof Error && err.message ? err.message : String(err)
+          if (import.meta.env && import.meta.env.DEV && reason) {
+            message.error(`${t('aippt.uploadTemplateError')}（${reason}）`)
+          }
+          else {
+            message.error(t('aippt.uploadTemplateError'))
+          }
         }
       })
       reader.readAsText(file)
