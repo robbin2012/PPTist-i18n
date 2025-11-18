@@ -44,9 +44,9 @@
     "uploadTemplateError": "Invalid template file data. Please re-upload or use a preset template.",
     "buttons": {
       "selectTemplate": "Select Template",
-      "backToSetup": "Back to Setup",
+      "backToSetup": "Setup",
       "generate": "Generate",
-      "backToOutline": "Back to Outline"
+      "backToOutline": "Outline"
     }
   },
   "import": {
