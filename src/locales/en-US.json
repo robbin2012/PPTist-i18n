@@ -18,6 +18,7 @@
     "tooltip": {
       "screening": "Slide Show (F5)",
       "ai": "AI Generate PPT",
+      "infographic": "AI Infographic",
       "export": "Export"
     },
     "aipptSubtitle": "Enter a sentence to generate a presentation",

@@ -18,6 +18,7 @@
     "tooltip": {
       "screening": "幻灯片放映（F5）",
       "ai": "AI生成PPT",
+      "infographic": "AI信息图",
       "export": "导出"
     },
     "aipptSubtitle": "输入一句话，智能生成演示文稿",

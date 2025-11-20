@@ -13,8 +13,8 @@ const cors = require('cors')
 const app = express()
 const PORT = process.env.PORT || 51702
 
-// OpenRouter API key - 在这里直接配置
-const OPENROUTER_API_KEY = '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'
+// OpenRouter API key - 可以通过环境变量设置,或直接在这里配置
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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'
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
@@ -32,17 +32,25 @@ function writeStreamHeaders(res, contentType = 'text/plain; charset=utf-8') {
 }
 
 // --- OpenRouter API call ---
-async function callOpenRouter(prompt, model = 'openai/gpt-3.5-turbo') {
+async function callOpenRouter(prompt, model = 'openai/gpt-3.5-turbo', temperature = 0.7) {
+  if (!OPENROUTER_API_KEY) {
+    throw new Error('OPENROUTER_API_KEY not configured')
+  }
+
   return fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
       'Content-Type': 'application/json',
+      'HTTP-Referer': process.env.OPENROUTER_REFERER || 'http://localhost:51702',
+      'X-Title': 'PPTist AI Infographic',
     },
     body: JSON.stringify({
       model,
       messages: [{ role: 'user', content: prompt }],
       stream: true,
+      temperature,
+      max_tokens: 4000,
     })
   })
 }
@@ -259,6 +267,155 @@ app.post('/tools/ai_writing', async (req, res) => {
       await sleep(80)
     }
   } catch (e) {
+  } finally {
+    res.end()
+  }
+})
+
+// Generate fallback infographic data based on prompt
+function generateFallbackInfographic(prompt) {
+  // Parse prompt to understand what structure is needed
+  const hasTitle = prompt.includes('标题（title）')
+  const hasSubtitle = prompt.includes('副标题（subtitle）')
+  const hasBody = prompt.includes('正文介绍（body）')
+
+  // Extract item count from prompt
+  const itemMatch = prompt.match(/(\d+)个项目/)
+  const itemCount = itemMatch ? parseInt(itemMatch[1]) : 4
+
+  // Determine infographic type
+  let type = 'list'
+  if (prompt.includes('对比型')) type = 'comparison'
+  else if (prompt.includes('时间轴')) type = 'timeline'
+
+  // Extract topic
+  const topicMatch = prompt.match(/主题：(.+)/)
+  const topic = topicMatch ? topicMatch[1].split('\n')[0].trim() : '示例主题'
+
+  const result = {}
+
+  if (hasTitle) result.title = topic
+  if (hasSubtitle) result.subtitle = '基于AI生成的信息图内容'
+  if (hasBody) result.body = '这是一段详细的介绍文字，用于说明整体背景和核心要点。通过系统化的梳理和分析，为读者提供清晰的认知框架和理解路径。'
+
+  // Generate items based on type
+  result.items = []
+
+  if (type === 'list') {
+    if (prompt.includes('- title: 项目标题')) {
+      // Items with title and text
+      for (let i = 1; i <= itemCount; i++) {
+        result.items.push({
+          title: `要点${i}`,
+          text: `关于要点${i}的详细说明和具体内容阐述。`
+        })
+      }
+    } else {
+      // Simple text items
+      for (let i = 1; i <= itemCount; i++) {
+        result.items.push(`关键要点${i}`)
+      }
+    }
+  } else if (type === 'comparison') {
+    for (let i = 1; i <= itemCount; i++) {
+      result.items.push({
+        left: `左侧对比项${i}`,
+        right: `右侧对比项${i}`
+      })
+    }
+  } else if (type === 'timeline') {
+    const currentYear = new Date().getFullYear()
+    for (let i = 0; i < itemCount; i++) {
+      result.items.push({
+        year: String(currentYear - itemCount + i + 1),
+        event: `重要事件${i + 1}的详细描述`
+      })
+    }
+  }
+
+  return result
+}
+
+app.post('/tools/ai_infographic', async (req, res) => {
+  const { content = '', language = '中文', model = 'GLM-4.5-Flash' } = req.body || {}
+
+  writeStreamHeaders(res, 'text/plain; charset=utf-8')
+
+  // 模型映射：使用 Qwen3-32B（便宜、支持中文、稳定）
+  const openrouterModel = 'qwen/qwen3-32b'
+
+  // content 就是前端生成的完整 prompt
+  const enhancedPrompt = `${content}
+
+重要提示：
+1. 必须严格按照上述JSON格式返回
+2. 不要添加任何Markdown代码块标记（如 \`\`\`json）
+3. 不要添加任何额外的解释文字
+4. 直接返回纯JSON对象
+5. 确保JSON格式正确，所有字符串都用双引号
+6. items数组必须包含指定数量的元素
+
+示例输出格式（不要包含此注释）：
+{"title":"...", "subtitle":"...", "body":"...", "items":[...]}`
+
+  console.log(`[AI Infographic] Using model: ${openrouterModel}`)
+
+  try {
+    const response = await callOpenRouter(enhancedPrompt, openrouterModel, 0.8)
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('OpenRouter API error for infographic:', response.status, errorText)
+      // Use fallback data
+      const fallbackData = generateFallbackInfographic(content)
+      const jsonStr = JSON.stringify(fallbackData, null, 2)
+      const chunks = chunkString(jsonStr, 32)
+
+      for (const chunk of chunks) {
+        res.write(chunk)
+        await sleep(50)
+      }
+      res.end()
+      return
+    }
+
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder('utf-8')
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() || ''
+
+      for (const line of lines) {
+        if (!line.trim() || line.trim() === 'data: [DONE]') continue
+        if (line.startsWith('data: ')) {
+          try {
+            const json = JSON.parse(line.slice(6))
+            const content = json.choices?.[0]?.delta?.content
+            if (content) {
+              res.write(content)
+            }
+          } catch (e) {
+            // 忽略解析错误，继续处理下一行
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.error('AI Infographic stream error:', e)
+    // Use fallback on error
+    try {
+      const fallbackData = generateFallbackInfographic(content)
+      const jsonStr = JSON.stringify(fallbackData, null, 2)
+      res.write(jsonStr)
+    } catch (fallbackError) {
+      console.error('Fallback generation error:', fallbackError)
+    }
   } finally {
     res.end()
   }

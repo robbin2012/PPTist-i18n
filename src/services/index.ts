@@ -21,6 +21,12 @@ interface AIWritingPayload {
   command: string
 }
 
+interface AIInfographicPayload {
+  content: string
+  language: string
+  model: string
+}
+
 export default {
   getMockData(filename: string): Promise<any> {
     return axios.get(`./mocks/${filename}.json`)
@@ -79,6 +85,25 @@ export default {
         content,
         command,
         model: 'ark-doubao-seed-1.6-flash',
+        stream: true,
+      }),
+    })
+  },
+
+  AIInfographic({
+    content,
+    language,
+    model,
+  }: AIInfographicPayload): Promise<any> {
+    return fetch(`${SERVER_URL}/tools/ai_infographic`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content,
+        language,
+        model,
         stream: true,
       }),
     })

@@ -99,6 +99,9 @@
       <div class="menu-item" v-tooltip="t('header.tooltip.ai')" @click="openAIPPTDialog(); mainMenuVisible = false">
         <span class="text ai">AI</span>
       </div>
+      <div class="menu-item infographic-btn" v-tooltip="t('header.tooltip.infographic')" @click="openAIInfographicDialog(); mainMenuVisible = false">
+        <IconChartHistogram class="icon" />
+      </div>
       <div class="menu-item export-btn" v-tooltip="t('header.tooltip.export')" @click="setDialogForExport('pptx')">
         <IconDownload class="icon" />
       </div>
@@ -177,6 +180,10 @@ const openMarkupPanel = () => {
 
 const openAIPPTDialog = () => {
   mainStore.setAIPPTDialogState(true)
+}
+
+const openAIInfographicDialog = () => {
+  mainStore.setAIInfographicDialogState(true)
 }
 </script>
 

@@ -40,6 +40,7 @@ export interface MainState {
   showSymbolPanel: boolean
   showMarkupPanel: boolean
   showAIPPTDialog: boolean
+  showAIInfographicDialog: boolean
 }
 
 const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
@@ -79,6 +80,7 @@ export const useMainStore = defineStore('main', {
     showSymbolPanel: false, // 打开符号面板
     showMarkupPanel: false, // 打开类型标注面板
     showAIPPTDialog: false, // 打开AIPPT创建窗口
+    showAIInfographicDialog: false, // 打开AI信息图创建窗口
   }),
 
   getters: {
@@ -223,6 +225,10 @@ export const useMainStore = defineStore('main', {
 
     setAIPPTDialogState(show: boolean) {
       this.showAIPPTDialog = show
+    },
+
+    setAIInfographicDialogState(show: boolean) {
+      this.showAIInfographicDialog = show
     },
   },
 })
