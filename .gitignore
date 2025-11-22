@@ -31,3 +31,7 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Environment variables
+.env
+server/.env
