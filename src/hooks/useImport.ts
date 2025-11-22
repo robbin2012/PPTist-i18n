@@ -48,7 +48,15 @@ export default () => {
     const reader = new FileReader()
     reader.addEventListener('load', () => {
       try {
-        const { slides } = JSON.parse(reader.result as string)
+        const data = JSON.parse(reader.result as string)
+        const { slides, width, height } = data
+
+        // 恢复 viewportSize 和 viewportRatio
+        if (width && height) {
+          slidesStore.setViewportSize(width)
+          slidesStore.setViewportRatio(height / width)
+        }
+
         if (cover) {
           slidesStore.updateSlideIndex(0)
           slidesStore.setSlides(slides)
@@ -74,7 +82,15 @@ export default () => {
     const reader = new FileReader()
     reader.addEventListener('load', () => {
       try {
-        const { slides } = JSON.parse(decrypt(reader.result as string))
+        const data = JSON.parse(decrypt(reader.result as string))
+        const { slides, width, height } = data
+
+        // 恢复 viewportSize 和 viewportRatio
+        if (width && height) {
+          slidesStore.setViewportSize(width)
+          slidesStore.setViewportRatio(height / width)
+        }
+
         if (cover) {
           slidesStore.updateSlideIndex(0)
           slidesStore.setSlides(slides)

@@ -18,6 +18,7 @@ coverage
 /cypress/screenshots/
 /refs/
 /public/refs/
+/pptx/
 
 # Editor directories and files
 .vscode/*
