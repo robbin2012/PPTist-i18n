@@ -391,6 +391,7 @@
       "zoomOut": "Zoom Out (Ctrl + -)",
       "zoomIn": "Zoom In (Ctrl + =)",
       "fitScreen": "Fit to Screen (Ctrl + 0)",
+      "quickExport": "Schnellexport",
       "insertText": "Insert Text",
       "textboxHorizontal": "Horizontal Textbox",
       "textboxVertical": "Vertical Textbox",

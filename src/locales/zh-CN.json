@@ -314,6 +314,7 @@
       "zoomOut": "画布缩小（Ctrl + -）",
       "zoomIn": "画布放大（Ctrl + =）",
       "fitScreen": "适应屏幕（Ctrl + 0）",
+      "quickExport": "快捷导出",
       "insertText": "插入文字",
       "textboxHorizontal": "横向文本框",
       "textboxVertical": "竖向文本框",

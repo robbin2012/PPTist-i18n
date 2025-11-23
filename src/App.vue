@@ -39,6 +39,19 @@ if (import.meta.env.MODE !== 'development') {
 }
 
 onMounted(async () => {
+  // 检查 URL 参数控制菜单显示
+  const urlParams = new URLSearchParams(window.location.search)
+  const mode = urlParams.get('mode')
+  const isFullMode = mode === 'full'
+
+  // 保存 mode 状态到 sessionStorage，供其他组件使用
+  sessionStorage.setItem('pptist_mode', isFullMode ? 'full' : 'simple')
+
+  // 默认隐藏菜单，只有 mode=full 时才显示
+  if (!isFullMode) {
+    mainStore.setHeaderCollapsed(true)
+  }
+
   const slides = await api.getMockData('slides')
   slidesStore.setSlides(slides)
 

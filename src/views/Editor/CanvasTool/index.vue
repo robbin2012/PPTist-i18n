@@ -100,7 +100,16 @@
       </Popover>
       <IconPlus class="handler-item viewport-size" v-tooltip="t('toolbar.canvasTool.zoomIn')" @click="scaleCanvas('+')" />
       <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="t('toolbar.canvasTool.fitScreen')" @click="resetCanvas()" />
-      <IconDown class="handler-item header-collapse-btn" :class="{ 'collapsed': headerCollapsed }" @click="toggleHeaderCollapse()" />
+      <Popover trigger="click" v-model:value="exportMenuVisible" :offset="10">
+        <template #content>
+          <PopoverMenuItem class="popover-menu-item" center @click="quickExport('png')"><IconPicture class="icon" /> PNG</PopoverMenuItem>
+          <PopoverMenuItem class="popover-menu-item" center @click="quickExport('jpeg')"><IconFileJpg class="icon" /> JPEG</PopoverMenuItem>
+          <PopoverMenuItem class="popover-menu-item" center @click="quickExport('pptx')"><IconPpt class="icon" /> PPTX</PopoverMenuItem>
+          <PopoverMenuItem class="popover-menu-item" center @click="quickExport('pdf')"><IconFilePdf class="icon" /> PDF</PopoverMenuItem>
+        </template>
+        <IconDownload class="handler-item" v-tooltip="t('toolbar.canvasTool.quickExport')" />
+      </Popover>
+      <IconDown v-if="isFullMode" class="handler-item header-collapse-btn" :class="{ 'collapsed': headerCollapsed }" @click="toggleHeaderCollapse()" />
     </div>
 
     <Modal
@@ -112,19 +121,39 @@
         @update="data => { createLatexElement(data); latexEditorVisible = false }"
       />
     </Modal>
+
+    <!-- 用于导出的隐藏缩略图容器 -->
+    <div class="export-thumbnails-container" v-show="isExporting">
+      <div class="export-thumbnails" ref="exportThumbnailsRef">
+        <ThumbnailSlide
+          class="thumbnail"
+          v-for="slide in slides"
+          :key="slide.id"
+          :slide="slide"
+          :size="1600"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMainStore, useSnapshotStore } from '@/store'
+import { useMainStore, useSnapshotStore, useSlidesStore } from '@/store'
 import { getImageDataURL } from '@/utils/image'
 import type { ShapePoolItem } from '@/configs/shapes'
 import type { LinePoolItem } from '@/configs/lines'
 import useScaleCanvas from '@/hooks/useScaleCanvas'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useCreateElement from '@/hooks/useCreateElement'
+import useExport from '@/hooks/useExport'
+import { print } from '@/utils/print'
+
+// 检查是否为 full 模式（只有 full 模式才显示菜单折叠按钮）
+const isFullMode = computed(() => {
+  return sessionStorage.getItem('pptist_mode') === 'full'
+})
 
 import ShapePool from './ShapePool.vue'
 import LinePool from './LinePool.vue'
@@ -137,14 +166,18 @@ import Modal from '@/components/Modal.vue'
 import Divider from '@/components/Divider.vue'
 import Popover from '@/components/Popover.vue'
 import PopoverMenuItem from '@/components/PopoverMenuItem.vue'
+import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
 import { useI18n } from 'vue-i18n'
 
 const mainStore = useMainStore()
 const { creatingElement, creatingCustomShape, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, headerCollapsed } = storeToRefs(mainStore)
 const { canUndo, canRedo } = storeToRefs(useSnapshotStore())
+const slidesStore = useSlidesStore()
+const { slides, viewportRatio } = storeToRefs(slidesStore)
 
 const { redo, undo } = useHistorySnapshot()
 const { t } = useI18n()
+const { exportImage, exportPPTX } = useExport()
 
 const {
   scaleCanvas,
@@ -185,6 +218,9 @@ const latexEditorVisible = ref(false)
 const textTypeSelectVisible = ref(false)
 const shapeMenuVisible = ref(false)
 const moreVisible = ref(false)
+const exportMenuVisible = ref(false)
+const isExporting = ref(false)
+const exportThumbnailsRef = ref<HTMLElement>()
 
 // 绘制文字范围
 const drawText = (vertical = false) => {
@@ -240,6 +276,51 @@ const toggleSymbolPanel = () => {
 // 折叠顶部菜单栏
 const toggleHeaderCollapse = () => {
   mainStore.setHeaderCollapsed(!headerCollapsed.value)
+}
+
+// 快捷导出功能
+const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf') => {
+  exportMenuVisible.value = false
+
+  if (format === 'pptx') {
+    // 导出PPTX - 使用默认配置
+    exportPPTX(slides.value, true, true)
+  }
+  else if (format === 'png' || format === 'jpeg') {
+    // 导出图片 - 使用隐藏的缩略图容器
+    isExporting.value = true
+    await nextTick()
+
+    setTimeout(() => {
+      if (exportThumbnailsRef.value) {
+        exportImage(exportThumbnailsRef.value, format, 1, false)
+        // 导出完成后隐藏容器
+        setTimeout(() => {
+          isExporting.value = false
+        }, 500)
+      }
+    }, 200)
+  }
+  else if (format === 'pdf') {
+    // 导出PDF - 使用隐藏的缩略图容器
+    isExporting.value = true
+    await nextTick()
+
+    setTimeout(() => {
+      if (exportThumbnailsRef.value) {
+        const pageSize = {
+          width: 1600,
+          height: 1600 * viewportRatio.value,
+          margin: 50,
+        }
+        print(exportThumbnailsRef.value, pageSize)
+        // 导出完成后隐藏容器
+        setTimeout(() => {
+          isExporting.value = false
+        }, 500)
+      }
+    }, 200)
+  }
 }
 </script>
 
@@ -384,6 +465,20 @@ const toggleHeaderCollapse = () => {
 @media screen and (width <= 1000px) {
   .left-handler, .right-handler {
     display: none;
+  }
+}
+
+.export-thumbnails-container {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 1600px;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+
+  .export-thumbnails {
+    background-color: #fff;
   }
 }
 </style>

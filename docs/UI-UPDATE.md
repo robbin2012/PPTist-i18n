@@ -352,6 +352,89 @@ const toggleHeaderCollapse = () => mainStore.setHeaderCollapsed(!headerCollapsed
 
 ---
 
+### 5.1 URL 参数控制菜单显示（演示模式）
+
+**新增日期**: 2025-11-23
+
+为了支持演示/嵌入场景，新增 URL 参数控制顶部菜单和折叠按钮的显示。
+
+#### 功能说明
+
+- **默认模式**（无参数）：隐藏顶部菜单 + 隐藏折叠按钮
+- **完整模式**（`?mode=full`）：显示顶部菜单 + 显示折叠按钮
+
+#### 实现方案
+
+**文件 1**: `src/App.vue`
+
+在应用初始化时读取 URL 参数并设置初始状态：
+
+```typescript
+onMounted(async () => {
+  // 检查 URL 参数控制菜单显示
+  const urlParams = new URLSearchParams(window.location.search)
+  const mode = urlParams.get('mode')
+  const isFullMode = mode === 'full'
+
+  // 保存 mode 状态到 sessionStorage，供其他组件使用
+  sessionStorage.setItem('pptist_mode', isFullMode ? 'full' : 'simple')
+
+  // 默认隐藏菜单，只有 mode=full 时才显示
+  if (!isFullMode) {
+    mainStore.setHeaderCollapsed(true)
+  }
+
+  // ... 原有代码
+})
+```
+
+**文件 2**: `src/views/Editor/CanvasTool/index.vue`
+
+折叠按钮仅在完整模式下显示：
+
+```vue
+<template>
+  <div class="right-handler">
+    <!-- ... 其他按钮 ... -->
+
+    <!-- Header 折叠按钮（仅 full 模式显示） -->
+    <IconDown
+      v-if="isFullMode"
+      class="handler-item header-collapse-btn"
+      :class="{ 'collapsed': headerCollapsed }"
+      @click="toggleHeaderCollapse()"
+    />
+  </div>
+</template>
+
+<script setup>
+// 检查是否为 full 模式
+const isFullMode = computed(() => {
+  return sessionStorage.getItem('pptist_mode') === 'full'
+})
+</script>
+```
+
+#### 使用示例
+
+```bash
+# 演示模式（默认）- 隐藏菜单和控制按钮
+https://your-site.com/
+
+# 完整编辑模式 - 显示完整功能
+https://your-site.com/?mode=full
+```
+
+#### 应用场景
+
+1. **演示/展示场景**：使用默认 URL，隐藏编辑工具，提供纯净的演示体验
+2. **编辑场景**：使用 `?mode=full`，显示完整功能
+3. **嵌入第三方页面**：默认模式减少界面干扰
+
+**代码量**: +15 行新增
+
+---
+
 ### 6. 其他面板样式升级
 
 #### 6.1 EditorHeader
@@ -596,5 +679,5 @@ $panelShadow:
 
 ---
 
-**最后更新**: 2025-11-01
-**文档版本**: v1.0.0
+**最后更新**: 2025-11-23
+**文档版本**: v1.1.0
