@@ -443,6 +443,11 @@ $attentionColor: #e8b76a;
 .animation-box {
   background-color: $lightGray;
   border-radius: $borderRadius;
+
+  // Prevent exit animations from making text invisible on hover
+  &.animate__animated {
+    opacity: 1 !important;
+  }
 }
 
 .animation-sequence {

@@ -400,12 +400,12 @@
         "random": "Aléatoire",
         "slideX": "Glissement (Gauche/Droite)",
         "slideY": "Glissement (Haut/Bas)",
-        "slideX3D": "Glissement 3D (Gauche/Droite)",
-        "slideY3D": "Glissement 3D (Haut/Bas)",
+        "slideX3D": "Glissement 3D Gauche-Droite",
+        "slideY3D": "Glissement 3D Haut-Bas",
         "fade": "Fondu",
         "rotate": "Rotation",
-        "scaleY": "Déployer verticalement",
-        "scaleX": "Déployer horizontalement",
+        "scaleY": "Déployer Haut-Bas",
+        "scaleX": "Déployer Gauche-Droite",
         "scale": "Zoom avant",
         "scaleReverse": "Zoom arrière"
       }

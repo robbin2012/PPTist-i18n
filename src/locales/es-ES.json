@@ -452,12 +452,12 @@
         "random": "Aleatorio",
         "slideX": "Deslizar (Izq./Der.)",
         "slideY": "Deslizar (Arriba/Abajo)",
-        "slideX3D": "Deslizar 3D (Izq./Der.)",
-        "slideY3D": "Deslizar 3D (Arriba/Abajo)",
+        "slideX3D": "Deslizar 3D Izq-Der",
+        "slideY3D": "Deslizar 3D Arriba-Abajo",
         "fade": "Fundido",
         "rotate": "Rotar",
-        "scaleY": "Expandir verticalmente",
-        "scaleX": "Expandir horizontalmente",
+        "scaleY": "Expandir Arriba-Abajo",
+        "scaleX": "Expandir Izq-Der",
         "scale": "Acercar",
         "scaleReverse": "Alejar"
       }

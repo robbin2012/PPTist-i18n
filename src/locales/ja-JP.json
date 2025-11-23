@@ -400,12 +400,12 @@
         "random": "ランダム",
         "slideX": "スライド（左右）",
         "slideY": "スライド（上下）",
-        "slideX3D": "スライド 3D（左右）",
-        "slideY3D": "スライド 3D（上下）",
+        "slideX3D": "3Dスライド左右",
+        "slideY3D": "3Dスライド上下",
         "fade": "フェード",
         "rotate": "回転",
-        "scaleY": "縦に展開",
-        "scaleX": "横に展開",
+        "scaleY": "展開上下",
+        "scaleX": "展開左右",
         "scale": "ズームイン",
         "scaleReverse": "ズームアウト"
       }
