@@ -1,7 +1,11 @@
 export const FONTS = [
   { label: '默认字体', value: '' },
 
-  // 英文字体（系统内置）
+  // 英文字体 - Web 字体（打包）
+  { label: 'Roboto', value: 'Roboto' },
+  { label: 'Open Sans', value: 'OpenSans' },
+
+  // 英文字体 - 系统内置
   { label: 'Arial', value: 'Arial' },
   { label: 'Helvetica Neue', value: 'Helvetica Neue' },
   { label: 'Calibri', value: 'Calibri' },
