@@ -262,9 +262,9 @@
       "backgroundColor": "背景色",
       "themeColors": "テーマカラー",
       "themeColorsTip": "（色をクリックして除外）",
-      "fromCurrent": "現在のスライドから抽出",
-      "fromAll": "すべてのスライドから抽出",
-      "applyToTheme": "テーマに適用",
+      "fromCurrent": "現在",
+      "fromAll": "全て",
+      "applyToTheme": "適用",
       "saveSelectionToTheme": "選択をテーマとして保存",
       "themeColorOverflow": "テーマ色が上限を超えました。先頭6色を使用します。"
     },

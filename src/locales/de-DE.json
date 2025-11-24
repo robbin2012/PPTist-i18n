@@ -220,9 +220,9 @@
       "backgroundColor": "Background",
       "themeColors": "Theme",
       "themeColorsTip": "(Click colors to exclude)",
-      "fromCurrent": "Extract from current slide",
-      "fromAll": "Extract from all slides",
-      "applyToTheme": "Apply to Theme",
+      "fromCurrent": "From Current",
+      "fromAll": "From All",
+      "applyToTheme": "Apply",
       "saveSelectionToTheme": "Save selection as theme",
       "themeColorOverflow": "Theme colors exceed limit. Kept first 6."
     },

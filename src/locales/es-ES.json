@@ -314,9 +314,9 @@
       "backgroundColor": "Color de fondo",
       "themeColors": "Colores del tema",
       "themeColorsTip": "(Haz clic en colores para excluir)",
-      "fromCurrent": "Extraer de la diapositiva actual",
-      "fromAll": "Extraer de todas las diapositivas",
-      "applyToTheme": "Aplicar al tema",
+      "fromCurrent": "Actual",
+      "fromAll": "Todas",
+      "applyToTheme": "Aplicar",
       "saveSelectionToTheme": "Guardar selección como tema",
       "themeColorOverflow": "Los colores del tema exceden el límite. Se conservaron los primeros 6."
     },

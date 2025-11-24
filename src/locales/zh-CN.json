@@ -190,9 +190,9 @@
       "backgroundColor": "背景颜色",
       "themeColors": "主题色",
       "themeColorsTip": "（点击色块排除不要的颜色）",
-      "fromCurrent": "从当前页中提取",
-      "fromAll": "从全部幻灯片提取",
-      "applyToTheme": "应用到主题",
+      "fromCurrent": "当前页",
+      "fromAll": "全部",
+      "applyToTheme": "应用",
       "saveSelectionToTheme": "将选中配置保存为主题",
       "themeColorOverflow": "主题色超出数量限制，已自动选取前6个"
     },

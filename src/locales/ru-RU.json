@@ -262,9 +262,9 @@
       "backgroundColor": "Цвет фона",
       "themeColors": "Цвета темы",
       "themeColorsTip": "(Нажмите на цвета, чтобы исключить)",
-      "fromCurrent": "Извлечь из текущего слайда",
-      "fromAll": "Извлечь из всех слайдов",
-      "applyToTheme": "Применить к теме",
+      "fromCurrent": "Текущий",
+      "fromAll": "Все",
+      "applyToTheme": "Применить",
       "saveSelectionToTheme": "Сохранить выбранное как тему",
       "themeColorOverflow": "Превышен лимит цветов темы. Оставлены первые 6."
     },
