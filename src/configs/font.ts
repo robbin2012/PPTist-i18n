@@ -1,5 +1,15 @@
 export const FONTS = [
   { label: '默认字体', value: '' },
+
+  // 英文字体（系统内置）
+  { label: 'Arial', value: 'Arial' },
+  { label: 'Helvetica Neue', value: 'Helvetica Neue' },
+  { label: 'Calibri', value: 'Calibri' },
+  { label: 'Verdana', value: 'Verdana' },
+  { label: 'Times New Roman', value: 'Times New Roman' },
+  { label: 'Georgia', value: 'Georgia' },
+
+  // 中文字体
   { label: '思源黑体', value: 'SourceHanSans' },
   { label: '思源宋体', value: 'SourceHanSerif' },
   { label: '方正黑体', value: 'FangZhengHeiTi' },
