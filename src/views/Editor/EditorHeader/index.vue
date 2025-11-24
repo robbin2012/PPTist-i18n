@@ -251,21 +251,6 @@ const openAIInfographicDialog = () => {
     margin-left: 8px;
   }
 
-  .export-btn {
-    min-width: 80px;
-    padding: 0 16px;
-    background-color: #fff;
-    color: #333;
-    border-color: transparent;
-
-    .icon {
-      color: #333;
-    }
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.9);
-    }
-  }
 
   .group-menu-item {
     // no hover effect for group container

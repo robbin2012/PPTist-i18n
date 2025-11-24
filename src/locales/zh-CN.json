@@ -675,6 +675,7 @@
     "menu": {
       "edit": "编辑",
       "play": "播放",
+      "download": "下载",
       "exitPlay": "退出播放",
       "exitEdit": "退出编辑"
     },
