@@ -1,6 +1,20 @@
 import type { Slide, PPTElement } from '@/types/slides'
 
 /**
+ * 缩放HTML内容中的font-size
+ * @param html HTML字符串
+ * @param ratio 缩放比例
+ * @returns 缩放后的HTML字符串
+ */
+const scaleHTMLFontSize = (html: string, ratio: number): string => {
+  // 匹配 font-size: 数字px 的模式
+  return html.replace(/font-size:\s*(\d+(?:\.\d+)?)px/g, (match, size) => {
+    const newSize = parseFloat(size) * ratio
+    return `font-size: ${newSize}px`
+  })
+}
+
+/**
  * 缩放单个元素的所有尺寸和位置属性
  * @param element 元素对象
  * @param ratio 缩放比例
@@ -28,11 +42,22 @@ export const scaleElement = (element: PPTElement, ratio: number): PPTElement => 
     if ('defaultFontSize' in element && element.defaultFontSize) {
       scaled.defaultFontSize = element.defaultFontSize * ratio
     }
+    // 缩放HTML内容中的font-size
+    if ('content' in element && element.content) {
+      scaled.content = scaleHTMLFontSize(element.content, ratio)
+    }
   }
 
   // Shape 元素的 text 字体大小
   if (element.type === 'shape' && 'text' in element && element.text) {
-    // 注意：HTML 内容中的 font-size 会在渲染时自动缩放，这里不处理
+    scaled.text = { ...element.text }
+    if (element.text.defaultFontSize) {
+      scaled.text.defaultFontSize = element.text.defaultFontSize * ratio
+    }
+    // 缩放HTML内容中的font-size
+    if (element.text.content) {
+      scaled.text.content = scaleHTMLFontSize(element.text.content, ratio)
+    }
   }
 
   // 边框宽度
