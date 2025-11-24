@@ -387,16 +387,53 @@ ${JSON.stringify(templateData, null, 2)}
 
 ---
 
-### 7. 幻灯片插入
+### 7. 幻灯片插入与 Viewport 适配
 
 **插入逻辑**：
-1. 调用`fillInfographic()`生成新幻灯片
-2. 使用`addSlidesFromData([newSlide])`插入到当前PPT
-3. 应用模板主题（如果模板包含theme）
-4. 自动跳转到新生成的幻灯片（最后一页）
+1. **读取模板 viewport**：从上传的模板文件中提取 `width` 和 `height`
+2. **设置为主 viewport**（新增）：
+   ```typescript
+   // 从模板数据中获取 viewport 信息
+   const templateWidth = templateData.value.width || 1000
+   const templateHeight = templateData.value.height || 750
+
+   // 设置新的 viewport（遵循"后导入优先"原则）
+   slidesStore.setViewportSize(templateWidth)
+   slidesStore.setViewportRatio(templateHeight / templateWidth)
+   ```
+3. 调用`fillInfographic()`生成新幻灯片
+4. 使用`addSlidesFromData([newSlide])`插入到当前PPT
+5. 应用模板主题（如果模板包含theme）
+6. 自动跳转到新生成的幻灯片（最后一页）
 
 **生成新ID**：
 使用`nanoid(10)`为新幻灯片生成唯一ID，避免与现有幻灯片冲突
+
+**Viewport 适配行为**：
+
+遵循项目的"**后导入优先**"原则（参见 `doc/Canvas.md` 的"导入文件时的 Viewport 行为"章节）：
+
+- **核心原则**：后导入的模板的 viewport 成为主 viewport，之前的所有幻灯片自动适应新尺寸
+- **为什么需要**：避免不同来源的幻灯片出现尺寸不匹配，保证视觉一致性
+- **实现方式**：
+  1. 解析模板文件时提取 `width` 和 `height` 字段
+  2. 在插入幻灯片之前，先调用 `setViewportSize()` 和 `setViewportRatio()`
+  3. 系统会自动缩放现有幻灯片以适应新 viewport
+
+**示例场景**：
+- 当前 PPT 的 viewport：1000 × 562.5 (16:9)
+- 导入模板的 viewport：800 × 600 (4:3)
+- **结果**：系统会将 viewport 改为 800 × 600，所有现有幻灯片按新比例重新显示，新生成的信息图会完美匹配模板尺寸
+
+**注意事项**：
+- viewport 的改变会影响所有幻灯片的显示尺寸
+- 如果不希望改变现有 PPT 的 viewport，建议先调整模板文件的尺寸以匹配当前 PPT
+- 这个行为与导入 .pptist / .json 文件时的行为完全一致
+
+**相关代码**：
+- 导入逻辑参考：`src/hooks/useImport.ts` (line 54-58, 87-92)
+- Viewport 管理：`src/store/slides.ts` (setViewportSize, setViewportRatio)
+- AI 信息图实现：`src/views/Editor/AIInfographicDialog.vue` (需要添加 viewport 适配逻辑)
 
 ---
 

@@ -9,6 +9,7 @@ export const FONTS = [
   { label: 'Arial', value: 'Arial' },
   { label: 'Helvetica Neue', value: 'Helvetica Neue' },
   { label: 'Calibri', value: 'Calibri' },
+  { label: 'Calibri Light', value: 'Calibri Light' },
   { label: 'Verdana', value: 'Verdana' },
   { label: 'Times New Roman', value: 'Times New Roman' },
   { label: 'Georgia', value: 'Georgia' },

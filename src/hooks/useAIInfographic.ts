@@ -413,13 +413,19 @@ ${topic}
     const parser = new DOMParser()
     const doc = parser.parseFromString(content, 'text/html')
 
+    // 收集所有文本节点
     const treeWalker = document.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT)
-    const firstTextNode = treeWalker.nextNode()
-    if (firstTextNode) {
-      firstTextNode.textContent = text
-      let node
-      while ((node = treeWalker.nextNode())) {
-        node.parentNode?.removeChild(node)
+    const textNodes: Text[] = []
+    let node
+    while ((node = treeWalker.nextNode())) {
+      textNodes.push(node as Text)
+    }
+
+    // 替换第一个文本节点的内容，删除其余所有文本节点
+    if (textNodes.length > 0) {
+      textNodes[0].textContent = text
+      for (let i = 1; i < textNodes.length; i++) {
+        textNodes[i].parentNode?.removeChild(textNodes[i])
       }
     }
 
@@ -452,7 +458,10 @@ ${topic}
     const itemTitleElements = sortElements(template.elements.filter(el => checkTextType(el, 'itemTitle')))
     const itemNumberElements = sortElements(template.elements.filter(el => checkTextType(el, 'itemNumber')))
 
-    const newElements = template.elements.map(el => {
+    const newElements = template.elements
+      // 过滤掉 notes 类型的元素（notes 仅用于指导 AI 生成，不应出现在最终结果中）
+      .filter(el => !checkTextType(el, 'notes'))
+      .map(el => {
       // 填充标题
       if (checkTextType(el, 'title') && data.title) {
         return fillTextElement(el, data.title, 1)

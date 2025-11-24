@@ -713,6 +713,8 @@
     "ignoreMedia": "Ignore Audio/Video:",
     "ignoreMediaTip": "Tip: Supported formats: avi, mp4, mov, wmv, mp3, wav; Cross-origin resources cannot be exported.",
     "masterOverwrite": "Overwrite Default Master:",
+    "canvasWidth": "Canvas Width:",
+    "scaleWidthTip": "Scaling from {from} to {to} ({percent}%)",
     "exportImage": "Export Image",
     "exportPPTX": "Export PPTX",
     "exportPPTIST": "Export PPTIST",

@@ -7,6 +7,9 @@
    - POST /tools/ai_writing     -> streams incremental rewritten text
 */
 
+// Load environment variables from .env file if present
+require('dotenv').config()
+
 const express = require('express')
 const cors = require('cors')
 

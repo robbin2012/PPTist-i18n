@@ -90,7 +90,7 @@ const topic = ref('')
 const language = ref('中文')
 const model = ref('GLM-4.5-Flash')
 const templateFile = ref<File | null>(null)
-const templateData = ref<{ slides: Slide[], theme?: SlideTheme } | null>(null)
+const templateData = ref<{ slides: Slide[], theme?: SlideTheme, width?: number, height?: number } | null>(null)
 const loading = ref(false)
 const inputRef = useTemplateRef<InstanceType<typeof Input>>('inputRef')
 
@@ -119,7 +119,7 @@ const parseTemplateFile = async (file: File) => {
   reader.addEventListener('load', () => {
     try {
       const raw = String(reader.result || '')
-      let parsed: { slides?: Slide[], theme?: SlideTheme }
+      let parsed: { slides?: Slide[], theme?: SlideTheme, width?: number, height?: number }
 
       if (file.name.endsWith('.pptist')) {
         const decrypted = decrypt(raw)
@@ -131,13 +131,13 @@ const parseTemplateFile = async (file: File) => {
         parsed = JSON.parse(raw)
       }
 
-      const { slides, theme } = parsed
+      const { slides, theme, width, height } = parsed
 
       if (!Array.isArray(slides) || slides.length === 0) {
         throw new Error('模板结构缺少 slides 字段或为空')
       }
 
-      templateData.value = { slides, theme }
+      templateData.value = { slides, theme, width, height }
       message.success('模板上传成功')
     } catch (err) {
       const reason = err instanceof Error && err.message ? err.message : String(err)
@@ -165,6 +165,12 @@ const generate = async () => {
     const templates = templateData.value.slides
     const totalPages = templates.length
     let successCount = 0
+
+    // 设置 viewport（遵循"后导入优先"原则）
+    const templateWidth = templateData.value.width || 1000
+    const templateHeight = templateData.value.height || 562.5
+    slidesStore.setViewportSize(templateWidth)
+    slidesStore.setViewportRatio(templateHeight / templateWidth)
 
     // 循环处理每一页模板
     for (let i = 0; i < totalPages; i++) {

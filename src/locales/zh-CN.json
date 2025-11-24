@@ -711,6 +711,8 @@
     "ignoreMedia": "忽略音频/视频：",
     "ignoreMediaTip": "提示：1. 支持导出格式：avi、mp4、mov、wmv、mp3、wav；2. 跨域资源无法导出。",
     "masterOverwrite": "覆盖默认母版：",
+    "canvasWidth": "画布宽度：",
+    "scaleWidthTip": "将从 {from} 缩放到 {to}（{percent}%）",
     "exportImage": "导出图片",
     "exportPPTX": "导出 PPTX",
     "exportPPTIST": "导出 PPTIST 文件",

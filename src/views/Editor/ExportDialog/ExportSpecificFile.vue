@@ -23,10 +23,25 @@
           v-model:value="range"
         />
       </div>
-      <div class="tip">PPTIST</div>
+      <div class="row">
+        <div class="title">{{ t('export.canvasWidth') }}</div>
+        <div class="config-item width-input">
+          <Input
+            v-model:value="exportWidth"
+            type="number"
+            :min="500"
+            :max="5000"
+            :step="10"
+          />
+          <span class="unit">px</span>
+          <span class="scale-tip" v-if="scalePercentage !== 100">({{ scalePercentage }}%)</span>
+        </div>
+      </div>
+
+      <div class="tip" v-if="scalePercentage !== 100">{{ t('export.scaleWidthTip', { from: viewportSize, to: exportWidth, percent: scalePercentage }) }}</div>
     </div>
     <div class="btns">
-      <Button class="btn export" type="primary" @click="exportSpecificFile(selectedSlides)"><IconDownload /> {{ t('export.exportPPTIST') }}</Button>
+      <Button class="btn export" type="primary" @click="handleExport"><IconDownload /> {{ t('export.exportPPTIST') }}</Button>
       <Button class="btn close" @click="emit('close')">{{ t('export.close') }}</Button>
     </div>
   </div>
@@ -38,23 +53,29 @@ import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import useExport from '@/hooks/useExport'
+import { scaleSlides } from '@/utils/scaleSlides'
+import { encrypt } from '@/utils/crypto'
+import { saveAs } from 'file-saver'
 
 import Slider from '@/components/Slider.vue'
 import Button from '@/components/Button.vue'
 import RadioButton from '@/components/RadioButton.vue'
 import RadioGroup from '@/components/RadioGroup.vue'
+import Input from '@/components/Input.vue'
 
 const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
-const { slides, currentSlide } = storeToRefs(useSlidesStore())
+const slidesStore = useSlidesStore()
+const { slides, currentSlide, viewportSize, viewportRatio, theme, title } = storeToRefs(slidesStore)
 
 const { exportSpecificFile } = useExport()
 const { t } = useI18n()
 
 const rangeType = ref<'all' | 'current' | 'custom'>('all')
 const range = ref<[number, number]>([1, slides.value.length])
+const exportWidth = ref<number | string>(viewportSize.value)
 
 const selectedSlides = computed(() => {
   if (rangeType.value === 'all') return slides.value
@@ -64,6 +85,39 @@ const selectedSlides = computed(() => {
     return index >= min - 1 && index <= max - 1
   })
 })
+
+// 获取导出用的 slides（根据宽度进行缩放）
+const getExportSlides = () => {
+  const width = Number(exportWidth.value)
+  if (width === viewportSize.value) {
+    return selectedSlides.value
+  }
+
+  const ratio = width / viewportSize.value
+  return scaleSlides(selectedSlides.value, ratio)
+}
+
+// 计算缩放比例百分比
+const scalePercentage = computed(() => {
+  const width = Number(exportWidth.value)
+  const ratio = width / viewportSize.value
+  return Math.round(ratio * 100)
+})
+
+// 导出处理（覆盖原有函数，支持自定义宽度）
+const handleExport = () => {
+  const width = Number(exportWidth.value)
+  const slidesToExport = getExportSlides()
+  const json = {
+    title: title.value,
+    width: width,
+    height: width * viewportRatio.value,
+    theme: theme.value,
+    slides: slidesToExport,
+  }
+  const blob = new Blob([encrypt(JSON.stringify(json))], { type: '' })
+  saveAs(blob, `${title.value}.pptist`)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -103,13 +157,29 @@ const selectedSlides = computed(() => {
   }
   .config-item {
     flex: 1;
+
+    &.width-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .unit {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .scale-tip {
+        font-size: 12px;
+        color: #999;
+      }
+    }
   }
 
   .tip {
     font-size: 12px;
     color: #aaa;
     line-height: 1.8;
-    margin-top: 25px;
+    margin-top: 10px;
   }
 }
 .btns {
