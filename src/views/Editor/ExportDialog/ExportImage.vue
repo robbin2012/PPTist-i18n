@@ -115,7 +115,10 @@ const { exportImage, exporting } = useExport()
 
 const expImage = () => {
   if (!imageThumbnailsRef.value) return
-  exportImage(imageThumbnailsRef.value, format.value, quality.value, ignoreWebfont.value)
+  // 这里仍然将所有缩略图容器作为一个整体导出一张图片
+  exportImage(imageThumbnailsRef.value, format.value, quality.value, ignoreWebfont.value).catch(() => {
+    // 错误提示在 useExport 中已经处理，这里无需额外处理
+  })
 }
 </script>
 

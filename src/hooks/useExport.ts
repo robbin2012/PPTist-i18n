@@ -36,30 +36,41 @@ export default () => {
 
   const exporting = ref(false)
 
-  // 导出图片
-  const exportImage = (domRef: HTMLElement, format: string, quality: number, ignoreWebfont = true) => {
+  // 导出单张图片
+  const exportImage = (
+    domRef: HTMLElement,
+    format: 'png' | 'jpeg',
+    quality: number,
+    ignoreWebfont = true,
+    fileName?: string,
+  ): Promise<void> => {
     exporting.value = true
     const toImage = format === 'png' ? toPng : toJpeg
 
     const foreignObjectSpans = domRef.querySelectorAll('foreignObject [xmlns]')
     foreignObjectSpans.forEach(spanRef => spanRef.removeAttribute('xmlns'))
 
-    setTimeout(() => {
-      const config: ExportImageConfig = {
-        quality,
-        width: 1600,
-      }
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const config: ExportImageConfig = {
+          quality,
+          width: 1600,
+        }
 
-      if (ignoreWebfont) config.fontEmbedCSS = ''
+        if (ignoreWebfont) config.fontEmbedCSS = ''
 
-      toImage(domRef, config).then(dataUrl => {
-        exporting.value = false
-        saveAs(dataUrl, `${title.value}.${format}`)
-      }).catch(() => {
-        exporting.value = false
-        message.error(t('export.imageFailed'))
-      })
-    }, 200)
+        toImage(domRef, config).then(dataUrl => {
+          exporting.value = false
+          const name = fileName || `${title.value}.${format}`
+          saveAs(dataUrl, name)
+          resolve()
+        }).catch((err) => {
+          exporting.value = false
+          message.error(t('export.imageFailed'))
+          reject(err)
+        })
+      }, 200)
+    })
   }
   
   // 导出pptist文件（特有 .pptist 后缀文件）

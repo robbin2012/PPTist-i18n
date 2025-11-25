@@ -715,6 +715,7 @@
     "canvasWidth": "画布宽度：",
     "scaleWidthTip": "将从 {from} 缩放到 {to}（{percent}%）",
     "exportImage": "导出图片",
+    "exportAllImages": "多页 PNG",
     "exportPPTX": "导出 PPTX",
     "exportPPTIST": "导出 PPTIST 文件",
     "exportJSON": "导出 JSON",

@@ -19,6 +19,7 @@ coverage
 /refs/
 /public/refs/
 /pptx/
+/utilities/test/
 
 # Editor directories and files
 .vscode/*

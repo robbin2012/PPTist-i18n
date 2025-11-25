@@ -106,6 +106,7 @@
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('jpeg')"><IconFileJpg class="icon" /> JPEG</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('pptx')"><IconPpt class="icon" /> PPTX</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('pdf')"><IconFilePdf class="icon" /> PDF</PopoverMenuItem>
+          <PopoverMenuItem class="popover-menu-item" center @click="quickExport('images')"><IconPicture class="icon" /> {{ t('export.exportAllImages') }}</PopoverMenuItem>
         </template>
         <IconDownload class="handler-item" v-tooltip="t('toolbar.canvasTool.quickExport')" />
       </Popover>
@@ -279,7 +280,7 @@ const toggleHeaderCollapse = () => {
 }
 
 // 快捷导出功能
-const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf') => {
+const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf' | 'images') => {
   exportMenuVisible.value = false
 
   if (format === 'pptx') {
@@ -293,7 +294,9 @@ const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf') => {
 
     setTimeout(() => {
       if (exportThumbnailsRef.value) {
-        exportImage(exportThumbnailsRef.value, format, 1, false)
+        exportImage(exportThumbnailsRef.value, format, 1, false).catch(() => {
+          // 错误信息在 useExport 中已处理
+        })
         // 导出完成后隐藏容器
         setTimeout(() => {
           isExporting.value = false
@@ -320,6 +323,34 @@ const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf') => {
         }, 500)
       }
     }, 200)
+  }
+  else if (format === 'images') {
+    // 导出所有幻灯片为单独图片
+    isExporting.value = true
+    await nextTick()
+
+    const container = exportThumbnailsRef.value
+    if (!container) {
+      isExporting.value = false
+      return
+    }
+
+    // 只选择每一页缩略图的根容器，避免选到文本里的 .thumbnail 样式
+    const thumbnails = Array.from(container.querySelectorAll<HTMLElement>('.thumbnail-slide'))
+    // 逐张导出，文件名按 001.png / 002.png ...
+    for (let index = 0; index < thumbnails.length; index++) {
+      const el = thumbnails[index]
+      const seq = String(index + 1).padStart(3, '0')
+      const fileName = `${seq}.png`
+      try {
+        await exportImage(el, 'png', 1, false, fileName)
+      } catch {
+        // 单张失败继续导出后续图片
+        // 错误提示已在 useExport 中处理
+      }
+    }
+
+    isExporting.value = false
   }
 }
 </script>

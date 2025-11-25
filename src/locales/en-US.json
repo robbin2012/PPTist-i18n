@@ -717,6 +717,7 @@
     "canvasWidth": "Canvas Width:",
     "scaleWidthTip": "Scaling from {from} to {to} ({percent}%)",
     "exportImage": "Export Image",
+    "exportAllImages": "PNG (All)",
     "exportPPTX": "Export PPTX",
     "exportPPTIST": "Export PPTIST",
     "exportJSON": "Export JSON",
