@@ -14,9 +14,11 @@ export default defineConfig({
     port: 51706,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:51702',
+        // 开发环境：将 /api/* 反代到线上 Drupal (aigraphmaker.net)
+        // 这样 ?type=json&file=/api/viz/cache/... 可以直接访问远程缓存 JSON
+        target: 'https://aigraphmaker.net',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        // 不做 rewrite，保持 /api/viz/... 结构与线上一致
       }
     }
   },

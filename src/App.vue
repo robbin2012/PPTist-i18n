@@ -34,10 +34,6 @@ const { databaseId } = storeToRefs(mainStore)
 const { slides } = storeToRefs(slidesStore)
 const { screening } = storeToRefs(useScreenStore())
 
-if (import.meta.env.MODE !== 'development') {
-  window.onbeforeunload = () => false
-}
-
 onMounted(async () => {
   // 检查 URL 参数控制菜单显示
   const urlParams = new URLSearchParams(window.location.search)
@@ -52,8 +48,60 @@ onMounted(async () => {
     mainStore.setHeaderCollapsed(true)
   }
 
-  const slides = await api.getMockData('slides')
-  slidesStore.setSlides(slides)
+  // 支持通过 URL 参数动态加载 JSON：?type=json&file=/api/viz/cache/...
+  const type = urlParams.get('type')
+  const fileParam = urlParams.get('file')
+
+  try {
+    if (type === 'json' && fileParam) {
+      // 构造可访问的 JSON 地址，支持相对路径和绝对 URL
+      const fileUrl = fileParam.startsWith('http://') || fileParam.startsWith('https://')
+        ? fileParam
+        : new URL(fileParam, window.location.origin).toString()
+
+      const resp = await fetch(fileUrl)
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status} ${resp.statusText}`)
+      }
+
+      const data = await resp.json()
+      const { slides, width, height, theme, title } = data
+
+      // 恢复 viewportSize 和 viewportRatio
+      // 优先使用顶层 width/height；如果没有，则使用 size.width/size.height（兼容部分生成器输出）
+      const viewportWidth = width ?? data.size?.width
+      const viewportHeight = height ?? data.size?.height
+      if (viewportWidth && viewportHeight) {
+        slidesStore.setViewportSize(viewportWidth)
+        slidesStore.setViewportRatio(viewportHeight / viewportWidth)
+      }
+
+      // 应用主题（如果存在）
+      if (theme) {
+        slidesStore.setTheme(theme)
+      }
+
+      // 应用标题（如果存在）
+      if (title) {
+        slidesStore.setTitle(title)
+      }
+
+      // 设置幻灯片数据
+      slidesStore.setSlides(slides || [])
+    } else {
+      // 默认行为：加载本地 mocks/slides.json
+      const slides = await api.getMockData('slides')
+      slidesStore.setSlides(slides)
+    }
+  } catch (err) {
+    console.error('Failed to load slides JSON from URL, falling back to mocks:', err)
+    try {
+      const slides = await api.getMockData('slides')
+      slidesStore.setSlides(slides)
+    } catch (e) {
+      console.error('Failed to load default mock slides:', e)
+    }
+  }
 
   await deleteDiscardedDB()
   snapshotStore.initSnapshotDatabase()

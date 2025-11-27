@@ -40,14 +40,14 @@ function detectLocale(): AppLocale {
     const raw = (params.get('lang') || '').trim()
     if (raw) {
       const key = raw.toLowerCase()
-      return SUPPORTED[key] || (SUPPORTED[raw] as AppLocale) || 'zh-CN'
+      return SUPPORTED[key] || (SUPPORTED[raw] as AppLocale) || 'en-US'
     }
 
     // Check persisted preference
     const stored = (localStorage.getItem('lang') || localStorage.getItem('locale') || '').trim()
     if (stored) {
       const key = stored.toLowerCase()
-      return SUPPORTED[key] || (SUPPORTED[stored] as AppLocale) || 'zh-CN'
+      return SUPPORTED[key] || (SUPPORTED[stored] as AppLocale) || 'en-US'
     }
 
     // Check <html lang> attribute
@@ -55,7 +55,7 @@ function detectLocale(): AppLocale {
       const htmlLang = (document.documentElement.getAttribute('lang') || '').trim()
       if (htmlLang) {
         const key = htmlLang.toLowerCase()
-        return SUPPORTED[key] || (SUPPORTED[htmlLang] as AppLocale) || 'zh-CN'
+        return SUPPORTED[key] || (SUPPORTED[htmlLang] as AppLocale) || 'en-US'
       }
     } catch {}
 
@@ -64,11 +64,11 @@ function detectLocale(): AppLocale {
       const nav = (navigator.language || (navigator as any).userLanguage || '').trim()
       if (nav) {
         const key = nav.toLowerCase()
-        return SUPPORTED[key] || (SUPPORTED[nav] as AppLocale) || 'zh-CN'
+        return SUPPORTED[key] || (SUPPORTED[nav] as AppLocale) || 'en-US'
       }
     } catch {}
   } catch {}
-  return 'zh-CN'
+  return 'en-US'
 }
 
 const locale = detectLocale()

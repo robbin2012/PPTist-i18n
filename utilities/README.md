@@ -49,10 +49,11 @@ node utilities/pptist-extract-csv.cjs presentation.json output/slides.csv thumbn
 | 列名 | 说明 | 示例 |
 |------|------|------|
 | **Title** | 幻灯片标题 | "项目介绍" |
-| **Description** | 内容摘要（约100字） | "本项目旨在..." |
+| **Body** | 内容摘要 / 正文（初始为约100字摘要，可后续替换为 AI 生成的 markdown 文本） | "本项目旨在..." |
 | **Item Count** | 内容项数量 | 5 |
 | **Category** | 幻灯片类型 | Cover, Content, Chart, Table |
-| **Tags** | 色彩主题标签 | Light, Dark, Warm, Cool, Fresh |
+| **Tags** | 主题 / 风格标签（优先从 Notes 中的“主题”或“主题风格”提取） | "浅绿橙清淡风" |
+| **Notes** | 模板备注 / 生成规则说明（来自 `textType: "notes"` 或 `remark`） | "规则：List Item Title 不能超过 40 个字母长度..." |
 | **Thumbnail** | 缩略图文件路径 | output_assets/slide_001_abc123.png（如有自动提取） |
 | **Slide JSON** | 当前幻灯片 JSON 文件的相对路径 | output_assets/slide_001_abc123.json |
 
@@ -242,8 +243,8 @@ node utilities/post-csv-to-drupal.cjs <input.csv> [options]
 | `--base-url <url>` | Drupal 站点 URL | 环境变量 `DRUPAL_BASE_URL` |
 | `--username <user>` | Drupal 用户名 | 环境变量 `DRUPAL_USER` |
 | `--password <pass>` | Drupal 密码 | 环境变量 `DRUPAL_PASS` |
-| `--content-type <type>` | 内容类型机器名 | `pptist_slide` |
-| `--image-dir <dir>` | 缩略图目录路径 | CSV 同级 `images` 目录 |
+| `--content-type <type>` | 内容类型机器名（例如 `infographic_template`） | `infographic_template` |
+| `--image-dir <dir>` | 缩略图目录路径 | 自动从 CSV 同级及 `*_assets` 目录中探测 |
 | `--dry-run` | 预览模式，不实际上传 | - |
 | `--skip-images` | 跳过图片上传 | - |
 
@@ -281,16 +282,24 @@ node utilities/post-csv-to-drupal.cjs output/slides.csv --content-type slide_tem
 
 #### 1. 创建内容类型
 
-在 Drupal 中创建名为 `pptist_slide`（或自定义名称）的内容类型，包含以下字段：
+在 Drupal 中创建名为 `infographic_template`（或与脚本中 `--content-type` 一致）的内容类型，包含以下字段：
 
 | 字段机器名 | 字段类型 | 说明 |
 |------------|----------|------|
 | `title` | 文本 | 标题（Drupal 自带） |
-| `field_description` | 长文本 | 描述 |
-| `field_item_count` | 整数 | 内容项数量 |
-| `field_category` | 文本 | 分类 |
-| `field_tags` | 文本 | 标签 |
-| `field_thumbnail` | 媒体引用 (Image) | 缩略图 |
+| `body` | 长文本（含摘要） | 描述（映射 CSV 的 `Body` 列） |
+| `items_number` | 整数 | 内容项数量（映射 CSV 的 `Item Count` 列） |
+| `prompt` | 长文本 | 备注 / Prompt（映射 CSV 的 `Notes` 列） |
+| `unique_key` | 文本 | 模板唯一标识（映射 CSV 的 `Unique Key` 或 `Slide JSON` 路径） |
+| `category` | 术语引用 (Vocabulary: `infograph_template_category`) | 分类 |
+| `tags` | 术语引用 (Vocabulary: `infograph_template_tags`) | 标签（脚本会按名称自动创建缺失标签） |
+| `cover` | 媒体引用 (Image) | 缩略图 / 封面 |
+| `template_file` | 文件 (File) | 模板 JSON 文件（可选，对应 CSV 的 `Slide JSON` 路径） |
+
+同时需要在 Drupal 中准备两类术语词汇表（Vocabulary）：
+
+- `infograph_template_category`：信息图分类（用于 `category` 字段）；
+- `infograph_template_tags`：信息图标签（用于 `tags` 字段）。
 
 #### 2. 启用 JSON:API
 
@@ -328,8 +337,8 @@ node utilities/post-csv-to-drupal.cjs output/slides.csv --content-type slide_tem
 │  ┌─────────────────────────────────────┐│
 │  │ 1. 上传缩略图到 file--file          ││
 │  │ 2. 创建 media--image                ││
-│  │ 3. 创建 node--pptist_slide          ││
-│  │    (关联 media 作为 field_thumbnail)││
+│  │ 3. 创建 node--infographic_template  ││
+│  │    (关联 media 作为 cover 字段)     ││
 │  └─────────────────────────────────────┘│
 └────────┬────────────────────────────────┘
          │
@@ -374,23 +383,49 @@ Content-Type: application/vnd.api+json
 
 #### 创建内容节点
 
-```json
-POST /jsonapi/node/pptist_slide
+```http
+POST /jsonapi/node/infographic_template
 Content-Type: application/vnd.api+json
+X-CSRF-Token: {token}
+```
 
+```json
 {
   "data": {
-    "type": "node--pptist_slide",
+    "type": "node--infographic_template",
     "attributes": {
       "title": "项目介绍",
-      "field_description": "本幻灯片介绍了...",
-      "field_item_count": 5,
-      "field_category": "Cover",
-      "field_tags": "Dark"
+      "body": {
+        "value": "本幻灯片介绍了...",
+        "summary": "本幻灯片介绍了...",
+        "format": "basic_html"
+      },
+      "items_number": 5,
+      "prompt": "这里是 Notes / Prompt 内容",
+      "unique_key": "pptist-01.2_assets/slide_001__O8iEg4w4c.json"
     },
     "relationships": {
-      "field_thumbnail": {
+      "category": {
+        "data": [
+          {
+            "type": "taxonomy_term--infograph_template_category",
+            "id": "{category-term-id}"
+          }
+        ]
+      },
+      "tags": {
+        "data": [
+          {
+            "type": "taxonomy_term--infograph_template_tags",
+            "id": "{tag-term-id-1}"
+          }
+        ]
+      },
+      "cover": {
         "data": { "type": "media--image", "id": "{media-uuid}" }
+      },
+      "template_file": {
+        "data": { "type": "file--file", "id": "{template-file-uuid}" }
       }
     }
   }
@@ -484,6 +519,46 @@ node utilities/post-csv-to-drupal.cjs output/slides.csv \
   --username admin \
   --password your-password
 ```
+
+---
+
+## pptist-generate-intro.cjs
+
+根据模板 CSV 中的标题 / 注释 / 分类 / 标签等信息，自动生成约 150 字的中文简介，写回到 `Body` 列。
+
+### 用途
+
+- 针对每个模板（通常是一页 slide.json + 封面 + 对应 CSV 一行）生成一个更偏“商品介绍/模板说明”的简介文案；
+- 适用于在模板市场 / CMS 中展示模板详情时使用。
+
+### 使用方法
+
+```bash
+node utilities/pptist-generate-intro.cjs <input.csv> [output.csv]
+```
+
+- `<input.csv>` **(必填)**：模板的元数据 CSV 文件（需包含 Title 和 Body 列）；
+- `[output.csv]` **(可选)**：输出 CSV 文件，默认覆盖输入文件。
+
+### 处理逻辑
+
+- 解析表头（不区分大小写），需要至少包含：
+  - `Title`
+  - `Body`
+- 若存在则一并利用的列：
+  - `Category`
+  - `Notes`
+  - `Tags`
+  - `Thumbnail`
+- 每一行会生成一段简介，写入到 `Body` 列，长度目标约为 150 字（上限约 170 字）；
+- 简介会综合使用：
+  - `Title`：生成 `《标题》是一页 XXX 模板` 的开头；
+  - `Notes` 中的 `适用场景` / `颜色` 片段；
+  - `Category`：映射为中文描述（封面页/内容页/图表页等）；
+  - `Tags` / 颜色信息：用于生成风格描述（清新明快、沉稳大气等）；
+  - `Thumbnail` 是否存在：决定是描述为“封面设计简洁大方，图文布局突出核心信息”还是更通用的结构说明。
+
+生成后可以配合 `post-csv-to-drupal.cjs` 等工具，一并导入到 Drupal 或其他 CMS 中使用。
 
 ---
 

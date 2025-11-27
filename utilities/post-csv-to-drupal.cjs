@@ -13,7 +13,7 @@
  *   --base-url <url>       Drupal base URL (default: from DRUPAL_BASE_URL env)
  *   --username <user>      Drupal username (default: from DRUPAL_USER env)
  *   --password <pass>      Drupal password (default: from DRUPAL_PASS env)
- *   --content-type <type>  Content type name (default: pptist_slide)
+ *   --content-type <type>  Content type name (default: infographic_template)
  *   --image-dir <dir>      Directory containing thumbnail images
  *   --dry-run              Preview without uploading
  *   --skip-images          Skip image upload
@@ -33,8 +33,13 @@ const https = require('https');
 const http = require('http');
 
 // Constants
-const DEFAULT_CONTENT_TYPE = 'pptist_slide';
+// Default to infographic_template, can be overridden via --content-type
+const DEFAULT_CONTENT_TYPE = 'infographic_template';
 const JSONAPI_CONTENT_TYPE = 'application/vnd.api+json';
+
+// Vocabulary machine names
+const CATEGORY_VOCAB = 'infograph_template_category';
+const TAGS_VOCAB = 'infograph_template_tags';
 
 /**
  * Parse command line arguments
@@ -311,6 +316,93 @@ class DrupalClient {
   }
 
   /**
+   * Find taxonomy terms by name in a given vocabulary
+   * @param {string} vocab - Vocabulary machine name
+   * @param {string} name - Term name (exact match)
+   * @returns {Promise<Array>} JSON:API term data array
+   */
+  async findTermsByName(vocab, name) {
+    const trimmed = (name || '').trim();
+    if (!trimmed) return [];
+
+    const encoded = encodeURIComponent(trimmed);
+    const url =
+      `${this.baseUrl}/jsonapi/taxonomy_term/${vocab}` +
+      `?filter[name][condition][path]=name&filter[name][condition][value]=${encoded}`;
+
+    const headers = await this.getHeaders(false);
+    const response = await request(url, { headers });
+
+    if (response.statusCode === 200 && response.data && Array.isArray(response.data.data)) {
+      return response.data.data;
+    }
+
+    console.warn(`  ⚠️  Failed to query terms for vocab "${vocab}" and name "${trimmed}"`);
+    return [];
+  }
+
+  /**
+   * Get category term id by name (do NOT create if missing)
+   * @param {string} name
+   * @returns {Promise<string|null>}
+   */
+  async getCategoryTermIdByName(name) {
+    const results = await this.findTermsByName(CATEGORY_VOCAB, name);
+    if (Array.isArray(results) && results.length > 0) {
+      return results[0].id;
+    }
+    console.warn(`  ⚠️  Category term not found for "${name}", skipping category relationship`);
+    return null;
+  }
+
+  /**
+   * Get or create tag term id by name
+   * @param {string} name
+   * @returns {Promise<string|null>}
+   */
+  async getOrCreateTagTermIdByName(name) {
+    const trimmed = (name || '').trim();
+    if (!trimmed) return null;
+
+    // Try to find existing term first
+    const existing = await this.findTermsByName(TAGS_VOCAB, trimmed);
+    if (Array.isArray(existing) && existing.length > 0) {
+      return existing[0].id;
+    }
+
+    // Create new term
+    console.log(`  ➕ Creating new tag term: "${trimmed}"`);
+
+    const payload = {
+      data: {
+        type: `taxonomy_term--${TAGS_VOCAB}`,
+        attributes: {
+          name: trimmed,
+        },
+      },
+    };
+
+    const headers = await this.getHeaders();
+    const response = await request(
+      `${this.baseUrl}/jsonapi/taxonomy_term/${TAGS_VOCAB}`,
+      {
+        method: 'POST',
+        headers,
+      },
+      JSON.stringify(payload)
+    );
+
+    if (response.statusCode === 201 || response.statusCode === 200) {
+      const termId = response.data?.data?.id;
+      console.log(`  ✓ Tag term created: ${termId}`);
+      return termId;
+    }
+
+    console.error(`  ✗ Failed to create tag term "${trimmed}":`, response.data?.errors || response.data);
+    return null;
+  }
+
+  /**
    * Upload image file to Drupal
    * @param {string} imagePath - Path to image file
    * @param {string} filename - Filename for upload
@@ -330,6 +422,7 @@ class DrupalClient {
     const headers = await this.getHeaders();
     headers['Content-Type'] = 'application/octet-stream';
     headers['Content-Disposition'] = `attachment; filename="${sanitizedName}"`;
+    headers['Content-Length'] = imageBuffer.length;
 
     const response = await request(
       `${this.baseUrl}/jsonapi/media/image/field_media_image`,
@@ -346,6 +439,49 @@ class DrupalClient {
       return fileId;
     } else {
       console.error(`  ✗ Upload failed:`, response.data?.errors || response.data);
+      return null;
+    }
+  }
+
+  /**
+   * Upload a generic file for a node file field (e.g. template JSON)
+   * @param {string} contentType - Content type machine name
+   * @param {string} fieldName - Field machine name (e.g. template_file)
+   * @param {string} filePath - Local file path
+   * @param {string} filename - Original filename
+   * @returns {Promise<string>} File UUID
+   */
+  async uploadFileForNodeField(contentType, fieldName, filePath, filename) {
+    if (!fs.existsSync(filePath)) {
+      console.warn(`⚠️  File not found for ${fieldName}: ${filePath}`);
+      return null;
+    }
+
+    const fileBuffer = fs.readFileSync(filePath);
+    const sanitizedName = filename.replace(/[^a-zA-Z0-9.-]/g, '-');
+
+    console.log(`  📤 Uploading file for ${fieldName}: ${sanitizedName}`);
+
+    const headers = await this.getHeaders();
+    headers['Content-Type'] = 'application/octet-stream';
+    headers['Content-Disposition'] = `attachment; filename="${sanitizedName}"`;
+    headers['Content-Length'] = fileBuffer.length;
+
+    const response = await request(
+      `${this.baseUrl}/jsonapi/node/${contentType}/${fieldName}`,
+      {
+        method: 'POST',
+        headers,
+      },
+      fileBuffer
+    );
+
+    if (response.statusCode === 201 || response.statusCode === 200) {
+      const fileId = response.data?.data?.id;
+      console.log(`  ✓ File uploaded for ${fieldName}: ${fileId}`);
+      return fileId;
+    } else {
+      console.error(`  ✗ File upload failed for ${fieldName}:`, response.data?.errors || response.data);
       return null;
     }
   }
@@ -398,27 +534,37 @@ class DrupalClient {
    * Create content node
    * @param {string} contentType - Content type machine name
    * @param {Object} slideData - Slide data from CSV
-   * @param {string} [mediaId] - Optional media UUID for thumbnail
+   * @param {string} [templateFileId] - Optional file UUID for template JSON
    * @returns {Promise<string>} Node UUID
    */
-  async createNode(contentType, slideData, mediaId = null) {
+  async createNode(contentType, slideData, templateFileId = null) {
     const attributes = {
       title: slideData.title || 'Untitled Slide',
     };
 
-    // Map CSV fields to Drupal fields
+    // Map CSV fields to Drupal fields for infographic_template
     // Adjust these field names based on your Drupal content type configuration
-    if (slideData.description) {
-      attributes.field_description = slideData.description;
+    // Body: markdown long text with summary
+    if (slideData.body) {
+      attributes.body = {
+        value: slideData.body,
+        summary: slideData.body,
+        format: 'markdown',
+      };
     }
     if (slideData.item_count) {
-      attributes.field_item_count = parseInt(slideData.item_count, 10) || 0;
+      // Items Number: integer (Drupal field machine name: items_number)
+      attributes.items_number = parseInt(slideData.item_count, 10) || 0;
     }
-    if (slideData.category) {
-      attributes.field_category = slideData.category;
+    if (slideData.notes) {
+      // Prompt: plain long text, use Notes from CSV (Drupal field machine: prompt)
+      attributes.prompt = slideData.notes;
     }
-    if (slideData.tags) {
-      attributes.field_tags = slideData.tags;
+    // Unique key：优先使用 CSV 里的 unique_key 列，其次退回到 Slide JSON 路径
+    if (slideData.unique_key) {
+      attributes.unique_key = slideData.unique_key;
+    } else if (slideData.slide_json) {
+      attributes.unique_key = slideData.slide_json;
     }
 
     const payload = {
@@ -429,12 +575,57 @@ class DrupalClient {
       },
     };
 
-    // Add thumbnail relationship if media exists
-    if (mediaId) {
-      payload.data.relationships.field_thumbnail = {
+    // Category: lookup by name only, do NOT create new term
+    if (slideData.category) {
+      const catName = String(slideData.category).trim();
+      if (catName) {
+        const catId = await this.getCategoryTermIdByName(catName);
+        if (catId) {
+          payload.data.relationships.category = {
+            data: [
+              {
+                type: `taxonomy_term--${CATEGORY_VOCAB}`,
+                id: catId,
+              },
+            ],
+          };
+        }
+      }
+    }
+
+    // Tags: split文本后，按名称查找，不存在则自动创建
+    if (slideData.tags) {
+      const rawTags = String(slideData.tags);
+      const pieces = rawTags
+        .split(/[,，;；]/)
+        .map(t => t.trim())
+        .filter(Boolean);
+
+      const unique = Array.from(new Set(pieces));
+      const tagData = [];
+      for (const name of unique) {
+        const termId = await this.getOrCreateTagTermIdByName(name);
+        if (termId) {
+          tagData.push({
+            type: `taxonomy_term--${TAGS_VOCAB}`,
+            id: termId,
+          });
+        }
+      }
+
+      if (tagData.length > 0) {
+        payload.data.relationships.tags = {
+          data: tagData,
+        };
+      }
+    }
+
+    // Add template file relationship if file exists (Drupal field machine: template_file)
+    if (templateFileId) {
+      payload.data.relationships.template_file = {
         data: {
-          type: 'media--image',
-          id: mediaId,
+          type: 'file--file',
+          id: templateFileId,
         },
       };
     }
@@ -457,6 +648,46 @@ class DrupalClient {
       return null;
     }
   }
+
+  /**
+   * Patch cover relationship for an existing node (AIGC-style)
+   * @param {string} contentType - Content type machine name (e.g. infographic_template)
+   * @param {string} nodeId - Node UUID
+   * @param {string} mediaId - Media UUID to use as cover
+   * @param {string} description - Optional description meta
+   */
+  async patchNodeCover(contentType, nodeId, mediaId, description) {
+    const payload = {
+      data: {
+        type: 'media--image',
+        id: mediaId,
+        meta: {
+          description,
+        },
+      },
+    };
+
+    const headers = await this.getHeaders();
+    const response = await request(
+      `${this.baseUrl}/jsonapi/node/${contentType}/${nodeId}/relationships/cover`,
+      {
+        method: 'PATCH',
+        headers,
+      },
+      JSON.stringify(payload)
+    );
+
+    if (response.statusCode === 204 || response.statusCode === 200) {
+      console.log(`  ✓ Cover patched for node ${nodeId} -> media ${mediaId}`);
+      return true;
+    }
+
+    console.error(
+      `  ✗ Failed to patch cover for node ${nodeId}:`,
+      response.data?.errors || response.data
+    );
+    return false;
+  }
 }
 
 /**
@@ -475,15 +706,18 @@ async function processSlide(client, slide, index, options) {
   if (dryRun) {
     console.log('  [DRY RUN] Would upload:');
     console.log(`    Title: ${slide.title}`);
-    console.log(`    Description: ${slide.description || '(none)'}`);
+    console.log(`    Body: ${slide.body || '(none)'}`);
+    console.log(`    Notes/Prompt: ${slide.notes || '(none)'}`);
     console.log(`    Category: ${slide.category || '(none)'}`);
     console.log(`    Tags: ${slide.tags || '(none)'}`);
     console.log(`    Thumbnail: ${slide.thumbnail || '(none)'}`);
+    console.log(`    Template JSON: ${slide.slide_json || '(none)'}`);
     return { success: true, dryRun: true };
   }
 
   try {
-    let mediaId = null;
+    let mediaId = null;        // media--image UUID for cover
+    let templateFileId = null; // file--file UUID for template JSON
 
     // Upload thumbnail image if available
     if (!skipImages && slide.thumbnail && imageDir) {
@@ -503,15 +737,48 @@ async function processSlide(client, slide, index, options) {
       }
     }
 
-    // Create content node
-    const nodeId = await client.createNode(contentType, slide, mediaId);
+    // Upload template JSON file if available
+    if (slide.slide_json) {
+      const csvDir = path.dirname(options.inputPath);
+      const jsonPath = path.isAbsolute(slide.slide_json)
+        ? slide.slide_json
+        : path.join(csvDir, slide.slide_json);
 
-    if (nodeId) {
-      console.log(`  ✓ Node created: ${nodeId}`);
-      return { success: true, nodeId };
-    } else {
+      if (fs.existsSync(jsonPath)) {
+        const filename = path.basename(jsonPath);
+        templateFileId = await client.uploadFileForNodeField(
+          contentType,
+          'template_file',
+          jsonPath,
+          filename
+        );
+      } else {
+        console.log(`  ⚠️  Template JSON not found: ${jsonPath}`);
+      }
+    }
+
+    // Create content node (without cover); cover will be patched afterwards
+    const nodeId = await client.createNode(contentType, slide, templateFileId);
+
+    if (!nodeId) {
       return { success: false, error: 'Failed to create node' };
     }
+
+    // Patch cover relationship like AIGCStorage / builder-echarts
+    if (mediaId) {
+      try {
+        const description = slide.title || 'Cover';
+        await client.patchNodeCover(contentType, nodeId, mediaId, description);
+      } catch (e) {
+        console.log(
+          `  ⚠️  Failed to patch cover relationship:`,
+          e?.message || e
+        );
+      }
+    }
+
+    console.log(`  ✓ Node created: ${nodeId}`);
+    return { success: true, nodeId };
   } catch (error) {
     console.error(`  ✗ Error: ${error.message}`);
     return { success: false, error: error.message };

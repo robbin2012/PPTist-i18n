@@ -7,15 +7,6 @@
   >
     <div class="add-slide" v-if="!thumbnailsCollapsed">
       <div class="btn" @click="createSlide()"><IconPlus class="icon" />{{ t('thumbnails.addSlide') }}</div>
-      <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
-        <template #content>
-          <Templates 
-            @select="slide => { createSlideByTemplate(slide); presetLayoutPopoverVisible = false }"
-            @selectAll="slides => { insertAllTemplates(slides); presetLayoutPopoverVisible = false }"
-          />
-        </template>
-        <div class="select-btn"><IconDown /></div>
-      </Popover>
     </div>
     <div class="add-slide collapsed" v-else>
       <div class="btn icon-only" @click="createSlide()"><IconPlus class="icon" /></div>
@@ -90,12 +81,8 @@ import useSlideHandler from '@/hooks/useSlideHandler'
 import useSectionHandler from '@/hooks/useSectionHandler'
 import useScreening from '@/hooks/useScreening'
 import useLoadSlides from '@/hooks/useLoadSlides'
-import useAddSlidesOrElements from '@/hooks/useAddSlidesOrElements'
-import type { Slide } from '@/types/slides'
 
 import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
-import Templates from './Templates.vue'
-import Popover from '@/components/Popover.vue'
 import Draggable from 'vuedraggable'
 import { useI18n } from 'vue-i18n'
 
@@ -109,15 +96,11 @@ const { ctrlKeyState, shiftKeyState } = storeToRefs(keyboardStore)
 const { slidesLoadLimit } = useLoadSlides()
 
 const selectedSlidesIndex = computed(() => [..._selectedSlidesIndex.value, slideIndex.value])
-
-const presetLayoutPopoverVisible = ref(false)
 const { t } = useI18n()
 
 const hasSection = computed(() => {
   return slides.value.some(item => item.sectionTag)
 })
-
-const { addSlidesFromData } = useAddSlidesOrElements()
 
 const {
   copySlide,
@@ -258,11 +241,6 @@ const saveSection = (e: FocusEvent | KeyboardEvent) => {
 
   editingSectionId.value = ''
   mainStore.setDisableHotkeysState(false)
-}
-
-const insertAllTemplates = (slides: Slide[]) => {
-  if (isEmptySlide.value) slidesStore.setSlides(slides)
-  else addSlidesFromData(slides)
 }
 
 const contextmenusSection = (el: HTMLElement): ContextmenuItem[] => {

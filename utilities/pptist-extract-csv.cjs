@@ -150,9 +150,9 @@ function getColorTheme(background) {
 function extractTitle(elements) {
   if (!elements || elements.length === 0) return 'Untitled Slide';
 
-  // Look for title text element
-  const titleElement = elements.find(el =>
-    el.type === 'text' && (el.textType === 'title' || el.textType === 'itemTitle')
+  // 优先使用 textType === "title" 的文本作为整页标题
+  const titleElement = elements.find(
+    el => el.type === 'text' && el.textType === 'title'
   );
 
   if (titleElement && titleElement.content) {
@@ -162,7 +162,19 @@ function extractTitle(elements) {
     }
   }
 
-  // Fallback: get first text element
+  // 其次使用 textType === "itemTitle"（列表项标题）作为候选
+  const itemTitleElement = elements.find(
+    el => el.type === 'text' && el.textType === 'itemTitle'
+  );
+
+  if (itemTitleElement && itemTitleElement.content) {
+    const title = extractTextFromHTML(itemTitleElement.content);
+    if (title.length > 0 && title.length <= 100) {
+      return title;
+    }
+  }
+
+  // Fallback: get first generic text element
   const firstText = elements.find(el => el.type === 'text' && el.content);
   if (firstText) {
     const text = extractTextFromHTML(firstText.content);
@@ -219,26 +231,56 @@ function extractDescription(elements, maxLength = 100) {
  * @returns {number} Item count
  */
 function countItems(elements) {
-  if (!elements) return 0;
+  if (!Array.isArray(elements)) return 0;
 
-  let itemCount = 0;
+  // 按模板约定，只统计列表项标题（textType === 'itemTitle'）
+  return elements.filter(el => el && el.textType === 'itemTitle').length;
+}
 
-  elements.forEach(el => {
-    if (el.type === 'text' && el.content) {
-      // Count <li> tags (bullet points)
-      const liMatches = el.content.match(/<li[^>]*>/g);
-      if (liMatches) {
-        itemCount += liMatches.length;
-      }
+/**
+ * Extract slide notes
+ * @param {Object} slide - Slide object
+ * @returns {string} Notes text
+ */
+function extractNotes(slide) {
+  if (!slide) return '';
+
+  const elements = Array.isArray(slide.elements) ? slide.elements : [];
+
+  // Prefer dedicated notes text element (textType === 'notes')
+  const notesElement = elements.find(
+    el => el.type === 'text' && el.textType === 'notes' && el.content
+  );
+
+  if (notesElement) {
+    return extractTextFromHTML(notesElement.content);
+  }
+
+  // Fallback: use slide.remark if present
+  if (typeof slide.remark === 'string' && slide.remark.trim()) {
+    return extractTextFromHTML(slide.remark);
+  }
+
+  return '';
+}
+
+/**
+ * Extract tags from notes text (fallback to color theme if not found)
+ * @param {string} notes - Notes text
+ * @param {Object} background - Slide background
+ * @returns {string} Tags value
+ */
+function extractTagsFromNotes(notes, background) {
+  if (notes && typeof notes === 'string') {
+    // 从备注中提取 “主题” 或 “主题风格” 后面的描述，直到分号/句号/换行
+    const match = notes.match(/(主题风格|主题)\s*[：:]\s*([^；;。\n]+)/);
+    if (match && match[2]) {
+      return match[2].trim();
     }
+  }
 
-    // Count other visual elements
-    if (['image', 'chart', 'table', 'shape'].includes(el.type)) {
-      itemCount++;
-    }
-  });
-
-  return itemCount;
+  // 如果备注里没有主题信息，则退回到原来的颜色标签逻辑
+  return getColorTheme(background);
 }
 
 /**
@@ -262,11 +304,11 @@ function escapeCSVField(field) {
 /**
  * Generate thumbnail filename for slide
  * @param {number} index - Slide index
- * @param {string} slideId - Slide ID
  * @returns {string} Thumbnail filename
  */
 function generateThumbnailPath(index, slideId) {
-  return `slide_${String(index + 1).padStart(3, '0')}_${slideId}.png`;
+  // Use simple sequential naming like 001.png, 002.png ...
+  return `${String(index + 1).padStart(3, '0')}.png`;
 }
 
 /**
@@ -321,10 +363,11 @@ function generateCSV(data, imageDir, options = {}) {
   // CSV Header
   const headers = [
     'Title',
-    'Description',
+    'Body',
     'Item Count',
     'Category',
     'Tags',
+    'Notes',
     'Thumbnail',
     'Slide JSON'
   ];
@@ -334,9 +377,10 @@ function generateCSV(data, imageDir, options = {}) {
   slides.forEach((slide, index) => {
     const title = extractTitle(slide.elements);
     const description = extractDescription(slide.elements, 100);
+    const notes = extractNotes(slide);
     const itemCount = countItems(slide.elements);
     const category = detectSlideType(slide);
-    const tags = getColorTheme(slide.background);
+    const tags = extractTagsFromNotes(notes, slide.background);
     let thumbnail;
     if (Array.isArray(thumbnailPaths)) {
       // When explicit thumbnail paths are provided, use them directly (may be empty)
@@ -356,6 +400,7 @@ function generateCSV(data, imageDir, options = {}) {
       escapeCSVField(itemCount),
       escapeCSVField(category),
       escapeCSVField(tags),
+      escapeCSVField(notes),
       escapeCSVField(thumbnail),
       escapeCSVField(slideJsonPath)
     ]);
@@ -378,7 +423,7 @@ function main() {
     console.error('');
     console.error('The CSV file will contain:');
     console.error('  - Title: Slide title');
-    console.error('  - Description: ~100 character summary');
+    console.error('  - Body: ~100 character summary (can be later replaced by AI-generated markdown)');
     console.error('  - Item Count: Number of content items');
     console.error('  - Category: Slide type (Cover, Content, Chart, etc.)');
     console.error('  - Tags: Color theme (Light, Dark, Warm, Cool, etc.)');
@@ -400,84 +445,59 @@ function main() {
     // Parse JSON file
     const data = parseJSONFile(inputPath);
 
-    // Prepare output and assets directories
-    const outputDir = path.dirname(outputPath);
-    const outputBaseName = path.basename(outputPath, path.extname(outputPath));
-    const assetsDirName = `${outputBaseName}_assets`;
-    const assetsDir = path.join(outputDir, assetsDirName);
+  // Prepare output and assets directories
+  const outputDir = path.dirname(outputPath);
+  const outputBaseName = path.basename(outputPath, path.extname(outputPath));
+  const assetsDirName = `${outputBaseName}_assets`;
+  const assetsDir = path.join(outputDir, assetsDirName);
+  // Ensure output directory exists
+  if (!fs.existsSync(outputDir)) {
+    console.log(`Creating output directory: ${outputDir}`);
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
-    // Ensure output directory exists
-    if (!fs.existsSync(outputDir)) {
-      console.log(`Creating output directory: ${outputDir}`);
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
+  // Ensure assets directory exists
+  if (!fs.existsSync(assetsDir)) {
+    console.log(`Creating assets directory: ${assetsDir}`);
+    fs.mkdirSync(assetsDir, { recursive: true });
+  }
 
-    // Ensure assets directory exists
-    if (!fs.existsSync(assetsDir)) {
-      console.log(`Creating assets directory: ${assetsDir}`);
-      fs.mkdirSync(assetsDir, { recursive: true });
-    }
+  // Write per-slide JSON files；缩略图不再自动从 base64 生成，仅预留文件名占位
+  const slideJsonPaths = [];
+  data.slides.forEach((slide, index) => {
+    const jsonFilename = generateSlideJsonFilename(index, slide.id);
+    const jsonFilePath = path.join(assetsDir, jsonFilename);
 
-    // Use assets directory directly for thumbnails (no extra subfolder)
-    const fullImageDir = assetsDir;
+      // 为每一页生成一个可直接在 PPTist 中导入的 JSON 文件
+      // 结构与整体导出的 JSON 一致：包含 width/height/theme，并且 slides 为单页数组
+      const slideJson = {
+        title: data.title || 'Untitled Presentation',
+        width: data.width,
+        height: data.height,
+        theme: data.theme,
+      slides: [slide],
+    };
 
-    // Write per-slide JSON files and extract base64 cover images into assets directory
-    const slideJsonPaths = [];
-    const thumbnailPaths = [];
-    data.slides.forEach((slide, index) => {
-      const jsonFilename = generateSlideJsonFilename(index, slide.id);
-      const jsonFilePath = path.join(assetsDir, jsonFilename);
+    fs.writeFileSync(jsonFilePath, JSON.stringify(slideJson, null, 2), 'utf8');
 
-      fs.writeFileSync(jsonFilePath, JSON.stringify(slide, null, 2), 'utf8');
+    // Path stored in CSV should be relative to CSV file
+    slideJsonPaths.push(path.join(assetsDirName, jsonFilename));
+  });
 
-      // Path stored in CSV should be relative to CSV file
-      slideJsonPaths.push(path.join(assetsDirName, jsonFilename));
-
-      // Try to extract a base64 image from slide elements as cover
-      let thumbnailRelPath = '';
-      const elements = Array.isArray(slide.elements) ? slide.elements : [];
-
-      // Pick the largest base64 image (by area) as cover, if any
-      let bestImage = null;
-      let bestArea = 0;
-      elements.forEach(el => {
-        if (el && el.type === 'image' && typeof el.src === 'string' && el.src.startsWith('data:image/')) {
-          const area = (el.width || 0) * (el.height || 0);
-          if (area > bestArea) {
-            bestArea = area;
-            bestImage = el;
-          }
-        }
-      });
-
-      if (bestImage && bestImage.src) {
-        const match = bestImage.src.match(/^data:image\/[a-zA-Z0-9+.+-]+;base64,(.+)$/);
-        if (match && match[1]) {
-          const base64Data = match[1];
-          const pngFilename = generateThumbnailPath(index, slide.id);
-          const pngPath = path.join(assetsDir, pngFilename);
-
-          fs.writeFileSync(pngPath, Buffer.from(base64Data, 'base64'));
-          thumbnailRelPath = path.join(assetsDirName, pngFilename);
-        }
-      }
-
-      thumbnailPaths.push(thumbnailRelPath);
-    });
-
-    // Generate CSV
-    console.log('Generating CSV...');
-    const csv = generateCSV(data, assetsDirName, { slideJsonPaths, thumbnailPaths });
+  // Generate CSV
+  console.log('Generating CSV...');
+  // 不传 thumbnailPaths，交给 generateCSV 使用约定的文件名
+  const csv = generateCSV(data, assetsDirName, { slideJsonPaths });
 
     // Write CSV file
     fs.writeFileSync(outputPath, csv, 'utf8');
 
     console.log('');
     console.log('✓ CSV file generated successfully!');
-    console.log(`  Output: ${outputPath}`);
-    console.log(`  Slides: ${data.slides.length}`);
-    console.log(`  Assets directory: ${assetsDir}`);
-    console.log(`  Images directory: ${fullImageDir}`);
+  console.log(`  Output: ${outputPath}`);
+  console.log(`  Slides: ${data.slides.length}`);
+  console.log(`  Assets directory: ${assetsDir}`);
+  console.log(`  Images directory (place your exported thumbnails here): ${assetsDir}`);
     console.log('');
     console.log('Next steps:');
     console.log('  1. Export slides as images to generate thumbnails');
@@ -502,8 +522,10 @@ module.exports = {
   generateCSV,
   extractTitle,
   extractDescription,
+  extractNotes,
   countItems,
   detectSlideType,
   getColorTheme,
+  extractTagsFromNotes,
   generateSlideJsonFilename,
 };

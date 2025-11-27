@@ -77,6 +77,7 @@
     "undo": "Undo",
     "redo": "Redo",
     "loading": "Loading ...",
+    "fontLoading": "The font is still downloading and will take effect in a moment.",
     "select": "Select",
     "delete": "Delete",
     "confirm": "Confirm",
