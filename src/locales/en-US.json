@@ -233,6 +233,21 @@
     "add": "Add Note",
     "empty": "No notes on this slide"
   },
+  "aiPanel": {
+    "title": "AI Assistant",
+    "placeholder": "Describe the slide you want to create...",
+    "send": "Generate",
+    "generating": "Generating...",
+    "templates": "Select Template",
+    "empty": "No templates available",
+    "loadingTemplates": "Loading templates...",
+    "retry": "Retry",
+    "inputRequired": "Please enter your slide description",
+    "selectTemplateFirst": "Please select a template first",
+    "generateSuccess": "Slide created successfully!",
+    "generateFailed": "Failed to generate slide",
+    "success": "Generated successfully"
+  },
   "screen": {
     "tooltip": {
       "penTool": "Drawing Tool",
@@ -508,7 +523,8 @@
       "alignMiddle": "Align Middle",
       "alignBottom": "Align Bottom",
       "doubleClickToKeep": "Double-click to keep using",
-      "formatPainter": "Format Painter"
+      "formatPainter": "Format Painter",
+      "drawCustomShapeTip": "Click to draw a freeform shape, close the start and end points to finish; press ESC or right-click to cancel, press ENTER to finish early"
     },
     "audio": { "iconColor": "Icon Color", "autoplay": "Autoplay", "loop": "Loop" },
     "table": {
@@ -739,7 +755,7 @@
     "none": "Unmarked",
     "slideType": {
       "cover": "Cover",
-      "contents": "Contents",
+      "contents": "Outline",
       "transition": "Transition",
       "content": "Content",
       "end": "End"
@@ -776,7 +792,7 @@
       "type": {
         "all": "All",
         "cover": "Cover",
-        "contents": "Contents",
+        "contents": "Outline",
         "transition": "Transition",
         "content": "Content",
         "end": "End"

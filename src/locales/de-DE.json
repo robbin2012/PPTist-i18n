@@ -364,7 +364,8 @@
       "alignMiddle": "Align Middle",
       "alignBottom": "Align Bottom",
       "doubleClickToKeep": "Double-click to keep using",
-      "formatPainter": "Format Painter"
+      "formatPainter": "Format Painter",
+      "drawCustomShapeTip": "Click to draw a freeform shape, close the start and end points to finish; press ESC or right-click to cancel, press ENTER to finish early"
     },
     "audio": {
       "iconColor": "Icon Color",

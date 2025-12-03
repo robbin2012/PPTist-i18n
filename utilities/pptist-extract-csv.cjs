@@ -144,41 +144,85 @@ function getColorTheme(background) {
 
 /**
  * Extract slide title
- * @param {Array} elements - Slide elements
+ * @param {Array|Object} elementsOrSlide - Slide elements array or slide object
  * @returns {string} Slide title
  */
-function extractTitle(elements) {
+function extractTitle(elementsOrSlide) {
+  let elements;
+  if (Array.isArray(elementsOrSlide)) {
+    elements = elementsOrSlide;
+  } else if (elementsOrSlide && Array.isArray(elementsOrSlide.elements)) {
+    elements = elementsOrSlide.elements;
+  } else {
+    return 'Untitled Slide';
+  }
+
   if (!elements || elements.length === 0) return 'Untitled Slide';
 
-  // 优先使用 textType === "title" 的文本作为整页标题
+  // 1) 优先使用 textType === "title" 的 text 元素
   const titleElement = elements.find(
-    el => el.type === 'text' && el.textType === 'title'
+    el => el.type === 'text' && el.textType === 'title' && el.content
   );
-
-  if (titleElement && titleElement.content) {
+  if (titleElement) {
     const title = extractTextFromHTML(titleElement.content);
     if (title.length > 0 && title.length <= 100) {
       return title;
     }
   }
 
-  // 其次使用 textType === "itemTitle"（列表项标题）作为候选
-  const itemTitleElement = elements.find(
-    el => el.type === 'text' && el.textType === 'itemTitle'
+  // 2) 其次使用 shape.text.type === "title"
+  const shapeTitle = elements.find(
+    el =>
+      el.type === 'shape' &&
+      el.text &&
+      el.text.type === 'title' &&
+      el.text.content
   );
-
-  if (itemTitleElement && itemTitleElement.content) {
-    const title = extractTextFromHTML(itemTitleElement.content);
+  if (shapeTitle) {
+    const title = extractTextFromHTML(shapeTitle.text.content);
     if (title.length > 0 && title.length <= 100) {
       return title;
     }
   }
 
-  // Fallback: get first generic text element
+  // 3) 再其次使用 itemTitle（text 或 shape.text）
+  const itemTitleText = elements.find(
+    el => el.type === 'text' && el.textType === 'itemTitle' && el.content
+  );
+  if (itemTitleText) {
+    const title = extractTextFromHTML(itemTitleText.content);
+    if (title.length > 0 && title.length <= 100) {
+      return title;
+    }
+  }
+
+  const itemTitleShape = elements.find(
+    el =>
+      el.type === 'shape' &&
+      el.text &&
+      el.text.type === 'itemTitle' &&
+      el.text.content
+  );
+  if (itemTitleShape) {
+    const title = extractTextFromHTML(itemTitleShape.text.content);
+    if (title.length > 0 && title.length <= 100) {
+      return title;
+    }
+  }
+
+  // 4) Fallback: 第一个普通 text 元素
   const firstText = elements.find(el => el.type === 'text' && el.content);
   if (firstText) {
     const text = extractTextFromHTML(firstText.content);
-    // Limit to first 50 characters for title
+    return text.substring(0, 50) + (text.length > 50 ? '...' : '');
+  }
+
+  // 5) 再退一步：第一个 shape.text
+  const firstShapeText = elements.find(
+    el => el.type === 'shape' && el.text && el.text.content
+  );
+  if (firstShapeText) {
+    const text = extractTextFromHTML(firstShapeText.text.content);
     return text.substring(0, 50) + (text.length > 50 ? '...' : '');
   }
 
@@ -233,8 +277,21 @@ function extractDescription(elements, maxLength = 100) {
 function countItems(elements) {
   if (!Array.isArray(elements)) return 0;
 
-  // 按模板约定，只统计列表项标题（textType === 'itemTitle'）
-  return elements.filter(el => el && el.textType === 'itemTitle').length;
+  // 按模板约定，只统计列表项标题（textType === 'itemTitle'），
+  // 既包括 text 元素，也包括 shape.text.type === 'itemTitle'
+  return elements.filter(el => {
+    if (!el) return false;
+    if (el.textType === 'itemTitle') return true;
+    if (
+      el.type === 'shape' &&
+      el.text &&
+      el.text.type === 'itemTitle' &&
+      el.text.content
+    ) {
+      return true;
+    }
+    return false;
+  }).length;
 }
 
 /**

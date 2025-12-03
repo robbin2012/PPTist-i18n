@@ -214,7 +214,13 @@ class DrupalClient {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.username = username;
     this.password = password;
-    this.csrfToken = null;
+    // 允许通过环境变量预先注入 CSRF / session token（例如从浏览器控制台复制）
+    // 优先从 DRUPAL_SESSION_TOKEN 读取，其次兼容 DRUPAL_CSRF_TOKEN / SESSION_TOKEN
+    this.csrfToken =
+      process.env.DRUPAL_SESSION_TOKEN ||
+      process.env.DRUPAL_CSRF_TOKEN ||
+      process.env.SESSION_TOKEN ||
+      null;
     this.sessionCookie = null;
   }
 
@@ -871,14 +877,21 @@ async function main() {
 
   console.log(`✓ Found ${slides.length} slides`);
 
-  // Create Drupal client and login
+  // Create Drupal client and login（如提供 Session/CSRF Token，则跳过登录）
   const client = new DrupalClient(options.baseUrl, options.username, options.password);
 
-  if (!options.dryRun) {
+  const hasExternalToken =
+    !!(process.env.DRUPAL_SESSION_TOKEN ||
+       process.env.DRUPAL_CSRF_TOKEN ||
+       process.env.SESSION_TOKEN);
+
+  if (!options.dryRun && !hasExternalToken) {
     const loggedIn = await client.login();
     if (!loggedIn && options.username) {
       console.error('Warning: Could not authenticate. Upload may fail.');
     }
+  } else if (!options.dryRun && hasExternalToken) {
+    console.log('🔑 Using provided session/CSRF token from env, skipping Drupal login.');
   }
 
   // Process slides
@@ -923,11 +936,13 @@ async function main() {
   process.exit(results.failed > 0 ? 1 : 0);
 }
 
-// Run
-main().catch(error => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
+// Run as CLI only when executed directly
+if (require.main === module) {
+  main().catch(error => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
+}
 
 module.exports = {
   parseCSV,

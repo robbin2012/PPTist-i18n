@@ -36,3 +36,4 @@ coverage
 # Environment variables
 .env
 server/.env
+vizgraph_aigc

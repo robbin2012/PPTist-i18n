@@ -7,13 +7,13 @@
         <Divider type="vertical" style="height: 20px;" />
         <Popover class="more-icon" trigger="click" v-model:value="moreVisible" :offset="10">
           <template #content>
-            <PopoverMenuItem class="popover-menu-item" center @click="toggleNotesPanel(); moreVisible = false"><IconComment class="icon" /> {{ t('toolbar.canvasTool.notesPanel') }}</PopoverMenuItem>
+            <!-- <PopoverMenuItem class="popover-menu-item" center @click="toggleNotesPanel(); moreVisible = false"><IconComment class="icon" /> {{ t('toolbar.canvasTool.notesPanel') }}</PopoverMenuItem> -->
             <PopoverMenuItem class="popover-menu-item" center @click="toggleSelectPanel(); moreVisible = false"><IconMoveOne class="icon" /> {{ t('toolbar.canvasTool.selectPanel') }}</PopoverMenuItem>
             <PopoverMenuItem class="popover-menu-item" center @click="toggleSraechPanel(); moreVisible = false"><IconSearch class="icon" /> {{ t('toolbar.canvasTool.searchReplace') }}</PopoverMenuItem>
           </template>
           <IconMore class="handler-item" />
         </Popover>
-        <IconComment class="handler-item" :class="{ 'active': showNotesPanel }" v-tooltip="t('toolbar.canvasTool.notesPanel')" @click="toggleNotesPanel()" />
+        <!-- <IconComment class="handler-item" :class="{ 'active': showNotesPanel }" v-tooltip="t('toolbar.canvasTool.notesPanel')" @click="toggleNotesPanel()" /> -->
         <IconMoveOne class="handler-item" :class="{ 'active': showSelectPanel }" v-tooltip="t('toolbar.canvasTool.selectPanel')" @click="toggleSelectPanel()" />
         <IconSearch class="handler-item" :class="{ 'active': showSearchPanel }" v-tooltip="t('toolbar.canvasTool.searchReplace')" @click="toggleSraechPanel()" />
       </div>

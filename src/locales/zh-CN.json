@@ -386,7 +386,8 @@
       "alignMiddle": "居中",
       "alignBottom": "底对齐",
       "doubleClickToKeep": "双击连续使用",
-      "formatPainter": "形状格式刷"
+      "formatPainter": "形状格式刷",
+      "drawCustomShapeTip": "点击绘制任意形状，首尾闭合完成绘制，按 ESC 键或鼠标右键取消，按 ENTER 键提前完成"
     },
     "transition": {
       "labels": {
@@ -611,6 +612,21 @@
     "cancel": "取消",
     "add": "添加批注",
     "empty": "本页暂无批注"
+  },
+  "aiPanel": {
+    "title": "AI 助手",
+    "placeholder": "描述你想要创建的幻灯片内容...",
+    "send": "生成",
+    "generating": "生成中...",
+    "templates": "选择模板",
+    "empty": "暂无模板",
+    "loadingTemplates": "加载模板中...",
+    "retry": "重试",
+    "inputRequired": "请输入幻灯片描述",
+    "selectTemplateFirst": "请先选择一个模板",
+    "generateSuccess": "幻灯片创建成功！",
+    "generateFailed": "生成幻灯片失败",
+    "success": "生成成功"
   },
   "screen": {
     "tooltip": {

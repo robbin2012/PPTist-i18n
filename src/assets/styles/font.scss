@@ -7,3 +7,9 @@ $fonts: 'Roboto', 'OpenSans', 'SourceHanSans', 'SourceHanSerif', 'FangZhengHeiTi
     src: url('../fonts/#{$font}.woff2') format('woff2');
   }
 }
+
+@font-face {
+  font-display: swap;
+  font-family: 'RobotoLight';
+  src: url('../fonts/RobotoLight.ttf') format('truetype');
+}

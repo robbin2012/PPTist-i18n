@@ -20,6 +20,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useKeyboardStore, useMainStore, useSlidesStore } from '@/store'
 import type { CreateCustomShapeData } from '@/types/edit'
 import { KEYS } from '@/configs/hotkey'
@@ -29,6 +30,7 @@ const emit = defineEmits<{
   (event: 'created', payload: CreateCustomShapeData): void
 }>()
 const mainStore = useMainStore()
+const { t } = useI18n()
 const { ctrlOrShiftKeyActive } = storeToRefs(useKeyboardStore())
 const { theme } = storeToRefs(useSlidesStore())
 
@@ -165,7 +167,7 @@ const keydownListener = (e: KeyboardEvent) => {
   if (key === KEYS.ENTER) create()
 }
 onMounted(() => {
-  message.success('点击绘制任意形状，首尾闭合完成绘制，按 ESC 键或鼠标右键取消，按 ENTER 键提前完成', {
+  message.success(t('toolbar.shape.drawCustomShapeTip'), {
     duration: 0,
   })
   document.addEventListener('keydown', keydownListener)

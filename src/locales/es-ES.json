@@ -393,7 +393,8 @@
       "alignMiddle": "Centrar",
       "alignBottom": "Alinear abajo",
       "doubleClickToKeep": "Doble clic para uso continuo",
-      "formatPainter": "Pincel de formato de forma"
+      "formatPainter": "Pincel de formato de forma",
+      "drawCustomShapeTip": "Haz clic para dibujar una forma libre; cierra el punto inicial y final para terminar. Pulsa ESC o haz clic derecho para cancelar, pulsa ENTER para terminar antes"
     },
     "multi": { "fillColor": "Color de relleno", "outlineStyle": "Estilo de borde", "outlineColor": "Color del borde", "outlineWidth": "Grosor del borde" },
     "text": {

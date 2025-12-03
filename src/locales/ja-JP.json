@@ -341,7 +341,8 @@
       "alignMiddle": "中央",
       "alignBottom": "下揃え",
       "doubleClickToKeep": "ダブルクリックで連続使用",
-      "formatPainter": "図形の書式コピー"
+      "formatPainter": "図形の書式コピー",
+      "drawCustomShapeTip": "クリックして任意の図形を描画します。始点と終点を閉じると描画が完了します。ESCキーまたは右クリックでキャンセル、ENTERキーで早めに完了します"
     },
     "multi": { "fillColor": "塗りつぶしの色", "outlineStyle": "枠線スタイル", "outlineColor": "枠線の色", "outlineWidth": "枠線の太さ" },
     "text": {

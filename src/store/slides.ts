@@ -50,7 +50,7 @@ export const useSlidesStore = defineStore('slides', {
     }, // 主题样式
     slides: [], // 幻灯片页面数据
     slideIndex: 0, // 当前页面索引
-    viewportSize: 1000, // 可视区域宽度基数
+    viewportSize: 1280, // 可视区域宽度基数 (1280x720, 16:9)
     viewportRatio: 0.5625, // 可视区域比例，默认16:9
     templates: [], // 模板列表，从 templates.json 动态加载
   }),

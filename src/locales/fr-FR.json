@@ -341,7 +341,8 @@
       "alignMiddle": "Aligner au milieu",
       "alignBottom": "Aligner en bas",
       "doubleClickToKeep": "Double-cliquez pour continuer",
-      "formatPainter": "Pinceau"
+      "formatPainter": "Pinceau",
+      "drawCustomShapeTip": "Cliquez pour dessiner une forme libre, fermez les points de début et de fin pour terminer. Appuyez sur ESC ou cliquez avec le bouton droit pour annuler, appuyez sur ENTER pour terminer plus tôt"
     },
     "multi": { "fillColor": "Couleur de remplissage", "outlineStyle": "Style du contour", "outlineColor": "Couleur du contour", "outlineWidth": "Épaisseur du contour" },
     "text": {

@@ -23,6 +23,16 @@
         <span v-if="thumbnailsCollapsed" class="fab-text">»</span>
         <span v-else class="fab-text">«</span>
       </button>
+
+      <!-- AI助手悬浮按钮（右侧固定位置） -->
+      <button
+        class="ai-panel-fab"
+        :class="{ 'active': showAIPanel }"
+        :aria-label="'AI Assistant'"
+        @click="toggleAIPanel"
+      >
+        <IconMagic />
+      </button>
     </div>
   </div>
 
@@ -31,6 +41,7 @@
   <NotesPanel v-if="showNotesPanel" />
   <MarkupPanel v-if="showMarkupPanel" />
   <SymbolPanel v-if="showSymbolPanel" />
+  <AIPanel v-if="showAIPanel" />
 
   <Modal
     :visible="!!dialogForExport" 
@@ -82,12 +93,13 @@ import SearchPanel from './SearchPanel.vue'
 import NotesPanel from './NotesPanel.vue'
 import SymbolPanel from './SymbolPanel.vue'
 import MarkupPanel from './MarkupPanel.vue'
+import AIPanel from './AIPanel.vue'
 import AIPPTDialog from './AIPPTDialog.vue'
 import AIInfographicDialog from './AIInfographicDialog.vue'
 import Modal from '@/components/Modal.vue'
 
 const mainStore = useMainStore()
-const { dialogForExport, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, showMarkupPanel, showAIPPTDialog, showAIInfographicDialog, thumbnailsCollapsed, headerCollapsed } = storeToRefs(mainStore)
+const { dialogForExport, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, showMarkupPanel, showAIPanel, showAIPPTDialog, showAIInfographicDialog, thumbnailsCollapsed, headerCollapsed } = storeToRefs(mainStore)
 
 const closeExportDialog = () => mainStore.setDialogForExport('')
 const closeAIPPTDialog = () => mainStore.setAIPPTDialogState(false)
@@ -105,6 +117,11 @@ const toggleThumbnailsCollapse = () => {
   try {
     localStorage.setItem('pptist_thumbnails_collapsed', next ? '1' : '0')
   } catch {}
+}
+
+// AI助手面板切换
+const toggleAIPanel = () => {
+  mainStore.setAIPanelState(!showAIPanel.value)
 }
 
 onMounted(() => {
@@ -189,6 +206,38 @@ usePasteEvent()
   }
   &:hover .fab-text {
     color: rgba(0, 0, 0, .62);
+  }
+}
+
+.ai-panel-fab {
+  position: absolute;
+  right: 270px; // 距离右侧工具栏 260px + 10px 间距
+  bottom: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  border: 1px solid $borderColor;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all $transitionDelayFast;
+  font-size: 24px;
+  color: #666;
+
+  &:hover {
+    background-color: $themeColor;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  &.active {
+    background-color: $themeColor;
+    color: #fff;
   }
 }
 </style>

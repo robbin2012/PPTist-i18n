@@ -3,6 +3,7 @@ export const FONTS = [
 
   // 英文字体 - Web 字体（打包）
   { label: 'Roboto', value: 'Roboto' },
+  { label: 'Roboto Light', value: 'RobotoLight' },
   { label: 'Open Sans', value: 'OpenSans' },
 
   // 英文字体 - 系统内置

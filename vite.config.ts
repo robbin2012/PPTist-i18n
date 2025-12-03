@@ -19,6 +19,11 @@ export default defineConfig({
         target: 'https://aigraphmaker.net',
         changeOrigin: true,
         // 不做 rewrite，保持 /api/viz/... 结构与线上一致
+      },
+      '/jsonapi': {
+        // 代理 Drupal JSON:API 请求（用于加载 infographic templates）
+        target: 'https://aigraphmaker.net',
+        changeOrigin: true,
       }
     }
   },
