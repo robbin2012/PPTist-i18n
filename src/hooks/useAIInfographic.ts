@@ -58,6 +58,7 @@ export default () => {
     // 提取列表项
     const itemElements = sortElements(elements.filter(el => checkTextType(el, 'item')))
     const itemTitleElements = sortElements(elements.filter(el => checkTextType(el, 'itemTitle')))
+    const itemNoteElements = sortElements(elements.filter(el => checkTextType(el, 'itemNote')))
     const itemNumberElements = sortElements(elements.filter(el => checkTextType(el, 'itemNumber')))
 
     const items: InfographicItem[] = []
@@ -75,7 +76,20 @@ export default () => {
               ? itemElements[i].content
               : (itemElements[i] as PPTShapeElement).text!.content
           )
-          items.push({ title: titleText, text: itemText })
+          let noteText: string | undefined
+          if (structure.hasItemNote && itemNoteElements[i]) {
+            noteText = extractTextFromHTML(
+              itemNoteElements[i].type === 'text'
+                ? itemNoteElements[i].content
+                : (itemNoteElements[i] as PPTShapeElement).text!.content
+            )
+          }
+
+          if (noteText) {
+            items.push({ title: titleText, text: itemText, note: noteText })
+          } else {
+            items.push({ title: titleText, text: itemText })
+          }
         } else if (itemElements[i]) {
           const itemText = extractTextFromHTML(
             itemElements[i].type === 'text'
@@ -155,6 +169,7 @@ export default () => {
     const itemCount = items.length
 
     const hasItemTitle = elements.some(el => checkTextType(el, 'itemTitle'))
+    const hasItemNote = elements.some(el => checkTextType(el, 'itemNote'))
     const hasItemNumber = elements.some(el => checkTextType(el, 'itemNumber'))
 
     return {
@@ -164,6 +179,7 @@ export default () => {
       hasBody,
       itemCount,
       hasItemTitle,
+      hasItemNote,
       hasItemNumber,
       template,
     }
@@ -239,6 +255,9 @@ ${topic}
       if (structure.hasItemTitle) {
         prompt += `   - title: 项目标题（参考示例风格）\n`
         prompt += `   - text: 项目描述（参考示例详细程度）\n`
+        if (structure.hasItemNote) {
+          prompt += `   - note: 项目备注（可选，用于补充说明或提示信息）\n`
+        }
       } else {
         prompt += `   - 简短文本（参考示例长度和风格）\n`
       }
@@ -275,7 +294,11 @@ ${topic}
     prompt += `\n  "items": [`
 
     if (structure.type === 'list' && structure.hasItemTitle) {
-      prompt += `\n    {"title": "项目1标题", "text": "项目1描述"},\n    {"title": "项目2标题", "text": "项目2描述"},\n    ...（共${structure.itemCount}个）`
+      if (structure.hasItemNote) {
+        prompt += `\n    {"title": "项目1标题", "text": "项目1描述", "note": "项目1备注（可选）"},\n    {"title": "项目2标题", "text": "项目2描述", "note": "项目2备注（可选）"},\n    ...（共${structure.itemCount}个）`
+      } else {
+        prompt += `\n    {"title": "项目1标题", "text": "项目1描述"},\n    {"title": "项目2标题", "text": "项目2描述"},\n    ...（共${structure.itemCount}个）`
+      }
     } else if (structure.type === 'comparison') {
       prompt += `\n    {"left": "左侧内容1", "right": "右侧内容1"},\n    {"left": "左侧内容2", "right": "右侧内容2"},\n    ...（共${structure.itemCount}个）`
     } else if (structure.type === 'timeline') {
@@ -456,6 +479,7 @@ ${topic}
 
     const itemElements = sortElements(template.elements.filter(el => checkTextType(el, 'item')))
     const itemTitleElements = sortElements(template.elements.filter(el => checkTextType(el, 'itemTitle')))
+    const itemNoteElements = sortElements(template.elements.filter(el => checkTextType(el, 'itemNote')))
     const itemNumberElements = sortElements(template.elements.filter(el => checkTextType(el, 'itemNumber')))
 
     const newElements = template.elements
@@ -507,6 +531,17 @@ ${topic}
           const item = data.items[index]
           if (typeof item === 'object' && 'title' in item) {
             return fillTextElement(el, item.title, 1)
+          }
+        }
+      }
+
+      // 填充项目备注
+      if (checkTextType(el, 'itemNote')) {
+        const index = itemNoteElements.findIndex(item => item.id === el.id)
+        if (index >= 0 && index < data.items.length) {
+          const item = data.items[index]
+          if (typeof item === 'object' && 'note' in item && item.note) {
+            return fillTextElement(el, item.note, 3)
           }
         }
       }

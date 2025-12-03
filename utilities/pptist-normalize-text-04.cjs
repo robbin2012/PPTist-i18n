@@ -9,8 +9,8 @@
  *   - 不强制改字体、不统一颜色或字号。
  *
  * 处理范围：
- *   - text 元素：textType in ["item", "itemTitle", "title"]
- *   - shape.text：type in ["itemTitle", "title"]
+ *   - text 元素：textType in ["item", "itemTitle", "itemNote", "title"]
+ *   - shape.text：type in ["itemTitle", "itemNote", "title"]
  */
 
 const fs = require('fs');
@@ -103,12 +103,13 @@ function main() {
 
   (data.slides || []).forEach(slide => {
     (slide.elements || []).forEach(el => {
-      // text elements: item / itemTitle / title
+      // text elements: item / itemTitle / itemNote / title
       if (
         el.type === 'text' &&
         typeof el.content === 'string' &&
         (el.textType === 'item' ||
           el.textType === 'itemTitle' ||
+          el.textType === 'itemNote' ||
           el.textType === 'title')
       ) {
         const before = el.content;
@@ -119,12 +120,12 @@ function main() {
         }
       }
 
-      // shape.text: itemTitle / title
+      // shape.text: itemTitle / itemNote / title
       if (
         el.type === 'shape' &&
         el.text &&
         typeof el.text.content === 'string' &&
-        (el.text.type === 'itemTitle' || el.text.type === 'title')
+        (el.text.type === 'itemTitle' || el.text.type === 'itemNote' || el.text.type === 'title')
       ) {
         const before = el.text.content;
         const after = normalizeHtml(before);
@@ -151,4 +152,3 @@ module.exports = {
   mergeStyles,
   normalizeHtml,
 };
-

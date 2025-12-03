@@ -6,8 +6,9 @@
  * 这个小工具用来统一 PPTist 导出的 JSON 里的：
  *   - 列表项（textType: "item"）的 HTML 结构和样式
  *   - 列表标题（textType: "itemTitle"）的 HTML 结构
+ *   - 列表备注（textType: "itemNote"）的 HTML 结构
  *   - 标题（textType/type: "title"）的 HTML 结构
- *   - 将 shape.text.type === "itemTitle" / "title" 的文字提升为独立的 text 元素
+ *   - 将 shape.text.type === "itemTitle" / "itemNote" / "title" 的文字提升为独立的 text 元素
  *
  * 做的事情：
  *   1. 对 list item：
@@ -213,8 +214,10 @@ function normalizePptistJson(data) {
   const stats = {
     listItemsTouched: 0,
     itemTitlesTouched: 0,
+    itemNotesTouched: 0,
     titlesTouched: 0,
     itemTitleShapesLifting: 0,
+    itemNoteShapesLifting: 0,
     titleShapesLifting: 0,
   };
 
@@ -248,6 +251,15 @@ function normalizePptistJson(data) {
         }
       }
 
+      // 列表项备注：textType === "itemNote"
+      if (el.type === 'text' && el.textType === 'itemNote' && typeof el.content === 'string') {
+        const updated = normalizeItemTitleHTML(el.content);
+        if (updated !== el.content) {
+          el.content = updated;
+          stats.itemNotesTouched++;
+        }
+      }
+
       // 标题：textType === "title"
       if (el.type === 'text' && el.textType === 'title' && typeof el.content === 'string') {
         const updated = normalizeItemTitleHTML(el.content);
@@ -257,13 +269,14 @@ function normalizePptistJson(data) {
         }
       }
 
-      // shape 内的 itemTitle / title：
+      // shape 内的 itemTitle / itemNote / title：
       //   1) 先规范化 HTML
       //   2) 再将其“提升”为一个独立的 text 元素，方便后续按 textType 映射
       if (
         el.type === 'shape' &&
         el.text &&
-        (el.text.type === 'itemTitle' || el.text.type === 'title') &&
+        typeof el.text === 'object' &&
+        (el.text.type === 'itemTitle' || el.text.type === 'itemNote' || el.text.type === 'title') &&
         typeof el.text.content === 'string'
       ) {
         const normalizedHtml = normalizeItemTitleHTML(el.text.content);
@@ -271,13 +284,18 @@ function normalizePptistJson(data) {
           el.text.content = normalizedHtml;
           if (el.text.type === 'itemTitle') {
             stats.itemTitlesTouched++;
+          } else if (el.text.type === 'itemNote') {
+            stats.itemNotesTouched++;
           } else if (el.text.type === 'title') {
             stats.titlesTouched++;
           }
         }
 
         const isTitle = el.text.type === 'title';
-        const textId = (el.id || 'shape') + (isTitle ? '_title' : '_itemTitle');
+        const isItemTitle = el.text.type === 'itemTitle';
+        const isItemNote = el.text.type === 'itemNote';
+        const suffix = isTitle ? '_title' : isItemTitle ? '_itemTitle' : '_itemNote';
+        const textId = (el.id || 'shape') + suffix;
         const liftedTextEl = {
           type: 'text',
           id: textId,
@@ -293,15 +311,17 @@ function normalizePptistJson(data) {
           outline: { color: '#000000', width: 0, style: 'solid' },
           fill: '',
           vertical: false,
-          textType: isTitle ? 'title' : 'itemTitle',
+          textType: el.text.type,
         };
 
         newElements.push(liftedTextEl);
         delete el.text; // shape 只保留几何 / 填充信息，文字交给独立 text 元素
         if (isTitle) {
           stats.titleShapesLifting++;
-        } else {
+        } else if (isItemTitle) {
           stats.itemTitleShapesLifting++;
+        } else if (isItemNote) {
+          stats.itemNoteShapesLifting++;
         }
       }
     });
@@ -323,9 +343,10 @@ function printUsage() {
   console.error('  node utilities/pptist-normalize-text.cjs input.json output/normalized.json');
   console.error('');
   console.error('说明：');
-  console.error('  - 会规范化 list item / itemTitle 的 HTML 结构；');
-  console.error('  - 会把 shape.text.type === \"itemTitle\" 的标题提升为独立的 text 元素，');
-  console.error('    新增 id 形如 \"<shapeId>_title\"，并设置 textType: \"itemTitle\"，方便后续 AI / Drupal 按 textType 映射。');
+  console.error('  - 会规范化 list item / itemTitle / itemNote 的 HTML 结构；');
+  console.error('  - 会把 shape.text.type === \"itemTitle\" / \"itemNote\" / \"title\" 的文字提升为独立的 text 元素，');
+  console.error('    新增 id 形如 \"<shapeId>_itemTitle\" / \"<shapeId>_itemNote\" / \"<shapeId>_title\"，');
+  console.error('    并设置对应的 textType，方便后续 AI / Drupal 按 textType 映射。');
 }
 
 function main() {
@@ -358,7 +379,9 @@ function main() {
     console.log(`  Output: ${outputPath}`);
     console.log(`  List items updated      : ${stats.listItemsTouched}`);
     console.log(`  Item titles updated     : ${stats.itemTitlesTouched}`);
+    console.log(`  Item notes updated      : ${stats.itemNotesTouched}`);
     console.log(`  ItemTitle lifted (shape): ${stats.itemTitleShapesLifting}`);
+    console.log(`  ItemNote lifted (shape) : ${stats.itemNoteShapesLifting}`);
   } catch (err) {
     console.error('Error processing file:', err.message);
     if (process.env.DEBUG) {

@@ -16,4 +16,4 @@
 2025-11-23 优化动画效果标签（加入箭头符号和 hover 显示）；新增 Demo 模式和顶部 Quick Export 快捷导出入口
 2025-11-24 新增常见英文字体及 Roboto/Open Sans web 字体；导出支持自定义画布宽度并按比例缩放 HTML 字号；精简主题提取相关 UI 文案并统一导出按钮样式
 2025-11-25 新增 utilities 工具（PPTist JSON→CSV 导出、Drupal 上传脚本），以及编辑器内 “多页 PNG” 导出功能（按页批量导出 001.png/002.png…）
-
+2025-12-03 为 AI 信息图模板新增 List Note 标注（textType: itemNote），支持为每个列表项增加可选备注字段，并更新前端/Node 回退/Drupal 合并逻辑及相关文档说明

@@ -555,6 +555,7 @@
       "content": "Cuerpo",
       "item": "Elemento de lista",
       "itemTitle": "Título del elemento",
+      "itemNote": "Nota del elemento",
       "notes": "Notas",
       "header": "Encabezado",
       "footer": "Pie de página",

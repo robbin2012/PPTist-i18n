@@ -307,8 +307,8 @@
       "animation": "Motion",
       "design": "Design",
       "transition": "Transition",
-      "multiStyle": "Style (Multi-Select)",
-      "multiPosition": "Position (Multi-Select)"
+      "multiStyle": "Style",
+      "multiPosition": "Position"
     },
     "layer": {
       "title": "Layer:",
@@ -766,6 +766,7 @@
       "content": "Body",
       "item": "List Item",
       "itemTitle": "Item Title",
+      "itemNote": "List Note",
       "notes": "Notes",
       "header": "Header",
       "footer": "Footer",

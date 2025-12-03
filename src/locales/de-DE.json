@@ -820,6 +820,7 @@
       "content": "Body",
       "item": "List Item",
       "itemTitle": "Item Title",
+      "itemNote": "Item Note",
       "notes": "Notes",
       "header": "Header",
       "footer": "Footer",

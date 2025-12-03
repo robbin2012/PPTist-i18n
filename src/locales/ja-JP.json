@@ -555,6 +555,7 @@
       "content": "本文",
       "item": "リスト項目",
       "itemTitle": "項目タイトル",
+      "itemNote": "項目メモ",
       "notes": "注釈",
       "header": "ヘッダー",
       "footer": "フッター",

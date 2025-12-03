@@ -73,6 +73,7 @@ const textTypeOptions = ref<{ label: string; value: TextType | '' }[]>([
   { label: t('markup.textType.content'), value: 'content' },
   { label: t('markup.textType.item'), value: 'item' },
   { label: t('markup.textType.itemTitle'), value: 'itemTitle' },
+  { label: t('markup.textType.itemNote'), value: 'itemNote' },
   { label: t('markup.textType.notes'), value: 'notes' },
   { label: t('markup.textType.header'), value: 'header' },
   { label: t('markup.textType.footer'), value: 'footer' },

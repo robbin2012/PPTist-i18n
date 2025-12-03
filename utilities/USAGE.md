@@ -5,6 +5,7 @@
      - 主标题：`Title`（textType: `title`）  
      - 副标题 / 关键说明：`Subtitle` 或普通正文  
      - 列表项标题：`List Item Title`（textType: `itemTitle`，用于统计 Item Count）  
+     - 列表项备注：`List Item Note`（textType: `itemNote`，可选，用于为每条列表项增加一行简短说明，供 AI / Drupal 使用）  
    - 如需对模板增加额外说明或使用规则，请使用 `Notes` 文本（textType: `notes`）：  
      - Notes 不直接放在画布可见区域，可放在单独角落；  
      - 用于写模板用途、适用场景、主题风格、生成规则等（后续会进入 CSV 的 `Notes` 列供 AI 使用）。

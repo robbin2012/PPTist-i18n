@@ -764,6 +764,7 @@
       "content": "正文",
       "item": "列表项目",
       "itemTitle": "列表项标题",
+      "itemNote": "列表项备注",
       "notes": "注释",
       "header": "页眉",
       "footer": "页脚",

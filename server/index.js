@@ -281,6 +281,7 @@ function generateFallbackInfographic(prompt) {
   const hasTitle = prompt.includes('标题（title）')
   const hasSubtitle = prompt.includes('副标题（subtitle）')
   const hasBody = prompt.includes('正文介绍（body）')
+  const hasItemNote = prompt.includes('note: 项目备注')
 
   // Extract item count from prompt
   const itemMatch = prompt.match(/(\d+)个项目/)
@@ -308,10 +309,14 @@ function generateFallbackInfographic(prompt) {
     if (prompt.includes('- title: 项目标题')) {
       // Items with title and text
       for (let i = 1; i <= itemCount; i++) {
-        result.items.push({
+        const item = {
           title: `要点${i}`,
-          text: `关于要点${i}的详细说明和具体内容阐述。`
-        })
+          text: `关于要点${i}的详细说明和具体内容阐述。`,
+        }
+        if (hasItemNote) {
+          item.note = `关于要点${i}的补充说明或使用提示。`
+        }
+        result.items.push(item)
       }
     } else {
       // Simple text items

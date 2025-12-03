@@ -139,7 +139,18 @@ interface PPTBaseElement {
 }
 
 
-export type TextType = 'title' | 'subtitle' | 'content' | 'item' | 'itemTitle' | 'notes' | 'header' | 'footer' | 'partNumber' | 'itemNumber'
+export type TextType =
+  | 'title'
+  | 'subtitle'
+  | 'content'
+  | 'item'
+  | 'itemTitle'
+  | 'itemNote'
+  | 'notes'
+  | 'header'
+  | 'footer'
+  | 'partNumber'
+  | 'itemNumber'
 
 /**
  * 文本元素
