@@ -18,6 +18,7 @@ import { LOCALSTORAGE_KEY_DISCARDED_DB } from '@/configs/storage'
 import { deleteDiscardedDB } from '@/utils/database'
 import { isPC } from '@/utils/common'
 import api from '@/services'
+import { loadSlides as loadSlidesFromDrupal, loadSlidesByNid } from '@/services/drupal'
 
 import Editor from './views/Editor/index.vue'
 import Screen from './views/Screen/index.vue'
@@ -48,12 +49,37 @@ onMounted(async () => {
     mainStore.setHeaderCollapsed(true)
   }
 
-  // 支持通过 URL 参数动态加载 JSON：?type=json&file=/api/viz/cache/...
+  // 支持通过 URL 参数动态加载 JSON / Drupal：?type=json&file=... 或 ?type=drupal&uuid=...
   const type = urlParams.get('type')
   const fileParam = urlParams.get('file')
+  const drupalUuid = urlParams.get('uuid')
+  const drupalNid = urlParams.get('nid')
+  const drupalContentType = urlParams.get('content_type') === 'infographic_template' ? 'infographic_template' : 'aigc'
 
   try {
-    if (type === 'json' && fileParam) {
+    if (type === 'drupal' && (drupalUuid || drupalNid)) {
+      const result = drupalUuid
+        ? await loadSlidesFromDrupal(drupalUuid, drupalContentType)
+        : await loadSlidesByNid(drupalNid!, drupalContentType)
+      const { slides, width, height, theme, title } = result
+      const resolvedUuid = result.uuid
+
+      if (resolvedUuid) {
+        try {
+          sessionStorage.setItem('pptist_drupal_uuid', resolvedUuid)
+          sessionStorage.setItem('pptist_drupal_content_type', drupalContentType)
+        } catch {}
+      }
+
+      if (width && height) {
+        slidesStore.setViewportSize(width)
+        slidesStore.setViewportRatio(height / width)
+      }
+      if (theme) slidesStore.setTheme(theme)
+      if (title) slidesStore.setTitle(title)
+      slidesStore.setSlides(slides || [])
+    }
+    else if (type === 'json' && fileParam) {
       // 构造可访问的 JSON 地址，支持相对路径和绝对 URL
       const fileUrl = fileParam.startsWith('http://') || fileParam.startsWith('https://')
         ? fileParam

@@ -89,7 +89,47 @@ function parseArgs() {
  * @returns {Array<Object>} Parsed rows
  */
 function parseCSV(csvContent) {
-  const lines = csvContent.split('\n').filter(line => line.trim());
+  // 支持包含换行符的字段：逐字符扫描，只在“非引号上下文”中把换行视为一行结束
+  const lines = [];
+  let currentLine = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < csvContent.length; i++) {
+    const char = csvContent[i];
+
+    if (char === '"') {
+      const nextChar = csvContent[i + 1];
+      currentLine += char;
+
+      // 处理转义双引号 "" -> "
+      if (inQuotes && nextChar === '"') {
+        currentLine += nextChar;
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === '\n') {
+      if (inQuotes) {
+        // 行内换行，保留在当前字段里
+        currentLine += char;
+      } else {
+        // 行结束
+        const trimmed = currentLine.replace(/\r$/, '');
+        if (trimmed.trim()) {
+          lines.push(trimmed);
+        }
+        currentLine = '';
+      }
+    } else {
+      currentLine += char;
+    }
+  }
+
+  // 收尾最后一行
+  if (currentLine.trim()) {
+    lines.push(currentLine.replace(/\r$/, ''));
+  }
+
   if (lines.length < 2) {
     return [];
   }
@@ -214,6 +254,13 @@ class DrupalClient {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.username = username;
     this.password = password;
+    // If username/password provided, prefer HTTP Basic Auth for JSON:API
+    if (this.username && this.password) {
+      const raw = `${this.username}:${this.password}`;
+      this.basicAuthHeader = 'Basic ' + Buffer.from(raw).toString('base64');
+    } else {
+      this.basicAuthHeader = null;
+    }
     // 允许通过环境变量预先注入 CSRF / session token（例如从浏览器控制台复制）
     // 优先从 DRUPAL_SESSION_TOKEN 读取，其次兼容 DRUPAL_CSRF_TOKEN / SESSION_TOKEN
     this.csrfToken =
@@ -309,12 +356,19 @@ class DrupalClient {
     };
 
     if (includeAuth) {
-      const token = await this.getCsrfToken();
-      if (token) {
-        headers['X-CSRF-Token'] = token;
-      }
-      if (this.sessionCookie) {
-        headers['Cookie'] = this.sessionCookie;
+      if (this.basicAuthHeader) {
+        // Use HTTP Basic Auth for all JSON:API requests.
+        // For Basic Auth, Drupal JSON:API 不需要 CSRF Token。
+        headers['Authorization'] = this.basicAuthHeader;
+      } else {
+        // Fallback: cookie-based session auth, need CSRF token.
+        const token = await this.getCsrfToken();
+        if (token) {
+          headers['X-CSRF-Token'] = token;
+        }
+        if (this.sessionCookie) {
+          headers['Cookie'] = this.sessionCookie;
+        }
       }
     }
 
@@ -336,7 +390,7 @@ class DrupalClient {
       `${this.baseUrl}/jsonapi/taxonomy_term/${vocab}` +
       `?filter[name][condition][path]=name&filter[name][condition][value]=${encoded}`;
 
-    const headers = await this.getHeaders(false);
+    const headers = await this.getHeaders();
     const response = await request(url, { headers });
 
     if (response.statusCode === 200 && response.data && Array.isArray(response.data.data)) {
@@ -405,6 +459,36 @@ class DrupalClient {
     }
 
     console.error(`  ✗ Failed to create tag term "${trimmed}":`, response.data?.errors || response.data);
+    return null;
+  }
+
+  /**
+   * Find an existing node by unique_key (if any)
+   * @param {string} contentType - Content type machine name
+   * @param {string} uniqueKey - Unique key string
+   * @returns {Promise<Object|null>} JSON:API resource object or null
+   */
+  async findNodeByUniqueKey(contentType, uniqueKey) {
+    const trimmed = (uniqueKey || '').trim();
+    if (!trimmed) return null;
+
+    const encoded = encodeURIComponent(trimmed);
+    const url =
+      `${this.baseUrl}/jsonapi/node/${contentType}` +
+      `?filter[unique_key][condition][path]=unique_key` +
+      `&filter[unique_key][condition][value]=${encoded}` +
+      `&filter[unique_key][condition][operator]==`;
+
+    const headers = await this.getHeaders(false);
+    const response = await request(url, { headers });
+
+    if (response.statusCode === 200 &&
+        response.data &&
+        Array.isArray(response.data.data) &&
+        response.data.data.length > 0) {
+      return response.data.data[0];
+    }
+
     return null;
   }
 
@@ -558,9 +642,13 @@ class DrupalClient {
         format: 'markdown',
       };
     }
-    if (slideData.item_count) {
-      // Items Number: integer (Drupal field machine name: items_number)
-      attributes.items_number = parseInt(slideData.item_count, 10) || 0;
+    if (slideData.item_count && slideData.item_count !== '0') {
+      // Items Number: in Drupal it is configured as a list-type field,
+      // so we only send “safe” values in a reasonable range to avoid 422 errors.
+      const itemNum = parseInt(slideData.item_count, 10);
+      if (Number.isFinite(itemNum) && itemNum > 0 && itemNum <= 10) {
+        attributes.items_number = itemNum;
+      }
     }
     if (slideData.notes) {
       // Prompt: plain long text, use Notes from CSV (Drupal field machine: prompt)
@@ -719,6 +807,25 @@ async function processSlide(client, slide, index, options) {
     console.log(`    Thumbnail: ${slide.thumbnail || '(none)'}`);
     console.log(`    Template JSON: ${slide.slide_json || '(none)'}`);
     return { success: true, dryRun: true };
+  }
+
+  // Idempotency: if a node with the same unique_key already exists, skip creation
+  const uniqueKey = slide.unique_key || slide.slide_json || '';
+  if (uniqueKey) {
+    try {
+      const existing = await client.findNodeByUniqueKey(contentType, uniqueKey);
+      if (existing) {
+        console.log(
+          `  ⚠️  Node already exists for unique_key="${uniqueKey}", skipping upload.`
+        );
+        return { success: true, skipped: true, nodeId: existing.id };
+      }
+    } catch (e) {
+      console.log(
+        `  ⚠️  Failed to check existing node for unique_key="${uniqueKey}":`,
+        e?.message || e
+      );
+    }
   }
 
   try {
@@ -884,14 +991,17 @@ async function main() {
     !!(process.env.DRUPAL_SESSION_TOKEN ||
        process.env.DRUPAL_CSRF_TOKEN ||
        process.env.SESSION_TOKEN);
+  const useBasicAuth = !!(options.username && options.password);
 
-  if (!options.dryRun && !hasExternalToken) {
+  if (!options.dryRun && !hasExternalToken && !useBasicAuth) {
     const loggedIn = await client.login();
     if (!loggedIn && options.username) {
       console.error('Warning: Could not authenticate. Upload may fail.');
     }
   } else if (!options.dryRun && hasExternalToken) {
     console.log('🔑 Using provided session/CSRF token from env, skipping Drupal login.');
+  } else if (!options.dryRun && useBasicAuth) {
+    console.log('🔑 Using HTTP Basic Auth, skipping Drupal login endpoint.');
   }
 
   // Process slides

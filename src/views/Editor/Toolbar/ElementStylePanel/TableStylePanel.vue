@@ -209,7 +209,7 @@ const FONT_OPTIONS = computed(() => {
 })
 
 const fontSizeOptions = [
-  '12px', '14px', '16px', '18px', '20px', '22px', '24px', '28px', '32px',
+  '8px', '10px', '12px', '14px', '16px', '18px', '20px', '22px', '24px', '28px', '32px',
 ]
 
 const textAttrs = ref({

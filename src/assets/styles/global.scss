@@ -142,3 +142,8 @@ textarea {
   --safe-area-inset-left: env(safe-area-inset-left);
   --safe-area-inset-right: env(safe-area-inset-right);
 }
+
+/* Temporarily hide AI panel FAB in production while keeping code for development */
+.ai-panel-fab {
+  display: none !important;
+}

@@ -7,6 +7,7 @@ export const FONTS = [
   { label: 'Open Sans', value: 'OpenSans' },
 
   // 英文字体 - 系统内置
+  { label: 'Comic Sans MS', value: 'Comic Sans MS' },
   { label: 'Arial', value: 'Arial' },
   { label: 'Helvetica Neue', value: 'Helvetica Neue' },
   { label: 'Calibri', value: 'Calibri' },

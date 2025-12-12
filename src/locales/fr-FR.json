@@ -366,6 +366,9 @@
       "zoomOut": "Zoom arrière (Ctrl + -)",
       "zoomIn": "Zoom avant (Ctrl + =)",
       "fitScreen": "Ajuster à l'écran (Ctrl + 0)",
+      "play": "Lire depuis la diapositive actuelle",
+      "save": "Enregistrer",
+      "quickExport": "Export rapide",
       "insertText": "Insérer du texte",
       "textboxHorizontal": "Zone de texte horizontale",
       "textboxVertical": "Zone de texte verticale",
@@ -625,6 +628,13 @@
     }
   }
   ,
+  "save": {
+    "saving": "Enregistrement...",
+    "success": "Enregistré",
+    "error": "Échec de l'enregistrement",
+    "unauthorized": "Veuillez vous connecter pour enregistrer",
+    "creatingCover": "Génération de la couverture..."
+  },
   "element": {
     "doubleClickToEdit": "Double-cliquez pour modifier",
     "context": {

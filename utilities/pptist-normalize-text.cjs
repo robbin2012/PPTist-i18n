@@ -206,6 +206,73 @@ function normalizeItemTitleHTML(html) {
 }
 
 /**
+ * 从 HTML 片段中提取第一个 color 值
+ * @param {string} html
+ * @returns {string|null}
+ */
+function extractColorFromHtml(html) {
+  if (typeof html !== 'string') return null;
+  const m = html.match(/color:\s*([^;"]+)/i);
+  return m ? m[1].trim() : null;
+}
+
+/**
+ * 将文本中的颜色提升到 defaultColor / text.defaultColor 上，
+ * 方便后续 AI 填充时，即使新内容不带 color 样式，也能保持原本颜色。
+ *
+ * @param {Object} data PPTist JSON
+ * @returns {{ promoted:number }} 统计信息
+ */
+function promoteTextColors(data) {
+  let promoted = 0;
+  if (!data || !Array.isArray(data.slides)) return { promoted };
+
+  const validTypes = new Set([
+    'title',
+    'subtitle',
+    'content',
+    'item',
+    'itemTitle',
+    'itemNote',
+    'itemNumber',
+  ]);
+
+  for (const slide of data.slides) {
+    const elements = Array.isArray(slide.elements) ? slide.elements : [];
+    for (const el of elements) {
+      // 文本元素
+      if (el.type === 'text' && typeof el.content === 'string') {
+        const tt = el.textType;
+        if (!validTypes.has(tt)) continue;
+        const color = extractColorFromHtml(el.content);
+        if (color && el.defaultColor !== color) {
+          el.defaultColor = color;
+          promoted++;
+        }
+      }
+
+      // shape.text（理论上会被后面的 lifting 移除，这里做兜底）
+      if (
+        el.type === 'shape' &&
+        el.text &&
+        typeof el.text === 'object' &&
+        typeof el.text.content === 'string'
+      ) {
+        const tt = el.text.type;
+        if (!validTypes.has(tt)) continue;
+        const color = extractColorFromHtml(el.text.content);
+        if (color && el.text.defaultColor !== color) {
+          el.text.defaultColor = color;
+          promoted++;
+        }
+      }
+    }
+  }
+
+  return { promoted };
+}
+
+/**
  * 对整份 PPTist JSON 做规范化处理
  * @param {Object} data
  * @returns {{data:Object, stats:Object}}
@@ -216,9 +283,12 @@ function normalizePptistJson(data) {
     itemTitlesTouched: 0,
     itemNotesTouched: 0,
     titlesTouched: 0,
+    // how many shapes were lifted into standalone text elements
+    itemShapesLifting: 0,
     itemTitleShapesLifting: 0,
     itemNoteShapesLifting: 0,
     titleShapesLifting: 0,
+    colorsPromoted: 0,
   };
 
   if (!data || !Array.isArray(data.slides)) {
@@ -269,32 +339,49 @@ function normalizePptistJson(data) {
         }
       }
 
-      // shape 内的 itemTitle / itemNote / title：
+      // shape 内的 item / itemTitle / itemNote / title：
       //   1) 先规范化 HTML
       //   2) 再将其“提升”为一个独立的 text 元素，方便后续按 textType 映射
       if (
         el.type === 'shape' &&
         el.text &&
         typeof el.text === 'object' &&
-        (el.text.type === 'itemTitle' || el.text.type === 'itemNote' || el.text.type === 'title') &&
+        (el.text.type === 'item' ||
+          el.text.type === 'itemTitle' ||
+          el.text.type === 'itemNote' ||
+          el.text.type === 'title') &&
         typeof el.text.content === 'string'
       ) {
-        const normalizedHtml = normalizeItemTitleHTML(el.text.content);
+        const isTitle = el.text.type === 'title';
+        const isItem = el.text.type === 'item';
+        const isItemTitle = el.text.type === 'itemTitle';
+        const isItemNote = el.text.type === 'itemNote';
+
+        // 对 shape.text.type === "item" 的正文，沿用 list item 的规范化逻辑
+        const normalizedHtml = isItem
+          ? normalizeListItemHTML(el.text.content)
+          : normalizeItemTitleHTML(el.text.content);
+
         if (normalizedHtml !== el.text.content) {
           el.text.content = normalizedHtml;
-          if (el.text.type === 'itemTitle') {
+          if (isItem) {
+            stats.listItemsTouched++;
+          } else if (isItemTitle) {
             stats.itemTitlesTouched++;
-          } else if (el.text.type === 'itemNote') {
+          } else if (isItemNote) {
             stats.itemNotesTouched++;
-          } else if (el.text.type === 'title') {
+          } else if (isTitle) {
             stats.titlesTouched++;
           }
         }
 
-        const isTitle = el.text.type === 'title';
-        const isItemTitle = el.text.type === 'itemTitle';
-        const isItemNote = el.text.type === 'itemNote';
-        const suffix = isTitle ? '_title' : isItemTitle ? '_itemTitle' : '_itemNote';
+        const suffix = isTitle
+          ? '_title'
+          : isItemTitle
+          ? '_itemTitle'
+          : isItemNote
+          ? '_itemNote'
+          : '_item';
         const textId = (el.id || 'shape') + suffix;
         const liftedTextEl = {
           type: 'text',
@@ -311,7 +398,7 @@ function normalizePptistJson(data) {
           outline: { color: '#000000', width: 0, style: 'solid' },
           fill: '',
           vertical: false,
-          textType: el.text.type,
+          textType: isItem ? 'item' : el.text.type,
         };
 
         newElements.push(liftedTextEl);
@@ -322,12 +409,18 @@ function normalizePptistJson(data) {
           stats.itemTitleShapesLifting++;
         } else if (isItemNote) {
           stats.itemNoteShapesLifting++;
+        } else if (isItem) {
+          stats.itemShapesLifting++;
         }
       }
     });
 
     slide.elements = newElements;
   });
+
+  // 最后一步：把颜色提升到 defaultColor / text.defaultColor 上
+  const { promoted } = promoteTextColors(data);
+  stats.colorsPromoted = promoted;
 
   return { data, stats };
 }
@@ -382,6 +475,7 @@ function main() {
     console.log(`  Item notes updated      : ${stats.itemNotesTouched}`);
     console.log(`  ItemTitle lifted (shape): ${stats.itemTitleShapesLifting}`);
     console.log(`  ItemNote lifted (shape) : ${stats.itemNoteShapesLifting}`);
+    console.log(`  Colors promoted         : ${stats.colorsPromoted}`);
   } catch (err) {
     console.error('Error processing file:', err.message);
     if (process.env.DEBUG) {
@@ -401,5 +495,7 @@ module.exports = {
   normalizeSpanStructure,
   normalizeListItemHTML,
   normalizeItemTitleHTML,
+  extractColorFromHtml,
+  promoteTextColors,
   normalizePptistJson,
 };

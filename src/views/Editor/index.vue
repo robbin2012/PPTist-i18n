@@ -210,13 +210,13 @@ usePasteEvent()
 }
 
 .ai-panel-fab {
+  display: flex;
   position: absolute;
   right: 270px; // 距离右侧工具栏 260px + 10px 间距
   bottom: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;

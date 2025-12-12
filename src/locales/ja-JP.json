@@ -366,6 +366,9 @@
       "zoomOut": "縮小 (Ctrl + -)",
       "zoomIn": "拡大 (Ctrl + =)",
       "fitScreen": "画面に合わせる (Ctrl + 0)",
+      "play": "現在のスライドから再生",
+      "save": "保存",
+      "quickExport": "クイックエクスポート",
       "insertText": "テキストを挿入",
       "textboxHorizontal": "横書きテキストボックス",
       "textboxVertical": "縦書きテキストボックス",
@@ -625,6 +628,13 @@
     }
   }
   ,
+  "save": {
+    "saving": "保存中...",
+    "success": "保存しました",
+    "error": "保存に失敗しました",
+    "unauthorized": "保存するにはログインしてください",
+    "creatingCover": "カバーを生成しています..."
+  },
   "element": {
     "doubleClickToEdit": "ダブルクリックで編集",
     "context": {

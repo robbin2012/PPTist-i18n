@@ -361,7 +361,7 @@
       "canvasSize": "Canvas Size:",
       "globalTheme": "Global Theme",
       "more": "More",
-      "font": "Font",
+      "font": "Font Family",
       "searchFont": "Search fonts",
       "fontColor": "Font Color",
       "backgroundColor": "Background",
@@ -547,6 +547,8 @@
       "zoomOut": "Zoom Out (Ctrl + -)",
       "zoomIn": "Zoom In (Ctrl + =)",
       "fitScreen": "Fit to Screen (Ctrl + 0)",
+      "play": "Play from Current Slide",
+      "save": "Save",
       "quickExport": "Quick Export",
       "insertText": "Insert Text",
       "textboxHorizontal": "Horizontal Textbox",
@@ -734,7 +736,6 @@
     "canvasWidth": "Canvas Width:",
     "scaleWidthTip": "Scaling from {from} to {to} ({percent}%)",
     "exportImage": "Export Image",
-    "exportAllImages": "PNG (All)",
     "exportPPTX": "Export PPTX",
     "exportPPTIST": "Export PPTIST",
     "exportJSON": "Export JSON",
@@ -821,6 +822,13 @@
       "deleteAllSections": "Delete All Sections",
       "renameSection": "Rename Section"
     }
+  },
+  "save": {
+    "saving": "Saving...",
+    "success": "Saved",
+    "error": "Save failed",
+    "unauthorized": "Please log in to save",
+    "creatingCover": "Generating cover..."
   },
   "canvas": {
     "context": {

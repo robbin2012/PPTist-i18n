@@ -418,6 +418,9 @@
       "zoomOut": "Alejar (Ctrl + -)",
       "zoomIn": "Acercar (Ctrl + =)",
       "fitScreen": "Ajustar a pantalla (Ctrl + 0)",
+      "play": "Reproducir desde la diapositiva actual",
+      "save": "Guardar",
+      "quickExport": "Exportación rápida",
       "insertText": "Insertar texto",
       "textboxHorizontal": "Cuadro de texto horizontal",
       "textboxVertical": "Cuadro de texto vertical",
@@ -625,6 +628,13 @@
     }
   }
   ,
+  "save": {
+    "saving": "Guardando...",
+    "success": "Guardado",
+    "error": "Error al guardar",
+    "unauthorized": "Inicia sesión para guardar",
+    "creatingCover": "Generando portada..."
+  },
   "element": {
     "doubleClickToEdit": "Doble clic para editar",
     "context": {

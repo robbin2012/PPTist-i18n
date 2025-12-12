@@ -392,6 +392,8 @@
       "zoomOut": "Zoom Out (Ctrl + -)",
       "zoomIn": "Zoom In (Ctrl + =)",
       "fitScreen": "Fit to Screen (Ctrl + 0)",
+      "play": "Play from Current Slide",
+      "save": "Save",
       "quickExport": "Schnellexport",
       "insertText": "Insert Text",
       "textboxHorizontal": "Horizontal Textbox",
@@ -888,6 +890,13 @@
       "gridLarge": "Large",
       "resetSlide": "Reset Current Slide"
     }
+  },
+  "save": {
+    "saving": "Saving...",
+    "success": "Saved",
+    "error": "Save failed",
+    "unauthorized": "Please log in to save",
+    "creatingCover": "Generating cover..."
   },
   "element": {
     "doubleClickToEdit": "Double-click to edit",

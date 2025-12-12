@@ -100,16 +100,17 @@
       </Popover>
       <IconPlus class="handler-item viewport-size" v-tooltip="t('toolbar.canvasTool.zoomIn')" @click="scaleCanvas('+')" />
       <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="t('toolbar.canvasTool.fitScreen')" @click="resetCanvas()" />
+      <IconSave class="handler-item" :class="{ 'disable': isSaving }" v-tooltip="t('toolbar.canvasTool.save')" @click="saveToDrupal()" />
       <Popover trigger="click" v-model:value="exportMenuVisible" :offset="10">
         <template #content>
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('png')"><IconPicture class="icon" /> PNG</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('jpeg')"><IconFileJpg class="icon" /> JPEG</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('pptx')"><IconPpt class="icon" /> PPTX</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" center @click="quickExport('pdf')"><IconFilePdf class="icon" /> PDF</PopoverMenuItem>
-          <PopoverMenuItem class="popover-menu-item" center @click="quickExport('images')"><IconPicture class="icon" /> {{ t('export.exportAllImages') }}</PopoverMenuItem>
         </template>
         <IconDownload class="handler-item" v-tooltip="t('toolbar.canvasTool.quickExport')" />
       </Popover>
+      <IconPpt class="handler-item" v-tooltip="t('toolbar.canvasTool.play')" @click="enterScreening()" />
       <IconDown v-if="isFullMode" class="handler-item header-collapse-btn" :class="{ 'collapsed': headerCollapsed }" @click="toggleHeaderCollapse()" />
     </div>
 
@@ -150,6 +151,9 @@ import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useCreateElement from '@/hooks/useCreateElement'
 import useExport from '@/hooks/useExport'
 import { print } from '@/utils/print'
+import { toPng } from 'html-to-image'
+import { saveSlides } from '@/services/drupal'
+import message from '@/utils/message'
 
 // 检查是否为 full 模式（只有 full 模式才显示菜单折叠按钮）
 const isFullMode = computed(() => {
@@ -169,12 +173,13 @@ import Popover from '@/components/Popover.vue'
 import PopoverMenuItem from '@/components/PopoverMenuItem.vue'
 import ThumbnailSlide from '@/views/components/ThumbnailSlide/index.vue'
 import { useI18n } from 'vue-i18n'
+import useScreening from '@/hooks/useScreening'
 
 const mainStore = useMainStore()
 const { creatingElement, creatingCustomShape, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel, headerCollapsed } = storeToRefs(mainStore)
 const { canUndo, canRedo } = storeToRefs(useSnapshotStore())
 const slidesStore = useSlidesStore()
-const { slides, viewportRatio } = storeToRefs(slidesStore)
+const { slides, viewportRatio, title, viewportSize, theme } = storeToRefs(slidesStore)
 
 const { redo, undo } = useHistorySnapshot()
 const { t } = useI18n()
@@ -203,6 +208,7 @@ const {
   createVideoElement,
   createAudioElement,
 } = useCreateElement()
+const { enterScreening } = useScreening()
 
 const insertImageElement = (files: FileList) => {
   const imageFile = files[0]
@@ -222,6 +228,28 @@ const moreVisible = ref(false)
 const exportMenuVisible = ref(false)
 const isExporting = ref(false)
 const exportThumbnailsRef = ref<HTMLElement>()
+const isSaving = ref(false)
+const storedUuid = (() => {
+  try {
+    return sessionStorage.getItem('pptist_drupal_uuid') || ''
+  } catch {
+    return ''
+  }
+})()
+const storedContentType = (() => {
+  try {
+    const value = sessionStorage.getItem('pptist_drupal_content_type')
+    return value === 'infographic_template' ? 'infographic_template' : 'aigc'
+  } catch {
+    return 'aigc'
+  }
+})()
+const drupalUuid = ref(new URLSearchParams(window.location.search).get('uuid') || storedUuid)
+const drupalContentType = ref<'aigc' | 'infographic_template'>(
+  new URLSearchParams(window.location.search).get('content_type') === 'infographic_template'
+    ? 'infographic_template'
+    : storedContentType
+)
 
 // 绘制文字范围
 const drawText = (vertical = false) => {
@@ -279,30 +307,43 @@ const toggleHeaderCollapse = () => {
   mainStore.setHeaderCollapsed(!headerCollapsed.value)
 }
 
+// 将所有幻灯片按顺序导出为单独的图片文件
+const exportSlidesAsImages = async (format: 'png' | 'jpeg') => {
+  isExporting.value = true
+  await nextTick()
+
+  const container = exportThumbnailsRef.value
+  if (!container) {
+    isExporting.value = false
+    return
+  }
+
+  // 只选择每一页缩略图的根容器，避免选到文本里的 .thumbnail 样式
+  const thumbnails = Array.from(container.querySelectorAll<HTMLElement>('.thumbnail-slide'))
+  try {
+    for (let index = 0; index < thumbnails.length; index++) {
+      const el = thumbnails[index]
+      const seq = String(index + 1).padStart(3, '0')
+      const fileName = `${seq}.${format}`
+      try {
+        await exportImage(el, format, 1, false, fileName)
+      } catch {
+        // 单张失败继续导出后续图片
+        // 错误提示已在 useExport 中处理
+      }
+    }
+  } finally {
+    isExporting.value = false
+  }
+}
+
 // 快捷导出功能
-const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf' | 'images') => {
+const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf') => {
   exportMenuVisible.value = false
 
   if (format === 'pptx') {
     // 导出PPTX - 使用默认配置
     exportPPTX(slides.value, true, true)
-  }
-  else if (format === 'png' || format === 'jpeg') {
-    // 导出图片 - 使用隐藏的缩略图容器
-    isExporting.value = true
-    await nextTick()
-
-    setTimeout(() => {
-      if (exportThumbnailsRef.value) {
-        exportImage(exportThumbnailsRef.value, format, 1, false).catch(() => {
-          // 错误信息在 useExport 中已处理
-        })
-        // 导出完成后隐藏容器
-        setTimeout(() => {
-          isExporting.value = false
-        }, 500)
-      }
-    }, 200)
   }
   else if (format === 'pdf') {
     // 导出PDF - 使用隐藏的缩略图容器
@@ -324,32 +365,91 @@ const quickExport = async (format: 'png' | 'jpeg' | 'pptx' | 'pdf' | 'images') =
       }
     }, 200)
   }
-  else if (format === 'images') {
-    // 导出所有幻灯片为单独图片
-    isExporting.value = true
-    await nextTick()
+  else {
+    // PNG/JPEG 导出按幻灯片分开保存
+    await exportSlidesAsImages(format)
+  }
+}
 
-    const container = exportThumbnailsRef.value
-    if (!container) {
-      isExporting.value = false
+const dataUrlToFile = (dataUrl: string, fileName: string) => {
+  try {
+    const [meta, base64] = dataUrl.split(',')
+    const mime = /data:(.*?);/.exec(meta)?.[1] || 'image/png'
+    const bin = atob(base64)
+    const len = bin.length
+    const u8 = new Uint8Array(len)
+    for (let i = 0; i < len; i++) u8[i] = bin.charCodeAt(i)
+    return new File([u8], fileName, { type: mime })
+  } catch {
+    return undefined
+  }
+}
+
+const generateCoverFile = async () => {
+  isExporting.value = true
+  await nextTick()
+  const firstThumbnail = exportThumbnailsRef.value?.querySelector<HTMLElement>('.thumbnail-slide')
+  if (!firstThumbnail) throw new Error('no-thumbnail')
+  const dataUrl = await toPng(firstThumbnail, { width: 1600 })
+  return dataUrlToFile(dataUrl, 'pptist-cover.png')
+}
+
+const buildContentData = () => JSON.stringify({
+  title: title.value,
+  width: viewportSize.value,
+  height: viewportSize.value * viewportRatio.value,
+  theme: theme.value,
+  slides: slides.value,
+})
+
+const saveToDrupal = async () => {
+  if (isSaving.value) return
+  isSaving.value = true
+  try {
+    if (!slides.value.length) {
+      message.error(t('save.error'))
       return
     }
 
-    // 只选择每一页缩略图的根容器，避免选到文本里的 .thumbnail 样式
-    const thumbnails = Array.from(container.querySelectorAll<HTMLElement>('.thumbnail-slide'))
-    // 逐张导出，文件名按 001.png / 002.png ...
-    for (let index = 0; index < thumbnails.length; index++) {
-      const el = thumbnails[index]
-      const seq = String(index + 1).padStart(3, '0')
-      const fileName = `${seq}.png`
+    const isInfographicTemplate = drupalContentType.value === 'infographic_template'
+    if (isInfographicTemplate && !drupalUuid.value) {
+      message.error(t('save.error'))
+      return
+    }
+
+    let cover: File | undefined
+    if (!isInfographicTemplate) {
       try {
-        await exportImage(el, 'png', 1, false, fileName)
-      } catch {
-        // 单张失败继续导出后续图片
-        // 错误提示已在 useExport 中处理
+        message.info(t('save.creatingCover'))
+        cover = await generateCoverFile()
+      } catch (err) {
+        console.warn('[save] generate cover failed:', err)
       }
     }
 
+    message.info(t('save.saving'))
+    const result = await saveSlides({
+      title: title.value || 'Untitled',
+      data: buildContentData(),
+      cover,
+      uuid: drupalUuid.value || undefined,
+      contentType: drupalContentType.value,
+      fileName: isInfographicTemplate ? 'template.json' : undefined,
+    })
+
+    if (result?.uuid) {
+      drupalUuid.value = result.uuid
+      try {
+        sessionStorage.setItem('pptist_drupal_uuid', result.uuid)
+        sessionStorage.setItem('pptist_drupal_content_type', drupalContentType.value)
+      } catch {}
+    }
+    message.success(t('save.success'))
+  } catch (err: any) {
+    if ((err as Error)?.message === 'unauthorized') message.error(t('save.unauthorized'))
+    else message.error(t('save.error'))
+  } finally {
+    isSaving.value = false
     isExporting.value = false
   }
 }
