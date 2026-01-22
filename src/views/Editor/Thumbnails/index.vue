@@ -6,7 +6,7 @@
     v-contextmenu="contextmenusThumbnails"
   >
     <div class="add-slide" v-if="!thumbnailsCollapsed">
-      <div class="btn" @click="createSlide()"><IconPlus class="icon" />{{ t('thumbnails.addSlide') }}</div>
+      <div class="btn" @click="createSlide()"><IconPlus class="icon" /></div>
     </div>
     <div class="add-slide collapsed" v-else>
       <div class="btn icon-only" @click="createSlide()"><IconPlus class="icon" /></div>
@@ -354,7 +354,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
 <style lang="scss" scoped>
 .thumbnails {
   border-right: solid 1px $borderColor;
-  background-color: $panelBackground;
+  background-color: $backgroundGray;
   box-shadow: none; // 去掉面板阴影，保留分隔线
   display: flex;
   flex-direction: column;
@@ -369,7 +369,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   flex-shrink: 0;
   border: 1px solid $borderColor; // 使用容器边框
   border-color: darken($borderColor, 10%); // 稍微加深边框颜色
-  border-radius: 999px; // 更大的两侧圆角
+  border-radius: 999px; // 改回半圆圆角
   margin: 8px 8px; // 上下左右都留空隙
   overflow: hidden; // 保持圆角
   cursor: pointer;
@@ -404,7 +404,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   }
 
   .icon {
-    margin-right: 3px;
+    margin-right: 0;
     font-size: 14px;
   }
   &.collapsed {

@@ -14,14 +14,14 @@
       </div>
       <Toolbar class="layout-content-right" />
 
-      <!-- 悬浮折叠按钮（固定位置，居中于缩略栏的 x/n 区域上方的线条） -->
+      <!-- 悬浮折叠按钮（侧边栏伸缩） -->
       <button
         class="thumbnails-collapse-fab"
         :aria-label="thumbnailsCollapsed ? 'expand thumbnails' : 'collapse thumbnails'"
         @click="toggleThumbnailsCollapse"
+        :style="{ left: `${thumbnailsWidth}px` }"
       >
-        <span v-if="thumbnailsCollapsed" class="fab-text">»</span>
-        <span v-else class="fab-text">«</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" version="1.1" style="width: 1em; height: 1em;"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><line x1="2" y1="6.5" x2="14" y2="6.5" id="路径-159" stroke="currentColor"></line><line x1="2" y1="9.5" x2="14" y2="9.5" id="路径-159" stroke="currentColor"></line></g></svg>
       </button>
 
       <!-- AI助手悬浮按钮（右侧固定位置） -->
@@ -124,12 +124,13 @@ const toggleAIPanel = () => {
   mainStore.setAIPanelState(!showAIPanel.value)
 }
 
-onMounted(() => {
-  try {
-    const saved = localStorage.getItem('pptist_thumbnails_collapsed')
-    if (saved === '1') mainStore.setThumbnailsCollapsed(true)
-  } catch {}
-})
+  onMounted(() => {
+    try {
+      const saved = localStorage.getItem('pptist_thumbnails_collapsed')
+      // 如果没有记录（null）或者记录为 '1'，则折叠；只有明确为 '0' 才展开
+      if (saved !== '0') mainStore.setThumbnailsCollapsed(true)
+    } catch {}
+  })
 
 // 计算header高度和content高度
 const headerHeight = computed(() => headerCollapsed.value ? 0 : 40)
@@ -182,33 +183,32 @@ usePasteEvent()
 }
 .thumbnails-collapse-fab {
   position: absolute;
-  left: 5px; // 靠近屏幕左侧，保留约 3-5px 间距
-  bottom: 5px; // 让圆心落在 x/n 区域的垂直中线（20 - 30/2）
-  width: 30px; // 稍微大一些
-  height: 30px;
-  border-radius: 50%;
-  display: inline-flex;
+  top: 50%;
+  margin-left: -31px; // (80 - 18) / 2 = 31 offset
+  width: 5rem; 
+  height: 1.125rem;
+  
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  border: 1px solid $borderColor; // 圆圈描边
-  background-color: rgba($color: $toolbarBackground, $alpha: .45); // 稍微增加常态半透明
-  box-shadow: none; // 无阴影
-  transition: background-color $transitionDelayFast, border-color $transitionDelayFast, transform $transitionDelayFast;
+  
+  border: 1px solid #e0e0e0; // gray-10 equivalent
+  border-bottom: none;
+  border-radius: .5rem .5rem 0 0;
+  background-color: $backgroundGray;
+  color: #c1c1c1; // gray-70 equivalent
+  
+  transform: translateY(-50%) rotate(90deg);
+  transition: left $transitionDelay, background-color $transitionDelayFast, color $transitionDelayFast, border-color $transitionDelayFast;
 
-  &:hover { background-color: $toolbarBackground; }
-
-  .fab-text {
-    font-size: 16px; // 箭头大小
-    color: rgba(0, 0, 0, .45); // 箭头更淡
-    line-height: 1;
-  }
-  &:hover .fab-text {
-    color: rgba(0, 0, 0, .62);
+  &:hover { 
+    background-color: #f1f3f4;
+    color: $textColor; 
+    border-color: #d0d0d0;
   }
 }
-
 .ai-panel-fab {
   display: flex;
   position: absolute;
