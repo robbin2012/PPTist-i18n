@@ -72,7 +72,7 @@ export default () => {
       }, 200)
     })
   }
-  
+
   // 导出pptist文件（特有 .pptist 后缀文件）
   const exportSpecificFile = (_slides: Slide[]) => {
     const json = {
@@ -85,7 +85,7 @@ export default () => {
     const blob = new Blob([encrypt(JSON.stringify(json))], { type: '' })
     saveAs(blob, `${title.value}.pptist`)
   }
-  
+
   // 导出JSON文件
   const exportJSON = () => {
     const json = {
@@ -377,11 +377,11 @@ export default () => {
   // 获取边框配置
   const getOutlineOption = (outline: PPTElementOutline): pptxgen.ShapeLineProps => {
     const c = formatColor(outline?.color || '#000000')
-    
+
     return {
-      color: c.color, 
+      color: c.color,
       transparency: (1 - c.alpha) * 100,
-      width: (outline.width || 1) / ratioPx2Pt.value, 
+      width: (outline.width || 1) / ratioPx2Pt.value,
       dashType: outline.style ? dashTypeMap[outline.style] as 'solid' | 'dash' | 'sysDot' : 'solid',
     }
   }
@@ -567,7 +567,7 @@ export default () => {
         else if (el.type === 'shape') {
           if (el.special) {
             const svgRef = document.querySelector(`.thumbnail-list .base-element-${el.id} svg`) as HTMLElement
-            if (svgRef.clientWidth < 1 || svgRef.clientHeight < 1) continue // 临时处理（导入PPTX文件带来的异常数据）
+            if (!svgRef || svgRef.clientWidth < 1 || svgRef.clientHeight < 1) continue // 临时处理（导入PPTX文件带来的异常数据）
             const base64SVG = svg2Base64(svgRef)
 
             const options: pptxgen.ImageProps = {
@@ -593,7 +593,7 @@ export default () => {
               y: el.height / el.viewBox[1],
             }
             const points = formatPoints(toPoints(el.path), scale)
-  
+
             let fillColor = formatColor(el.fill)
             if (el.gradient) {
               const colors = el.gradient.colors
@@ -604,7 +604,7 @@ export default () => {
             }
             if (el.pattern) fillColor = formatColor('#00000000')
             const opacity = el.opacity === undefined ? 1 : el.opacity
-  
+
             const options: pptxgen.ShapeProps = {
               x: el.left / ratioPx2Inch.value,
               y: el.top / ratioPx2Inch.value,
@@ -654,7 +654,7 @@ export default () => {
             }
             if (isBase64Image(el.pattern)) options.data = el.pattern
             else options.path = el.pattern
-  
+
             if (el.flipH) options.flipH = el.flipH
             if (el.flipV) options.flipV = el.flipV
             if (el.rotate) options.rotate = el.rotate
@@ -679,9 +679,9 @@ export default () => {
             w: (maxX - minX) / ratioPx2Inch.value,
             h: (maxY - minY) / ratioPx2Inch.value,
             line: {
-              color: c.color, 
+              color: c.color,
               transparency: (1 - c.alpha) * 100,
-              width: el.width / ratioPx2Pt.value, 
+              width: el.width / ratioPx2Pt.value,
               dashType: dashTypeMap[el.style] as 'solid' | 'dash' | 'sysDot',
               beginArrowType: el.points[0] ? 'arrow' : 'none',
               endArrowType: el.points[1] ? 'arrow' : 'none',
@@ -712,7 +712,7 @@ export default () => {
             const supplement = tinycolor(el.themeColors[len - 1]).analogous(10 + 1 - len).map(color => color.toHexString())
             chartColors = [...el.themeColors.slice(0, len - 1), ...supplement].map(color => formatColor(color).color)
           }
-          
+
           const options: pptxgen.IChartOpts = {
             x: el.left / ratioPx2Inch.value,
             y: el.top / ratioPx2Inch.value,
@@ -728,7 +728,7 @@ export default () => {
           const fontSize = 14 / ratioPx2Pt.value
           options.catAxisLabelFontSize = fontSize
           options.valAxisLabelFontSize = fontSize
-          
+
           if (el.fill || el.outline) {
             const plotArea: pptxgen.IChartPropsFillLine = {}
             if (el.fill) {
@@ -782,7 +782,7 @@ export default () => {
             type = pptx.ChartType.doughnut
             options.holeSize = 60
           }
-          
+
           pptxSlide.addChart(type, chartData, options)
         }
 
@@ -874,9 +874,10 @@ export default () => {
 
           pptxSlide.addTable(tableData, options)
         }
-        
+
         else if (el.type === 'latex') {
           const svgRef = document.querySelector(`.thumbnail-list .base-element-${el.id} svg`) as HTMLElement
+          if (!svgRef) continue
           const base64SVG = svg2Base64(svgRef)
 
           const options: pptxgen.ImageProps = {
@@ -893,7 +894,7 @@ export default () => {
 
           pptxSlide.addImage(options)
         }
-        
+
         else if (!ignoreMedia && (el.type === 'video' || el.type === 'audio')) {
           const options: pptxgen.MediaProps = {
             x: el.left / ratioPx2Inch.value,
@@ -908,7 +909,7 @@ export default () => {
           const extMatch = el.src.match(/\.([a-zA-Z0-9]+)(?:[\?#]|$)/)
           if (extMatch && extMatch[1]) options.extn = extMatch[1]
           else if (el.ext) options.extn = el.ext
-          
+
           const videoExts = ['avi', 'mp4', 'm4v', 'mov', 'wmv']
           const audioExts = ['mp3', 'm4a', 'mp4', 'wav', 'wma']
           if (options.extn && [...videoExts, ...audioExts].includes(options.extn)) {
